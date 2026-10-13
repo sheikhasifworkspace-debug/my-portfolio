@@ -123,116 +123,127 @@ CREATE POLICY "Allow authenticated read on messages" ON messages
 -- ==============================================================================
 
 -- Profile
-INSERT INTO profile (full_name, headline, bio, location, email, github_url, linkedin_url, available_for_hire, years_experience, projects_completed, github_contributions)
+INSERT INTO profile (full_name, headline, bio, avatar_url, location, email, github_url, linkedin_url, twitter_url, available_for_hire, years_experience, projects_completed, github_contributions)
 VALUES (
-    'Alex Rivers',
-    'Senior Full-Stack Engineer & Cloud Systems Architect',
-    'Crafting high-performance web applications, scalable distributed backend architectures, and elegant developer experiences with modern web technologies.',
-    'San Francisco, CA & Remote',
-    'alexrivers.dev@gmail.com',
-    'https://github.com',
-    'https://linkedin.com',
+    'Sheikh Al Asif',
+    'Visual Artist | UI/UX Designer | Motion Editor',
+    'Creative visual artist, UI/UX designer and frontend web developer based in Rajshahi, Bangladesh. Specializing in brand identity, user-centered product design, cinematic motion graphics, and responsive web experiences.',
+    'https://github.com/sheikhasifworkspace-debug.png',
+    'Rajshahi, Bangladesh',
+    'sheikhalasif.work@gmail.com',
+    'https://github.com/sheikhasifworkspace-debug',
+    'https://www.linkedin.com/in/sheikhalasif',
+    'https://www.behance.net/sheikhalasif2023',
     true,
-    5,
-    28,
-    1450
+    3,
+    45,
+    520
 );
 
 -- Projects
 INSERT INTO projects (title, slug, tagline, description, category, tags, image_url, demo_url, github_url, featured, sort_order) VALUES
 (
-    'Nexus Cloud Platform',
-    'nexus-cloud-platform',
-    'Real-time serverless observability & cloud resource monitoring suite',
-    'A high-throughput telemetry analytics dashboard monitoring distributed microservices with live WebSocket charts, incident management, and automated threshold alerts.',
-    'fullstack',
-    ARRAY['React', 'TypeScript', 'Node.js', 'Supabase', 'Tailwind CSS', 'Docker'],
-    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80',
-    'https://example.com/demo1',
-    'https://github.com',
+    'Brand Identity & Visual System',
+    'brand-identity-visual-system',
+    'Comprehensive corporate identity, typography guidelines & brand language',
+    'A full-scale brand identity project showcasing precision vector logo design, custom typographic styling, color systems, and modern packaging applications.',
+    'design',
+    ARRAY['Adobe Illustrator', 'Photoshop', 'Brand Identity', 'Typography'],
+    'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=900&q=80',
+    'https://www.behance.net/sheikhalasif2023',
+    'https://github.com/sheikhasifworkspace-debug/my-portfolio',
     true,
     1
 ),
 (
-    'Aura AI Assistant',
-    'aura-ai-assistant',
-    'Intelligent multi-model conversational agent with semantic vector search',
-    'An enterprise conversational agent supporting contextual code analysis, PDF embeddings, streaming responses, and custom workflow execution.',
-    'ai',
-    ARRAY['Next.js', 'Python', 'FastAPI', 'OpenAI', 'Supabase Vector', 'Tailwind'],
-    'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80',
-    'https://example.com/demo2',
-    'https://github.com',
+    'E-Commerce Mobile & Web App UI/UX',
+    'ecommerce-mobile-web-ui',
+    'User-centered mobile shopping application & interactive checkout flow',
+    'End-to-end product design focusing on user flow optimization, micro-interactions, dark/light design systems, and accessible mobile typography in Figma.',
+    'uiux',
+    ARRAY['Figma', 'UI/UX Design', 'Wireframing', 'Prototyping'],
+    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80',
+    'https://www.behance.net/sheikhalasif2023',
+    'https://github.com/sheikhasifworkspace-debug/my-portfolio',
     true,
     2
 ),
 (
-    'Pulse Commerce Engine',
-    'pulse-commerce-engine',
-    'Ultra-fast headless e-commerce store with Stripe webhook processing',
-    'Headless e-commerce platform built for instant sub-100ms page transitions, dynamic inventory tracking, Stripe payments, and international checkout.',
-    'fullstack',
-    ARRAY['React', 'Tailwind CSS', 'PostgreSQL', 'Stripe API', 'Render'],
-    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80',
-    'https://example.com/demo3',
-    'https://github.com',
+    'Cinematic Motion Graphics & Video Reel',
+    'cinematic-motion-graphics-reel',
+    'Dynamic kinetic typography, promo commercial cuts & visual storytelling',
+    'A portfolio of high-impact commercial motion edits, rhythmic visual transitions, and promotional reels for brands, creators, and media campaigns.',
+    'motion',
+    ARRAY['After Effects', 'Premiere Pro', 'Motion Design', 'Video Editing'],
+    'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=80',
+    'https://www.behance.net/sheikhalasif2023',
+    'https://github.com/sheikhasifworkspace-debug/my-portfolio',
     true,
     3
 ),
 (
-    'DevSync Realtime Collab',
-    'devsync-realtime-collab',
-    'Collaborative real-time markdown editor and whiteboard for agile teams',
-    'Multi-cursor shared workspace with CRDT data synchronization, voice rooms, instant markdown preview, and Git revision history.',
-    'frontend',
-    ARRAY['React', 'WebRTC', 'Tailwind CSS', 'WebSockets', 'Vite'],
-    'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80',
-    'https://example.com/demo4',
-    'https://github.com',
+    'Editorial Visual Art & Digital Media Graphics',
+    'editorial-visual-art-daily-observer',
+    'Digital editorial layouts, infographical assets & publication media',
+    'Visual designs and editorial graphics crafted for national media journalism and publication platforms (including work for The Daily Observer).',
+    'design',
+    ARRAY['Adobe Photoshop', 'Illustrator', 'Editorial Layout', 'Infographics'],
+    'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80',
+    'https://www.behance.net/sheikhalasif2023',
+    'https://github.com/sheikhasifworkspace-debug/my-portfolio',
     false,
     4
 ),
 (
-    'Gatekeeper Auth Service',
-    'gatekeeper-auth-service',
-    'Distributed OAuth2/OIDC single sign-on authentication gateway',
-    'High-security microservice handling JWT validation, rate limiting, OAuth 2.1 authentication flow, and granular RBAC permissions.',
-    'backend',
-    ARRAY['Node.js', 'Express', 'Redis', 'PostgreSQL', 'Docker'],
-    'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80',
-    'https://example.com/demo5',
-    'https://github.com',
+    'Nova Studio Interactive Web Experience',
+    'nova-studio-interactive-web',
+    'Creative agency web application with dark-mode glassmorphic aesthetics',
+    'A high-performance modern web application built with responsive layout grids, dynamic interactions, and lightning-fast edge deployment.',
+    'frontend',
+    ARRAY['HTML5', 'Tailwind CSS', 'JavaScript', 'Render'],
+    'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=900&q=80',
+    'https://github.com/sheikhasifworkspace-debug/my-portfolio',
+    'https://github.com/sheikhasifworkspace-debug/my-portfolio',
     false,
     5
+),
+(
+    'Creator Studio Cloud Hub',
+    'creator-studio-cloud-hub',
+    'Digital creator showcase with live Supabase PostgreSQL backend integration',
+    'Cloud-connected creator portfolio web app with real-time visitor inquiries, PostgreSQL data persistence, and continuous deployment.',
+    'frontend',
+    ARRAY['JavaScript', 'Supabase', 'PostgreSQL', 'Tailwind CSS'],
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80',
+    'https://github.com/sheikhasifworkspace-debug/my-portfolio',
+    'https://github.com/sheikhasifworkspace-debug/my-portfolio',
+    false,
+    6
 );
 
 -- Skills
 INSERT INTO skills (name, category, icon, proficiency, featured, sort_order) VALUES
--- Frontend
-('React & Next.js', 'Frontend', 'Code', 95, true, 1),
-('TypeScript', 'Frontend', 'FileCode', 92, true, 2),
-('Tailwind CSS', 'Frontend', 'Palette', 96, true, 3),
-('HTML5 / CSS3 / ES6+', 'Frontend', 'Layout', 98, true, 4),
-('Vite & Webpack', 'Frontend', 'Zap', 88, false, 5),
+-- UI/UX Design
+('Figma & UI/UX Design', 'UI/UX Design', 'Layout', 95, true, 1),
+('Design Systems & Wireframing', 'UI/UX Design', 'Layers', 92, true, 2),
+('Mobile & Web UI Prototyping', 'UI/UX Design', 'Smartphone', 90, true, 3),
+('User Flow & UX Research', 'UI/UX Design', 'Compass', 86, false, 4),
 
--- Backend
-('Node.js & Express', 'Backend', 'Server', 94, true, 6),
-('REST & GraphQL APIs', 'Backend', 'Cpu', 90, true, 7),
-('Python & FastAPI', 'Backend', 'Terminal', 85, true, 8),
-('Microservices', 'Backend', 'Network', 86, false, 9),
+-- Visual Arts & Graphic Design
+('Adobe Photoshop & Manipulation', 'Graphic Design', 'Palette', 96, true, 5),
+('Adobe Illustrator & Vector Art', 'Graphic Design', 'PenTool', 94, true, 6),
+('Brand Identity & Logo Design', 'Graphic Design', 'Award', 92, true, 7),
+('Typography & Print Design', 'Graphic Design', 'Type', 88, false, 8),
 
--- Database
-('Supabase & PostgreSQL', 'Database', 'Database', 95, true, 10),
-('Redis Caching', 'Database', 'Layers', 88, true, 11),
-('Prisma & Drizzle ORM', 'Database', 'HardDrive', 89, false, 12),
+-- Motion & Video
+('Adobe Premiere Pro', 'Motion & Video', 'Video', 93, true, 9),
+('After Effects & Motion Graphics', 'Motion & Video', 'Film', 89, true, 10),
+('Kinetic Typography & VFX', 'Motion & Video', 'Sparkles', 86, false, 11),
+('Color Grading & Commercial Cuts', 'Motion & Video', 'Camera', 88, false, 12),
 
--- Cloud & DevOps
-('Render Deployment', 'Cloud & DevOps', 'Cloud', 92, true, 13),
-('Docker & Containers', 'Cloud & DevOps', 'Box', 86, true, 14),
-('CI/CD & GitHub Actions', 'Cloud & DevOps', 'GitBranch', 90, true, 15),
-('Linux & Bash', 'Cloud & DevOps', 'Terminal', 87, false, 16),
-
--- Tools & Workflow
-('Git & GitHub', 'Tools', 'GitMerge', 96, true, 17),
-('Figma UI/UX', 'Tools', 'Figma', 84, true, 18),
-('Postman / Bruno', 'Tools', 'Send', 92, false, 19);
+-- Web & Frontend
+('HTML5 & Semantic Structure', 'Web Development', 'Code', 95, true, 13),
+('Tailwind CSS Framework', 'Web Development', 'Zap', 93, true, 14),
+('JavaScript (ES6+) & Web APIs', 'Web Development', 'FileCode', 86, true, 15),
+('Supabase Database & API', 'Web Development', 'Database', 88, true, 16),
+('Git & GitHub Version Control', 'Web Development', 'GitBranch', 90, true, 17);

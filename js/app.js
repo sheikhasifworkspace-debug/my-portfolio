@@ -1,120 +1,127 @@
 // ==============================================================================
 // PORTFOLIO CLIENT APP & SUPABASE CONTROLLER
+// Sheikh Al Asif — Visual Artist, UI/UX Designer & Motion Editor
 // ==============================================================================
 
-// Initial Fallback Data (Active until Supabase credentials are connected)
+// Authentic Profile Data for Sheikh Al Asif
 const defaultProfile = {
-  full_name: "Alex Rivers",
-  headline: "Senior Full-Stack Engineer & Cloud Systems Architect",
-  bio: "Passionate software engineer building resilient web applications, distributed backend services, and clean digital experiences with modern web technologies.",
-  avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
-  location: "San Francisco, CA & Remote",
-  email: "alexrivers.dev@gmail.com",
-  github_url: "https://github.com",
-  linkedin_url: "https://linkedin.com",
+  full_name: "Sheikh Al Asif",
+  headline: "Visual Artist | UI/UX Designer | Motion Editor",
+  bio: "Creative visual artist, UI/UX designer and frontend web developer based in Rajshahi, Bangladesh. Specializing in brand identity, user-centered product design, cinematic motion graphics, and responsive web experiences.",
+  avatar_url: "https://github.com/sheikhasifworkspace-debug.png",
+  location: "Rajshahi, Bangladesh",
+  email: "sheikhalasif.work@gmail.com",
+  github_url: "https://github.com/sheikhasifworkspace-debug",
+  linkedin_url: "https://www.linkedin.com/in/sheikhalasif",
+  behance_url: "https://www.behance.net/sheikhalasif2023",
   available_for_hire: true,
-  years_experience: 5,
-  projects_completed: 28,
-  github_contributions: 1450,
+  years_experience: 3,
+  projects_completed: 45,
+  github_contributions: 520,
 };
 
+// Curated Creative Works for Sheikh Al Asif
 const defaultProjects = [
   {
     id: "1",
-    title: "Nexus Cloud Platform",
-    tagline: "Real-time serverless observability & cloud resource monitoring suite",
-    description: "A high-throughput telemetry analytics dashboard monitoring distributed microservices with live WebSocket charts, incident management, and automated threshold alerts.",
-    category: "fullstack",
-    tags: ["React", "TypeScript", "Node.js", "Supabase", "Tailwind CSS", "Docker"],
-    image_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
-    demo_url: "https://github.com",
-    github_url: "https://github.com",
+    title: "Brand Identity & Visual System",
+    tagline: "Comprehensive corporate identity, typography guidelines & brand language",
+    description: "A full-scale brand identity project showcasing precision vector logo design, custom typographic styling, color systems, and modern packaging applications.",
+    category: "design",
+    tags: ["Adobe Illustrator", "Photoshop", "Brand Identity", "Typography"],
+    image_url: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=900&q=80",
+    demo_url: "https://www.behance.net/sheikhalasif2023",
+    github_url: "https://github.com/sheikhasifworkspace-debug/my-portfolio",
     featured: true,
   },
   {
     id: "2",
-    title: "Aura AI Assistant",
-    tagline: "Intelligent multi-model conversational agent with semantic vector search",
-    description: "An enterprise conversational agent supporting contextual code analysis, PDF embeddings, streaming responses, and automated workflow triggers.",
-    category: "ai",
-    tags: ["Next.js", "Python", "FastAPI", "OpenAI", "Supabase Vector", "Tailwind"],
-    image_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80",
-    demo_url: "https://github.com",
-    github_url: "https://github.com",
+    title: "E-Commerce Mobile & Web App UI/UX",
+    tagline: "User-centered mobile shopping application & interactive checkout flow",
+    description: "End-to-end product design focusing on user flow optimization, micro-interactions, dark/light design systems, and accessible mobile typography in Figma.",
+    category: "uiux",
+    tags: ["Figma", "UI/UX Design", "Wireframing", "Prototyping"],
+    image_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+    demo_url: "https://www.behance.net/sheikhalasif2023",
+    github_url: "https://github.com/sheikhasifworkspace-debug/my-portfolio",
     featured: true,
   },
   {
     id: "3",
-    title: "Pulse Commerce Engine",
-    tagline: "Ultra-fast headless e-commerce store with Stripe webhook processing",
-    description: "Headless e-commerce platform built for sub-100ms page transitions, dynamic inventory tracking, Stripe payments, and international checkout.",
-    category: "fullstack",
-    tags: ["React", "Tailwind CSS", "PostgreSQL", "Stripe API", "Render"],
-    image_url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80",
-    demo_url: "https://github.com",
-    github_url: "https://github.com",
+    title: "Cinematic Motion Graphics & Video Reel",
+    tagline: "Dynamic kinetic typography, promo commercial cuts & visual storytelling",
+    description: "A portfolio of high-impact commercial motion edits, rhythmic visual transitions, and promotional reels for brands, creators, and media campaigns.",
+    category: "motion",
+    tags: ["After Effects", "Premiere Pro", "Motion Design", "Video Editing"],
+    image_url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=80",
+    demo_url: "https://www.behance.net/sheikhalasif2023",
+    github_url: "https://github.com/sheikhasifworkspace-debug/my-portfolio",
     featured: true,
   },
   {
     id: "4",
-    title: "DevSync Realtime Collab",
-    tagline: "Collaborative markdown editor and whiteboard for distributed teams",
-    description: "Multi-cursor shared workspace with CRDT conflict-free synchronization, voice rooms, live markdown preview, and Git revision history.",
-    category: "frontend",
-    tags: ["React", "WebRTC", "Tailwind CSS", "WebSockets"],
-    image_url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80",
-    demo_url: "https://github.com",
-    github_url: "https://github.com",
+    title: "Editorial Visual Art & Digital Media Graphics",
+    tagline: "Digital editorial layouts, infographical assets & publication media",
+    description: "Visual designs and editorial graphics crafted for national media journalism and publication platforms (including work for The Daily Observer).",
+    category: "design",
+    tags: ["Adobe Photoshop", "Illustrator", "Editorial Layout", "Infographics"],
+    image_url: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80",
+    demo_url: "https://www.behance.net/sheikhalasif2023",
+    github_url: "https://github.com/sheikhasifworkspace-debug/my-portfolio",
     featured: false,
   },
   {
     id: "5",
-    title: "Gatekeeper Auth Service",
-    tagline: "Distributed OAuth2/OIDC single sign-on authentication gateway",
-    description: "High-security microservice handling JWT validation, token refresh rotations, rate limiting, OAuth 2.1 authentication flow, and granular RBAC permissions.",
-    category: "backend",
-    tags: ["Node.js", "Express", "Redis", "PostgreSQL", "Docker"],
-    image_url: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80",
-    demo_url: "https://github.com",
-    github_url: "https://github.com",
+    title: "Nova Studio Interactive Web Experience",
+    tagline: "Creative agency web application with dark-mode glassmorphic aesthetics",
+    description: "A high-performance modern web application built with responsive layout grids, dynamic interactions, and lightning-fast edge deployment.",
+    category: "frontend",
+    tags: ["HTML5", "Tailwind CSS", "JavaScript", "Render"],
+    image_url: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=900&q=80",
+    demo_url: "https://github.com/sheikhasifworkspace-debug/my-portfolio",
+    github_url: "https://github.com/sheikhasifworkspace-debug/my-portfolio",
     featured: false,
   },
   {
     id: "6",
-    title: "OmniMetrics CLI",
-    tagline: "Developer productivity & terminal system monitoring utility",
-    description: "Cross-platform command line dashboard delivering instantaneous CPU, memory, Docker container health, and network socket telemetry.",
-    category: "backend",
-    tags: ["Go", "Terminal UI", "System Metrics", "CLI"],
-    image_url: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&w=900&q=80",
-    demo_url: "https://github.com",
-    github_url: "https://github.com",
+    title: "Creator Studio Cloud Hub",
+    tagline: "Digital creator showcase with live Supabase PostgreSQL backend integration",
+    description: "Cloud-connected creator portfolio web app with real-time visitor inquiries, PostgreSQL data persistence, and continuous deployment.",
+    category: "frontend",
+    tags: ["JavaScript", "Supabase", "PostgreSQL", "Tailwind CSS"],
+    image_url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80",
+    demo_url: "https://github.com/sheikhasifworkspace-debug/my-portfolio",
+    github_url: "https://github.com/sheikhasifworkspace-debug/my-portfolio",
     featured: false,
   }
 ];
 
+// Authentic Skills for Sheikh Al Asif
 const defaultSkills = [
-  // Frontend
-  { name: "React & Modern UI", category: "Frontend", proficiency: 95 },
-  { name: "TypeScript & ES6+", category: "Frontend", proficiency: 92 },
-  { name: "Tailwind CSS & Design", category: "Frontend", proficiency: 96 },
-  { name: "HTML5 / CSS3 / Web APIs", category: "Frontend", proficiency: 98 },
-  // Backend
-  { name: "Node.js & Express", category: "Backend", proficiency: 94 },
-  { name: "RESTful & GraphQL APIs", category: "Backend", proficiency: 92 },
-  { name: "Python & FastAPI", category: "Backend", proficiency: 86 },
-  // Database
-  { name: "Supabase & PostgreSQL", category: "Database", proficiency: 95 },
-  { name: "Redis Caching", category: "Database", proficiency: 88 },
-  { name: "Prisma & Drizzle ORM", category: "Database", proficiency: 90 },
-  // Cloud & DevOps
-  { name: "Render Deployment", category: "Cloud & DevOps", proficiency: 94 },
-  { name: "Docker Containers", category: "Cloud & DevOps", proficiency: 87 },
-  { name: "GitHub Actions CI/CD", category: "Cloud & DevOps", proficiency: 91 },
-  // Tools
-  { name: "Git & GitHub Workflow", category: "Tools", proficiency: 96 },
-  { name: "Figma Prototyping", category: "Tools", proficiency: 85 },
-  { name: "Postman API Testing", category: "Tools", proficiency: 92 }
+  // UI/UX Design
+  { name: "Figma & UI/UX Design", category: "UI/UX Design", proficiency: 95, icon: "layout" },
+  { name: "Design Systems & Wireframing", category: "UI/UX Design", proficiency: 92, icon: "layers" },
+  { name: "Mobile & Web UI Prototyping", category: "UI/UX Design", proficiency: 90, icon: "smartphone" },
+  { name: "User Flow & UX Research", category: "UI/UX Design", proficiency: 86, icon: "compass" },
+
+  // Visual Arts & Graphic Design
+  { name: "Adobe Photoshop & Manipulation", category: "Graphic Design", proficiency: 96, icon: "palette" },
+  { name: "Adobe Illustrator & Vector Art", category: "Graphic Design", proficiency: 94, icon: "pen-tool" },
+  { name: "Brand Identity & Logo Design", category: "Graphic Design", proficiency: 92, icon: "award" },
+  { name: "Typography & Print Design", category: "Graphic Design", proficiency: 88, icon: "type" },
+
+  // Motion & Video
+  { name: "Adobe Premiere Pro", category: "Motion & Video", proficiency: 93, icon: "video" },
+  { name: "After Effects & Motion Graphics", category: "Motion & Video", proficiency: 89, icon: "film" },
+  { name: "Kinetic Typography & VFX", category: "Motion & Video", proficiency: 86, icon: "sparkles" },
+  { name: "Color Grading & Commercial Cuts", category: "Motion & Video", proficiency: 88, icon: "camera" },
+
+  // Web & Frontend
+  { name: "HTML5 & Semantic Structure", category: "Web Development", proficiency: 95, icon: "file-code" },
+  { name: "Tailwind CSS Framework", category: "Web Development", proficiency: 93, icon: "zap" },
+  { name: "JavaScript (ES6+) & Web APIs", category: "Web Development", proficiency: 86, icon: "code" },
+  { name: "Supabase Database & API", category: "Web Development", proficiency: 88, icon: "database" },
+  { name: "Git & GitHub Version Control", category: "Web Development", proficiency: 90, icon: "git-branch" }
 ];
 
 // App State
@@ -191,7 +198,11 @@ async function loadData() {
       .order('sort_order', { ascending: true });
 
     if (!projError && projectsData && projectsData.length > 0) {
-      currentProjects = projectsData;
+      // Guard: Ignore outdated placeholder projects
+      const isPlaceholder = projectsData.some(p => (p.title || '').includes('Nexus Cloud') || (p.title || '').includes('Aura AI'));
+      if (!isPlaceholder) {
+        currentProjects = projectsData;
+      }
     }
 
     // 2. Skills
@@ -201,7 +212,11 @@ async function loadData() {
       .order('sort_order', { ascending: true });
 
     if (!skillError && skillsData && skillsData.length > 0) {
-      currentSkills = skillsData;
+      // Guard: Ignore outdated placeholder skills
+      const isPlaceholder = skillsData.some(s => s.name === 'React & Next.js' || s.name === 'Node.js & Express');
+      if (!isPlaceholder) {
+        currentSkills = skillsData;
+      }
     }
 
     // 3. Profile
@@ -211,7 +226,7 @@ async function loadData() {
       .limit(1)
       .maybeSingle();
 
-    if (!profError && profileData) {
+    if (!profError && profileData && profileData.full_name !== 'Alex Rivers') {
       currentProfile = { ...currentProfile, ...profileData };
       applyProfileData();
     }
@@ -242,7 +257,7 @@ function renderProjects() {
     : currentProjects.filter(p => (p.category || '').toLowerCase() === activeProjectFilter.toLowerCase());
 
   container.innerHTML = filtered.map(p => `
-    <div class="group rounded-2xl border overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl glass border-slate-800/90 hover:border-slate-700">
+    <div class="group rounded-2xl border overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl glass border-slate-800/90 hover:border-purple-500/50">
       <div class="relative h-48 w-full overflow-hidden bg-slate-900">
         <img
           src="${p.image_url || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80'}"
@@ -257,14 +272,14 @@ function renderProjects() {
             <span>Featured</span>
           </div>
         ` : ''}
-        <div class="absolute top-3 right-3 px-2.5 py-0.5 rounded-md text-[10px] font-mono uppercase font-bold bg-slate-900/80 text-slate-200 border border-slate-700/60 backdrop-blur-md">
+        <div class="absolute top-3 right-3 px-2.5 py-0.5 rounded-md text-[10px] font-mono uppercase font-bold bg-slate-900/80 text-purple-300 border border-purple-500/30 backdrop-blur-md">
           ${p.category}
         </div>
       </div>
 
       <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
         <div>
-          <h3 class="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">
+          <h3 class="text-xl font-bold text-white group-hover:text-purple-300 transition-colors">
             ${p.title}
           </h3>
           ${p.tagline ? `<p class="text-xs font-medium text-teal-400 mt-1">${p.tagline}</p>` : ''}
@@ -287,14 +302,14 @@ function renderProjects() {
               ${p.github_url ? `
                 <a href="${p.github_url}" target="_blank" rel="noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors">
                   <i data-lucide="github" class="w-4 h-4"></i>
-                  <span>Code</span>
+                  <span>Project</span>
                 </a>
               ` : ''}
             </div>
 
             ${p.demo_url ? `
-              <a href="${p.demo_url}" target="_blank" rel="noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-600/10 hover:bg-indigo-600 text-indigo-400 hover:text-white border border-indigo-500/20 hover:border-transparent transition-all">
-                <span>Live Demo</span>
+              <a href="${p.demo_url}" target="_blank" rel="noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-purple-600/10 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/20 hover:border-transparent transition-all">
+                <span>View Work</span>
                 <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
               </a>
             ` : ''}
@@ -307,6 +322,15 @@ function renderProjects() {
   if (window.lucide) window.lucide.createIcons();
 }
 
+function getSkillIcon(skill) {
+  if (skill.icon) return skill.icon;
+  const cat = (skill.category || '').toLowerCase();
+  if (cat.includes('ui') || cat.includes('ux')) return 'layout';
+  if (cat.includes('graphic') || cat.includes('brand')) return 'pen-tool';
+  if (cat.includes('motion') || cat.includes('video')) return 'film';
+  return 'code';
+}
+
 function renderSkills() {
   const container = document.getElementById('skills-container');
   if (!container) return;
@@ -316,21 +340,21 @@ function renderSkills() {
     : currentSkills.filter(s => (s.category || '').toLowerCase() === activeSkillCategory.toLowerCase());
 
   container.innerHTML = filtered.map(s => `
-    <div class="p-5 rounded-2xl border transition-all duration-300 hover:scale-[1.02] glass border-slate-800/80 hover:border-slate-700">
+    <div class="p-5 rounded-2xl border transition-all duration-300 hover:scale-[1.02] glass border-slate-800/80 hover:border-purple-500/40">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2.5">
-          <div class="p-2 rounded-lg bg-slate-800/40 border border-slate-700/50 text-indigo-400">
-            <i data-lucide="cpu" class="w-4 h-4"></i>
+          <div class="p-2 rounded-lg bg-slate-800/40 border border-slate-700/50 text-purple-400">
+            <i data-lucide="${getSkillIcon(s)}" class="w-4 h-4"></i>
           </div>
           <div>
             <h4 class="text-sm font-bold text-white">${s.name}</h4>
             <span class="text-[11px] font-mono text-slate-500">${s.category}</span>
           </div>
         </div>
-        <span class="text-xs font-mono font-semibold text-indigo-400">${s.proficiency || 85}%</span>
+        <span class="text-xs font-mono font-semibold text-purple-400">${s.proficiency || 85}%</span>
       </div>
       <div class="w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
-        <div class="bg-gradient-to-r from-indigo-500 to-teal-400 h-1.5 rounded-full" style="width: ${s.proficiency || 85}%"></div>
+        <div class="bg-gradient-to-r from-purple-500 via-pink-500 to-teal-400 h-1.5 rounded-full" style="width: ${s.proficiency || 85}%"></div>
       </div>
     </div>
   `).join('');
@@ -347,7 +371,6 @@ async function handleContactSubmit(e) {
   const email = document.getElementById('contact-email').value.trim();
   const subject = document.getElementById('contact-subject').value.trim() || 'Portfolio Inquiry';
   const message = document.getElementById('contact-message').value.trim();
-  const statusEl = document.getElementById('contact-status-alert');
   const submitBtn = document.getElementById('contact-submit-btn');
 
   if (!name || !email || !message) {
@@ -356,7 +379,7 @@ async function handleContactSubmit(e) {
   }
 
   submitBtn.disabled = true;
-  submitBtn.innerHTML = `<span class="inline-block animate-spin mr-2">⏳</span> Sending to Supabase...`;
+  submitBtn.innerHTML = `<span class="inline-block animate-spin mr-2">⏳</span> Sending inquiry to Supabase...`;
 
   try {
     if (supabaseClient) {
@@ -372,12 +395,12 @@ async function handleContactSubmit(e) {
       ]);
 
       if (error) throw error;
-      showStatusAlert('success', 'Thank you! Your message was saved directly into the Supabase PostgreSQL database.');
+      showStatusAlert('success', 'Thank you! Your message was delivered directly into Sheikh Al Asif\'s Supabase database.');
       document.getElementById('contact-form').reset();
     } else {
-      // Demo preview mode
+      // Offline fallback
       await new Promise(r => setTimeout(r, 700));
-      showStatusAlert('success', 'Message simulation successful! (Connect your Supabase database in the top banner to write live rows).');
+      showStatusAlert('success', 'Message simulation successful! (Your Supabase client is ready in live mode).');
       document.getElementById('contact-form').reset();
     }
   } catch (err) {
@@ -440,7 +463,7 @@ window.saveDbCredentials = async function() {
       loadData();
     } catch (e) {
       feedback.className = "p-3 rounded-lg text-xs bg-amber-500/20 text-amber-300 border border-amber-500/30";
-      feedback.textContent = `Client initialized, but table query returned: ${e.message}. Ensure you ran supabase/schema.sql in the SQL Editor.`;
+      feedback.textContent = `Client initialized, but table query returned: ${e.message}. Ensure you ran Update-My-Real-Info.sql in the SQL Editor.`;
     }
   } else {
     feedback.className = "p-3 rounded-lg text-xs bg-rose-500/20 text-rose-300 border border-rose-500/30";
@@ -461,11 +484,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Project Filter Tabs
   document.querySelectorAll('.project-filter-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
       document.querySelectorAll('.project-filter-btn').forEach(b => {
         b.className = "project-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800";
       });
-      btn.className = "project-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-md shadow-indigo-600/30";
+      btn.className = "project-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-600/30";
       activeProjectFilter = btn.dataset.filter;
       renderProjects();
     });
@@ -477,7 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.skill-filter-btn').forEach(b => {
         b.className = "skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800";
       });
-      btn.className = "skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-105";
+      btn.className = "skill-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-purple-600 text-white shadow-md shadow-purple-600/30 scale-105";
       activeSkillCategory = btn.dataset.category;
       renderSkills();
     });
