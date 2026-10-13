@@ -9,7 +9,10 @@
   <!-- Google Fonts: Playfair Display / Instrument Serif for Logo + Inter for Clean UI -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Supabase JS Client CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -24,7 +27,7 @@
     :root {
       --bg: #ffffff;
       --text-primary: #111111;
-      --text-secondary: #555555;
+      --text-secondary: #666666;
       --card-bg: #ffffff;
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-serif: 'Instrument Serif', 'Playfair Display', Georgia, serif;
@@ -53,9 +56,10 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
       transition: all 0.3s ease;
     }
 
@@ -67,7 +71,6 @@
       justify-content: space-between;
     }
 
-    /* Elegant Serif Logo like 'Madison.' */
     .brand-logo {
       font-family: var(--font-serif);
       font-size: 32px;
@@ -85,7 +88,6 @@
       opacity: 0.75;
     }
 
-    /* Nav Links */
     .nav-menu {
       display: flex;
       align-items: center;
@@ -108,7 +110,34 @@
       color: #666666;
     }
 
-    /* Pill-shaped Black 'Contact' button */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-admin-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #666666;
+      border: 1px solid #eaeaea;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      opacity: 0;
+      animation: navFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
+
+    .nav-admin-link:hover {
+      color: #111111;
+      border-color: #111111;
+      background: #fafafa;
+    }
+
     .nav-contact-btn {
       display: inline-flex;
       align-items: center;
@@ -152,14 +181,12 @@
       align-items: center;
     }
 
-    /* Left: Text Content */
     .hero-text {
       display: flex;
       flex-direction: column;
       gap: 22px;
     }
 
-    /* Available for work badge */
     .badge {
       display: inline-flex;
       align-items: center;
@@ -175,7 +202,6 @@
       color: #666666;
       width: fit-content;
       box-shadow: 0 2px 12px rgba(0,0,0,0.03);
-
       opacity: 0;
       transform: translateY(16px);
       animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
@@ -189,7 +215,6 @@
       animation: pulse-dot 2s ease-in-out infinite;
     }
 
-    /* Clean Bold Headline */
     .hero-heading {
       font-size: clamp(44px, 6.2vw, 76px);
       font-weight: 800;
@@ -227,20 +252,27 @@
       display: inline-block;
     }
 
-    /* Clean Subtitle */
     .hero-sub {
       font-size: 16.5px;
       line-height: 1.65;
       color: #666666;
       max-width: 480px;
       font-weight: 400;
-
       opacity: 0;
       transform: translateY(18px);
       animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
     }
 
-    /* Hero CTA Button */
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards;
+    }
+
     .hero-cta {
       display: inline-flex;
       align-items: center;
@@ -252,13 +284,8 @@
       font-size: 14.5px;
       font-weight: 600;
       text-decoration: none;
-      width: fit-content;
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-
-      opacity: 0;
-      transform: translateY(18px);
-      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards;
     }
 
     .hero-cta:hover {
@@ -277,6 +304,26 @@
       transform: translateX(4px);
     }
 
+    .hero-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      color: #111111;
+      border: 1px solid #eaeaea;
+      padding: 15px 28px;
+      border-radius: 100px;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .hero-cta-secondary:hover {
+      background: #f7f7f8;
+      border-color: #d1d1d6;
+    }
+
     /* Right: Photo */
     .hero-photo {
       display: flex;
@@ -292,7 +339,6 @@
       border-radius: 28px;
       overflow: hidden;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-
       opacity: 0;
       transform: translateY(35px) scale(0.96);
       animation: photoReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
@@ -306,7 +352,6 @@
       display: block;
     }
 
-    /* Floating clean tags */
     .float-card {
       position: absolute;
       background: #ffffff;
@@ -320,7 +365,6 @@
       align-items: center;
       gap: 9px;
       z-index: 2;
-
       opacity: 0;
       animation: floatCardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
@@ -351,120 +395,344 @@
     .float-card .card-icon.blue { background: #e0f2fe; }
 
     /* ========================================= */
-    /* KEYFRAMES                                 */
+    /* VIDEOS SHOWCASE SECTION (THE VIDEOS WE SHIP) */
     /* ========================================= */
-    @keyframes navFade {
-      to {
-        opacity: 1;
+    .video-showcase-section {
+      padding: 100px 24px 120px;
+      background: #fafafc;
+      border-top: 1px solid #eeeeee;
+    }
+
+    .section-container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* Section Header */
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      color: #111111;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: #666666;
+      font-weight: 400;
+    }
+
+    /* Tabs Filter Bar (Soft UI Style from screenshot) */
+    .tabs-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+
+    .tabs-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      padding: 6px;
+      border-radius: 18px;
+      border: 1px solid #eaeaea;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 13px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #666666;
+      font-size: 13.5px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tab-btn:hover {
+      color: #111111;
+      background: #f7f7f8;
+    }
+
+    .tab-btn.active {
+      background: #111111;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+
+    .tab-btn i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Video Grid (3 Columns) */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    /* Video Card */
+    .video-card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #eeeeee;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      border-color: #dcdcdc;
+    }
+
+    .video-thumb-wrap {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: #f0f0f2;
+      overflow: hidden;
+    }
+
+    .video-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .video-card:hover .video-thumb-wrap img {
+      transform: scale(1.05);
+    }
+
+    .video-play-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-card:hover .video-play-overlay {
+      opacity: 1;
+    }
+
+    .play-button-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #111111;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      transform: scale(0.85);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .video-card:hover .play-button-circle {
+      transform: scale(1);
+    }
+
+    .video-category-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #111111;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    /* Card Details */
+    .video-info {
+      padding: 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .video-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .video-desc {
+      font-size: 14px;
+      color: #666666;
+      line-height: 1.55;
+    }
+
+    /* Video Modal Lightbox */
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .video-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 900px;
+      background: #000000;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .video-modal.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .video-frame-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      overflow: hidden;
+    }
+
+    .video-frame-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Footer */
+    .site-footer {
+      padding: 60px 24px;
+      text-align: center;
+      border-top: 1px solid #eeeeee;
+      background: #ffffff;
+    }
+
+    .footer-logo {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-style: italic;
+      color: #111111;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .footer-copy {
+      font-size: 13.5px;
+      color: #888888;
+    }
+
+    /* Keyframes */
+    @keyframes navFade { to { opacity: 1; } }
+    @keyframes fadeSlideUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes textReveal { to { opacity: 1; transform: translateY(0); } }
+    @keyframes photoReveal { to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes floatCardIn { to { opacity: 1; } }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+
+    .float-card.card-1 { animation: floatCardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards, float 4s ease-in-out 2s infinite; }
+    .float-card.card-2 { animation: floatCardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards, float 5s ease-in-out 2.2s infinite; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .video-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @keyframes fadeSlideUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes textReveal {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes photoReveal {
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes floatCardIn {
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.3); }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-7px); }
-    }
-
-    .float-card.card-1 {
-      animation: floatCardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards, float 4s ease-in-out 2s infinite;
-    }
-
-    .float-card.card-2 {
-      animation: floatCardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards, float 5s ease-in-out 2.2s infinite;
-    }
-
-    /* ========================================= */
-    /* RESPONSIVE DESIGN                         */
-    /* ========================================= */
     @media (max-width: 900px) {
-      .navbar {
-        padding: 20px 24px;
-      }
-
-      .nav-menu {
-        display: none;
-      }
-
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        text-align: center;
-      }
-
-      .hero-text {
-        align-items: center;
-      }
-
-      .photo-wrapper {
-        width: 320px;
-        height: 400px;
-      }
-
-      .float-card.card-1 {
-        right: 0px;
-        top: -10px;
-      }
-
-      .float-card.card-2 {
-        left: 0px;
-        bottom: 20px;
-      }
-
-      .hero-photo {
-        order: -1;
-      }
+      .navbar { padding: 20px 24px; }
+      .nav-menu { display: none; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .hero-text { align-items: center; }
+      .photo-wrapper { width: 320px; height: 400px; }
+      .float-card.card-1 { right: 0; top: -10px; }
+      .float-card.card-2 { left: 0; bottom: 20px; }
+      .hero-photo { order: -1; }
     }
 
-    @media (max-width: 480px) {
-      .brand-logo {
-        font-size: 26px;
-      }
-
-      .nav-contact-btn {
-        padding: 8px 18px;
-        font-size: 13px;
-      }
-
-      .photo-wrapper {
-        width: 270px;
-        height: 340px;
-      }
-
-      .float-card {
-        padding: 8px 14px;
-        font-size: 12px;
-      }
+    @media (max-width: 640px) {
+      .video-grid { grid-template-columns: 1fr; }
+      .brand-logo { font-size: 26px; }
+      .nav-contact-btn { padding: 8px 18px; font-size: 13px; }
+      .photo-wrapper { width: 270px; height: 340px; }
+      .section-title { font-size: 32px; }
+      .tab-btn { padding: 8px 14px; font-size: 12.5px; }
     }
   </style>
 </head>
@@ -475,10 +743,8 @@
   <!-- ============================================= -->
   <header class="navbar">
     <div class="nav-inner">
-      <!-- Madison style Serif Logo with user's name: Sheikh Asif -->
       <a href="#" class="brand-logo">Sheikh Asif.</a>
 
-      <!-- Center Nav Links -->
       <ul class="nav-menu">
         <li><a href="#" class="nav-link">Home</a></li>
         <li><a href="#works" class="nav-link">Works</a></li>
@@ -487,15 +753,20 @@
         <li><a href="#testimonial" class="nav-link">Testimonial</a></li>
       </ul>
 
-      <!-- Right Pill Contact Button -->
-      <a href="#contact" class="nav-contact-btn">Contact</a>
+      <div class="nav-actions">
+        <a href="admin.html" class="nav-admin-link" title="Open Admin Dashboard">
+          <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
+          <span>Admin</span>
+        </a>
+        <a href="#contact" class="nav-contact-btn">Contact</a>
+      </div>
     </div>
   </header>
 
   <!-- ============================================= -->
   <!-- HERO SECTION                                  -->
   <!-- ============================================= -->
-  <section class="hero">
+  <section class="hero" id="home">
     <div class="hero-inner">
 
       <!-- Left: Text Content -->
@@ -512,15 +783,20 @@
         </h1>
 
         <p class="hero-sub">
-          Visual Artist, UI/UX Designer & Motion Editor crafting thoughtful digital products and visual systems.
+          Visual Artist, UI/UX Designer & Motion Editor crafting thoughtful digital products, brand identities, and high-impact motion graphics.
         </p>
 
-        <a href="#contact" class="hero-cta">
-          Contact Me
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        </a>
+        <div class="hero-cta-group">
+          <a href="#works" class="hero-cta">
+            <span>Explore Works</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+          <a href="https://www.behance.net/sheikhalasif2023" target="_blank" rel="noreferrer" class="hero-cta-secondary">
+            <span>Behance</span>
+          </a>
+        </div>
       </div>
 
       <!-- Right: Photo Card -->
@@ -529,7 +805,6 @@
           <img src="assets/sheikh-asif.jpg" alt="Sheikh Asif" />
         </div>
 
-        <!-- Floating decorative tags -->
         <div class="float-card card-1">
           <div class="card-icon purple">🎨</div>
           UI/UX Designer
@@ -544,26 +819,253 @@
     </div>
   </section>
 
-  <!-- Supabase connection (configured & active in background) -->
+  <!-- ============================================= -->
+  <!-- VIDEOS SHOWCASE (THE VIDEOS WE SHIP)          -->
+  <!-- ============================================= -->
+  <section class="video-showcase-section" id="works">
+    <div class="section-container">
+
+      <!-- Header -->
+      <div class="section-header">
+        <h2 class="section-title">The Videos We Ship.</h2>
+        <p class="section-subtitle">What are you launching next? Filter by topic or section below.</p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="tabs-wrapper">
+        <div class="tabs-bar" id="category-tabs">
+          <button class="tab-btn active" data-category="All">
+            <i data-lucide="layout-grid"></i>
+            <span>All Videos</span>
+          </button>
+          <button class="tab-btn" data-category="Product Release">
+            <i data-lucide="monitor"></i>
+            <span>Product Release</span>
+          </button>
+          <button class="tab-btn" data-category="Launch Video">
+            <i data-lucide="sparkles"></i>
+            <span>Launch Video</span>
+          </button>
+          <button class="tab-btn" data-category="In-Person Demo">
+            <i data-lucide="presentation"></i>
+            <span>In-Person Demo</span>
+          </button>
+          <button class="tab-btn" data-category="Others">
+            <i data-lucide="film"></i>
+            <span>Others</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Video Grid Container -->
+      <div class="video-grid" id="video-grid-container">
+        <!-- Dynamic Cards Loaded from Supabase/Local Fallback -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- VIDEO MODAL LIGHTBOX                          -->
+  <!-- ============================================= -->
+  <div class="video-modal" id="video-modal">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeVideoModal()">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="video-frame-container">
+        <iframe id="video-modal-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- FOOTER                                        -->
+  <!-- ============================================= -->
+  <footer class="site-footer">
+    <div class="footer-logo">Sheikh Asif.</div>
+    <p class="footer-copy">© 2026 Sheikh Asif. Visual Artist, UI/UX Designer & Motion Editor. Rajshahi, Bangladesh.</p>
+  </footer>
+
+  <!-- ============================================= -->
+  <!-- SCRIPT LOGIC (SUPABASE & DYNAMIC RENDERING)   -->
+  <!-- ============================================= -->
   <script>
     const SUPABASE_URL = 'https://nhnutpvphmwkjlxzuljv.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5obnV0cHZwaG13a2pseHp1bGp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NzkxNzIsImV4cCI6MjEwNzQ1NTE3Mn0.kiS84Vo2XJ4eV9BFQVjFH3N5e0PwY_kuHb89ieRpr9Q';
 
     let supabaseClient = null;
 
-    function initSupabase() {
+    // Fallback Sample Videos (Identical to reference screenshot)
+    const fallbackVideos = [
+      {
+        id: "1",
+        title: "Human Behavior",
+        description: "A YC-backed AI platform that decodes user behavior from session replays.",
+        category: "Product Release",
+        thumbnail_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "2",
+        title: "ClickUp 4.0",
+        description: "The world's #1 work platform that replaces every productivity tool teams use.",
+        category: "Product Release",
+        thumbnail_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "3",
+        title: "Lumana",
+        description: "Enterprise AI video security platform powered by computer vision.",
+        category: "Product Release",
+        thumbnail_url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "4",
+        title: "SaaS Launch Promo Reel",
+        description: "High energy kinetic typography cut for modern fintech venture.",
+        category: "Launch Video",
+        thumbnail_url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "5",
+        title: "Interactive Walkthrough Demo",
+        description: "In-person live interactive software demonstration and keynote visual cut.",
+        category: "In-Person Demo",
+        thumbnail_url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "6",
+        title: "Brand Identity Kinetic Visuals",
+        description: "Artistic motion design loop and 3D visual language exploration.",
+        category: "Others",
+        thumbnail_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      }
+    ];
+
+    let allVideos = [...fallbackVideos];
+    let currentCategory = "All";
+
+    // Initialize Supabase & load videos
+    async function loadVideos() {
+      // 1. Check localStorage first (from Admin Panel saves)
+      const localData = localStorage.getItem('ASIF_PORTFOLIO_VIDEOS');
+      if (localData) {
+        try {
+          allVideos = JSON.parse(localData);
+        } catch (e) {}
+      }
+
+      // 2. Query Supabase
       if (window.supabase) {
         try {
           supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-          console.log('✅ Supabase connected');
-        } catch (e) {
-          console.warn('Supabase init error:', e);
+          const { data, error } = await supabaseClient.from('videos').select('*').order('sort_order', { ascending: true });
+          if (!error && data && data.length > 0) {
+            allVideos = data;
+          }
+        } catch (err) {
+          console.warn("Supabase fetch fallback:", err);
         }
       }
+
+      renderVideos();
     }
 
+    function renderVideos() {
+      const container = document.getElementById('video-grid-container');
+      if (!container) return;
+
+      const filtered = currentCategory === 'All'
+        ? allVideos
+        : allVideos.filter(v => (v.category || '').toLowerCase() === currentCategory.toLowerCase());
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #888;">
+            <p style="font-size: 16px;">No videos found under <strong>${currentCategory}</strong>.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(v => `
+        <div class="video-card" onclick="openVideoModal('${escapeHtml(v.video_url)}')">
+          <div class="video-thumb-wrap">
+            <img src="${escapeHtml(v.thumbnail_url || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80')}" alt="${escapeHtml(v.title)}" loading="lazy" />
+            <div class="video-category-tag">${escapeHtml(v.category)}</div>
+            <div class="video-play-overlay">
+              <div class="play-button-circle">
+                <i data-lucide="play" style="width: 22px; height: 22px; fill: #111111; margin-left: 3px;"></i>
+              </div>
+            </div>
+          </div>
+          <div class="video-info">
+            <h3 class="video-title">${escapeHtml(v.title)}</h3>
+            <p class="video-desc">${escapeHtml(v.description || '')}</p>
+          </div>
+        </div>
+      `).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    // Modal Control
+    function openVideoModal(url) {
+      const modal = document.getElementById('video-modal');
+      const iframe = document.getElementById('video-modal-iframe');
+      if (!modal || !iframe) return;
+
+      // Handle raw YouTube URLs to Embed format
+      let embedUrl = url;
+      if (url.includes('youtube.com/watch?v=')) {
+        embedUrl = url.replace('watch?v=', 'embed/');
+      } else if (url.includes('youtu.be/')) {
+        embedUrl = url.replace('youtu.be/', 'www.youtube.com/embed/');
+      }
+
+      iframe.src = embedUrl;
+      modal.classList.add('active');
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const iframe = document.getElementById('video-modal-iframe');
+      if (modal) modal.classList.remove('active');
+      if (iframe) iframe.src = '';
+    }
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      const modal = document.getElementById('video-modal');
+      if (e.target === modal) closeVideoModal();
+    });
+
+    // Escape helper
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    // Tab Filter Logic
     document.addEventListener('DOMContentLoaded', () => {
-      initSupabase();
+      if (window.lucide) window.lucide.createIcons();
+      loadVideos();
+
+      const tabs = document.querySelectorAll('.tab-btn');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          currentCategory = tab.dataset.category;
+          renderVideos();
+        });
+      });
     });
   </script>
 

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sheikh Asif — Video Admin Panel</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --border: #e8e8ed;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 80px;
+    }
+
+    /* Header */
+    .admin-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 20px 36px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .admin-header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-title {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-style: italic;
+    }
+
+    .badge-pill {
+      background: #111111;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: #111111;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: #f0f0f2;
+    }
+
+    /* Container */
+    .admin-container {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding: 0 24px;
+    }
+
+    /* Login Screen */
+    .login-box {
+      max-width: 420px;
+      margin: 80px auto;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 40px 32px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+
+    .login-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: #f4f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: #111111;
+    }
+
+    .login-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .login-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333333;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      font-family: inherit;
+      background: #ffffff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #111111;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+    }
+
+    .btn-black {
+      width: 100%;
+      background: #111111;
+      color: #ffffff;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-black:hover {
+      background: #2b2b2b;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 32px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Video List */
+    .video-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid #f0f0f2;
+      background: #ffffff;
+      margin-bottom: 12px;
+      transition: border-color 0.2s ease;
+    }
+
+    .video-item:hover {
+      border-color: #d8d8de;
+    }
+
+    .video-item-thumb {
+      width: 80px;
+      height: 54px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #e5e5ea;
+      flex-shrink: 0;
+    }
+
+    .video-item-info {
+      flex-grow: 1;
+      min-width: 0;
+    }
+
+    .video-item-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .video-item-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: #f0f0f4;
+      color: #555555;
+    }
+
+    .video-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: #666666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .action-icon-btn:hover {
+      background: #f5f5f7;
+      color: #111111;
+    }
+
+    .action-icon-btn.delete:hover {
+      background: #ffebeb;
+      color: #ef4444;
+      border-color: #fecaca;
+    }
+
+    /* Notification banner */
+    .toast {
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .toast.success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      display: block;
+    }
+
+    .toast.error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <div class="admin-brand">
+        <span class="brand-title">Sheikh Asif.</span>
+        <span class="badge-pill">Video Studio Admin</span>
+      </div>
+
+      <div class="admin-nav-actions">
+        <a href="index.html" class="back-btn">
+          <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i>
+          <span>View Portfolio</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-container">
+
+    <!-- Screen 1: Passcode Login -->
+    <div class="login-box" id="login-box">
+      <div class="login-icon">
+        <i data-lucide="shield-check" style="width: 28px; height: 28px;"></i>
+      </div>
+      <h2 class="login-title">Admin Access</h2>
+      <p class="login-desc">Enter your passkey to manage portfolio videos.</p>
+
+      <div class="form-group">
+        <input type="password" id="admin-pass-input" class="form-input" placeholder="Enter PIN / Passcode" autofocus />
+      </div>
+
+      <div id="login-error" style="color: #ef4444; font-size: 12.5px; margin-bottom: 12px; display: none;">
+        Incorrect passcode. Try again.
+      </div>
+
+      <button class="btn-black" onclick="attemptLogin()">
+        <span>Unlock Dashboard</span>
+        <i data-lucide="key" style="width: 16px; height: 16px;"></i>
+      </button>
+
+      <p style="font-size: 12px; color: #888; margin-top: 16px;">
+        Default passcode: <strong>asif2026</strong> (you can change it anytime)
+      </p>
+    </div>
+
+    <!-- Screen 2: Dashboard (Visible after login) -->
+    <div id="dashboard-box" style="display: none;">
+      <div id="status-toast" class="toast"></div>
+
+      <div class="dashboard-layout">
+
+        <!-- Left: Add / Edit Form -->
+        <div class="card">
+          <h3 class="card-title" id="form-card-title">
+            <span id="form-title-text">Add New Video</span>
+            <button id="cancel-edit-btn" onclick="cancelEdit()" style="display: none; background: transparent; border: none; color: #666; font-size: 12px; cursor: pointer; text-decoration: underline;">
+              Cancel Edit
+            </button>
+          </h3>
+
+          <form id="video-form" onsubmit="handleFormSubmit(event)">
+            <input type="hidden" id="edit-video-id" value="" />
+
+            <div class="form-group">
+              <label class="form-label">Project / Video Title *</label>
+              <input type="text" id="video-title" class="form-input" required placeholder="e.g. ClickUp 4.0 or Brand Reel" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Category / Topic *</label>
+              <select id="video-category" class="form-select" required>
+                <option value="Product Release">Product Release</option>
+                <option value="Launch Video">Launch Video</option>
+                <option value="In-Person Demo">In-Person Demo</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Short Description</label>
+              <textarea id="video-desc" rows="3" class="form-textarea" placeholder="Brief 1-2 sentence overview..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Video URL (YouTube / Vimeo / MP4) *</label>
+              <input type="url" id="video-url" class="form-input" required placeholder="https://www.youtube.com/watch?v=..." />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Thumbnail Image URL</label>
+              <input type="url" id="video-thumb" class="form-input" placeholder="https://images.unsplash.com/... (optional)" />
+            </div>
+
+            <button type="submit" class="btn-black" id="submit-btn">
+              <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+              <span id="submit-btn-text">Publish Video</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Video List -->
+        <div class="card">
+          <h3 class="card-title">
+            <span>Published Videos (<span id="video-count">0</span>)</span>
+            <button onclick="loadAdminVideos()" class="back-btn" style="padding: 4px 12px; font-size: 12px;">
+              <i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i> Refresh
+            </button>
+          </h3>
+
+          <div id="admin-video-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://nhnutpvphmwkjlxzuljv.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5obnV0cHZwaG13a2pseHp1bGp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NzkxNzIsImV4cCI6MjEwNzQ1NTE3Mn0.kiS84Vo2XJ4eV9BFQVjFH3N5e0PwY_kuHb89ieRpr9Q';
+
+    let supabaseClient = null;
+
+    // Initial Sample Seed if storage empty
+    const defaultSampleVideos = [
+      {
+        id: "1",
+        title: "Human Behavior",
+        description: "A YC-backed AI platform that decodes user behavior from session replays.",
+        category: "Product Release",
+        thumbnail_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "2",
+        title: "ClickUp 4.0",
+        description: "The world's #1 work platform that replaces every productivity tool teams use.",
+        category: "Product Release",
+        thumbnail_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "3",
+        title: "Lumana",
+        description: "Enterprise AI video security platform powered by computer vision.",
+        category: "Product Release",
+        thumbnail_url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "4",
+        title: "SaaS Launch Promo Reel",
+        description: "High energy kinetic typography cut for modern fintech venture.",
+        category: "Launch Video",
+        thumbnail_url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "5",
+        title: "Interactive Walkthrough Demo",
+        description: "In-person live interactive software demonstration and keynote visual cut.",
+        category: "In-Person Demo",
+        thumbnail_url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        id: "6",
+        title: "Brand Identity Kinetic Visuals",
+        description: "Artistic motion design loop and 3D visual language exploration.",
+        category: "Others",
+        thumbnail_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
+        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      }
+    ];
+
+    let currentVideos = [];
+
+    // Passcode Login
+    function attemptLogin() {
+      const pin = document.getElementById('admin-pass-input').value.trim();
+      if (pin === 'asif2026' || pin === 'admin123') {
+        sessionStorage.setItem('ASIF_ADMIN_AUTH', 'true');
+        showDashboard();
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    }
+
+    document.getElementById('admin-pass-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') attemptLogin();
+    });
+
+    function showDashboard() {
+      document.getElementById('login-box').style.display = 'none';
+      document.getElementById('dashboard-box').style.display = 'block';
+      loadAdminVideos();
+    }
+
+    // Load Videos
+    async function loadAdminVideos() {
+      // 1. Local fallback
+      const stored = localStorage.getItem('ASIF_PORTFOLIO_VIDEOS');
+      if (stored) {
+        try { currentVideos = JSON.parse(stored); } catch (e) {}
+      } else {
+        currentVideos = [...defaultSampleVideos];
+        localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
+      }
+
+      // 2. Fetch Supabase if connected
+      if (window.supabase) {
+        try {
+          supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+          const { data, error } = await supabaseClient.from('videos').select('*').order('sort_order', { ascending: true });
+          if (!error && data && data.length > 0) {
+            currentVideos = data;
+            localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
+          }
+        } catch (err) {}
+      }
+
+      renderAdminList();
+    }
+
+    function renderAdminList() {
+      const listContainer = document.getElementById('admin-video-list');
+      const countEl = document.getElementById('video-count');
+      if (!listContainer) return;
+
+      countEl.textContent = currentVideos.length;
+
+      if (currentVideos.length === 0) {
+        listContainer.innerHTML = `<div style="text-align: center; padding: 40px; color: #888;">No videos published yet. Use the form on the left to add one!</div>`;
+        return;
+      }
+
+      listContainer.innerHTML = currentVideos.map(v => `
+        <div class="video-item">
+          <img src="${escapeHtml(v.thumbnail_url || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&q=80')}" class="video-item-thumb" />
+          <div class="video-item-info">
+            <div class="video-item-title">${escapeHtml(v.title)}</div>
+            <span class="video-item-badge">${escapeHtml(v.category)}</span>
+          </div>
+          <div class="video-item-actions">
+            <button class="action-icon-btn" onclick="startEdit('${v.id}')" title="Edit Video">
+              <i data-lucide="edit-3" style="width: 15px; height: 15px;"></i>
+            </button>
+            <button class="action-icon-btn delete" onclick="deleteVideo('${v.id}')" title="Delete Video">
+              <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    // Submit (Add / Edit)
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const editId = document.getElementById('edit-video-id').value;
+      const title = document.getElementById('video-title').value.trim();
+      const category = document.getElementById('video-category').value;
+      const description = document.getElementById('video-desc').value.trim();
+      const video_url = document.getElementById('video-url').value.trim();
+      const thumbnail_url = document.getElementById('video-thumb').value.trim() || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80';
+
+      const videoData = {
+        title,
+        category,
+        description,
+        video_url,
+        thumbnail_url
+      };
+
+      if (editId) {
+        // Edit Mode
+        const idx = currentVideos.findIndex(v => String(v.id) === String(editId));
+        if (idx !== -1) {
+          currentVideos[idx] = { ...currentVideos[idx], ...videoData };
+        }
+
+        // Supabase update
+        if (supabaseClient) {
+          try {
+            await supabaseClient.from('videos').update(videoData).eq('id', editId);
+          } catch (err) {}
+        }
+        showToast('Video updated successfully!');
+      } else {
+        // Add Mode
+        const newVideo = {
+          id: Date.now().toString(),
+          ...videoData,
+          sort_order: currentVideos.length + 1
+        };
+        currentVideos.unshift(newVideo);
+
+        // Supabase insert
+        if (supabaseClient) {
+          try {
+            await supabaseClient.from('videos').insert([videoData]);
+          } catch (err) {}
+        }
+        showToast('New video added to portfolio!');
+      }
+
+      // Save local
+      localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
+      cancelEdit();
+      renderAdminList();
+    }
+
+    // Edit item
+    function startEdit(id) {
+      const v = currentVideos.find(x => String(x.id) === String(id));
+      if (!v) return;
+
+      document.getElementById('edit-video-id').value = v.id;
+      document.getElementById('video-title').value = v.title || '';
+      document.getElementById('video-category').value = v.category || 'Product Release';
+      document.getElementById('video-desc').value = v.description || '';
+      document.getElementById('video-url').value = v.video_url || '';
+      document.getElementById('video-thumb').value = v.thumbnail_url || '';
+
+      document.getElementById('form-title-text').textContent = 'Edit Video';
+      document.getElementById('submit-btn-text').textContent = 'Save Changes';
+      document.getElementById('cancel-edit-btn').style.display = 'inline';
+    }
+
+    function cancelEdit() {
+      document.getElementById('video-form').reset();
+      document.getElementById('edit-video-id').value = '';
+      document.getElementById('form-title-text').textContent = 'Add New Video';
+      document.getElementById('submit-btn-text').textContent = 'Publish Video';
+      document.getElementById('cancel-edit-btn').style.display = 'none';
+    }
+
+    // Delete item
+    async function deleteVideo(id) {
+      if (!confirm('Are you sure you want to remove this video from your portfolio?')) return;
+
+      currentVideos = currentVideos.filter(v => String(v.id) !== String(id));
+      localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('videos').delete().eq('id', id);
+        } catch (err) {}
+      }
+
+      showToast('Video removed.');
+      renderAdminList();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('status-toast');
+      toast.className = 'toast success';
+      toast.textContent = msg;
+      setTimeout(() => { toast.className = 'toast'; }, 3000);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    // Check existing auth session
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+      if (sessionStorage.getItem('ASIF_ADMIN_AUTH') === 'true') {
+        showDashboard();
+      }
+    });
+  </script>
+</body>
+</html>
