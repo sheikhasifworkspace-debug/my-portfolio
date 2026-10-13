@@ -674,26 +674,201 @@
       border: none;
     }
 
-    /* Footer */
-    .site-footer {
-      padding: 60px 24px;
-      text-align: center;
-      border-top: 1px solid #eeeeee;
+    /* Minimal SaaS Statement Footer */
+    .saas-footer {
       background: #ffffff;
+      border-top: 1px solid #eeeeee;
+      padding: 100px 32px 50px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .footer-logo {
+    .saas-footer-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 70px;
+    }
+
+    /* Top Row: Brand on left, Contact info on right */
+    .footer-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .footer-brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #111111;
+    }
+
+    .footer-symbol {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: #111111;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: -1px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .footer-brand-lockup:hover .footer-symbol {
+      transform: scale(1.06) rotate(-3deg);
+    }
+
+    .footer-brand-name {
       font-family: var(--font-serif);
       font-size: 28px;
       font-style: italic;
       color: #111111;
-      margin-bottom: 12px;
-      display: inline-block;
+      line-height: 1;
     }
 
-    .footer-copy {
-      font-size: 13.5px;
+    .footer-contact-block {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .queries-label {
+      font-size: 13px;
+      font-weight: 500;
       color: #888888;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .queries-email {
+      font-size: 17px;
+      font-weight: 600;
+      color: #111111;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      letter-spacing: -0.3px;
+      position: relative;
+    }
+
+    .queries-email:hover {
+      color: #555555;
+    }
+
+    .footer-socials {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .social-pill-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid #e8e8ed;
+      background: #fafafa;
+      color: #222222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .social-pill-btn:hover {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Giant Kinetic Statement Headline */
+    .footer-statement-wrap {
+      padding: 20px 0 10px;
+    }
+
+    .footer-statement {
+      font-size: clamp(48px, 10.5vw, 138px);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.045em;
+      color: #111111;
+      margin: 0;
+      user-select: none;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      column-gap: 0.25em;
+    }
+
+    .footer-statement .reveal-word {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+      cursor: default;
+    }
+
+    .footer-statement .reveal-word:hover {
+      transform: translateY(-4px);
+      color: #444444;
+    }
+
+    .statement-dot {
+      color: #111111;
+      display: inline-block;
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+
+    /* Bottom Row: Copyright & Location */
+    .footer-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f0f0f2;
+      padding-top: 30px;
+      font-size: 13.5px;
+      color: #777777;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-bottom-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-bottom-left strong {
+      color: #111111;
+      font-weight: 600;
+    }
+
+    .footer-bottom-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-link-subtle {
+      color: #777777;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-link-subtle:hover {
+      color: #111111;
     }
 
     /* Keyframes */
@@ -880,11 +1055,76 @@
   </div>
 
   <!-- ============================================= -->
-  <!-- FOOTER                                        -->
+  <!-- SAAS STATEMENT FOOTER (READY WHEN YOU ARE)   -->
   <!-- ============================================= -->
-  <footer class="site-footer">
-    <div class="footer-logo">Sheikh Asif.</div>
-    <p class="footer-copy">© 2026 Sheikh Asif. Visual Artist, UI/UX Designer & Motion Editor. Rajshahi, Bangladesh.</p>
+  <footer class="saas-footer" id="contact">
+    <div class="saas-footer-inner">
+
+      <!-- Top Row: Brand & Inquiries -->
+      <div class="footer-top-row">
+        <!-- Brand Lockup -->
+        <a href="#home" class="footer-brand-lockup">
+          <div class="footer-symbol">A</div>
+          <div>
+            <div class="footer-brand-name">Sheikh Asif.</div>
+            <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #888; margin-top: 2px;">Studio & Visuals</div>
+          </div>
+        </a>
+
+        <!-- Inquiries / Email & Socials -->
+        <div class="footer-contact-block">
+          <div class="queries-label">
+            <span>For queries:</span>
+            <i data-lucide="mail" style="width: 14px; height: 14px;"></i>
+          </div>
+          <a href="mailto:sheikhalasif.work@gmail.com" class="queries-email">
+            sheikhalasif.work@gmail.com
+          </a>
+
+          <!-- Social Icons -->
+          <div class="footer-socials">
+            <a href="https://www.linkedin.com/in/sheikhalasif" target="_blank" rel="noreferrer" class="social-pill-btn" title="LinkedIn">
+              <i data-lucide="linkedin" style="width: 16px; height: 16px;"></i>
+            </a>
+            <a href="https://www.behance.net/sheikhalasif2023" target="_blank" rel="noreferrer" class="social-pill-btn" title="Behance">
+              <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+            </a>
+            <a href="https://github.com/sheikhasifworkspace-debug" target="_blank" rel="noreferrer" class="social-pill-btn" title="GitHub">
+              <i data-lucide="github" style="width: 16px; height: 16px;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Giant Kinetic Statement Headline -->
+      <div class="footer-statement-wrap">
+        <h2 class="footer-statement">
+          <span class="reveal-word">Ready</span>
+          <span class="reveal-word">When</span>
+          <span class="reveal-word">You</span>
+          <span class="reveal-word">Are<span class="statement-dot">.</span></span>
+        </h2>
+      </div>
+
+      <!-- Bottom Row: Copyright & Location -->
+      <div class="footer-bottom-row">
+        <div class="footer-bottom-left">
+          <span>All Rights Reserved</span>
+          <span>|</span>
+          <strong>Sheikh Asif</strong>
+          <span>© 2026</span>
+        </div>
+
+        <div class="footer-bottom-right">
+          <span>Rajshahi, Bangladesh</span>
+          <span>•</span>
+          <a href="admin.html" class="footer-link-subtle" title="Admin Portal">Admin Login</a>
+          <span>•</span>
+          <a href="#home" class="footer-link-subtle">Back to Top ↑</a>
+        </div>
+      </div>
+
+    </div>
   </footer>
 
   <!-- ============================================= -->
