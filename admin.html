@@ -432,12 +432,45 @@
 
             <div class="form-group">
               <label class="form-label">Video URL (YouTube / Vimeo / MP4) *</label>
-              <input type="url" id="video-url" class="form-input" required placeholder="https://www.youtube.com/watch?v=..." />
+              <input type="url" id="video-url" class="form-input" required placeholder="https://www.youtube.com/watch?v=..." oninput="updateThumbnailPreview()" />
             </div>
 
+            <!-- Thumbnail Selection Option -->
             <div class="form-group">
-              <label class="form-label">Thumbnail Image URL</label>
-              <input type="url" id="video-thumb" class="form-input" placeholder="https://images.unsplash.com/... (optional)" />
+              <label class="form-label">Thumbnail Source</label>
+              <div style="background: #f8f9fa; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; cursor: pointer; color: #111;">
+                  <input type="radio" name="thumb_mode" id="thumb-mode-auto" value="auto" checked onchange="toggleThumbOption()" />
+                  <span>Auto-use YouTube Thumbnail (Default)</span>
+                </label>
+                <div style="font-size: 12px; color: #666; margin-left: 22px; margin-top: 2px;">
+                  ✨ YouTube থেকে সরাসরি কভার থাম্বনেইল পোর্টফোলিওতে সেট হবে। কোনো এক্সট্রা লিংক দিতে হবে না।
+                </div>
+
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 500; cursor: pointer; color: #444; margin-top: 10px;">
+                  <input type="radio" name="thumb_mode" id="thumb-mode-custom" value="custom" onchange="toggleThumbOption()" />
+                  <span>Custom Image Link (Optional)</span>
+                </label>
+                
+                <div id="custom-thumb-wrap" style="display: none; margin-top: 8px; margin-left: 22px;">
+                  <input type="url" id="video-thumb" class="form-input" placeholder="https://... (Custom image URL)" oninput="updateThumbnailPreview()" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Thumbnail Preview Card -->
+            <div class="form-group">
+              <label class="form-label" style="font-size: 12px; color: #666;">Thumbnail Live Preview</label>
+              <div id="thumb-preview-box" style="position: relative; width: 100%; height: 160px; border-radius: 12px; overflow: hidden; background: #f0f0f4; border: 1px dashed #d1d1d6; display: flex; align-items: center; justify-content: center;">
+                <img id="thumb-preview-img" src="" alt="Thumbnail Preview" style="width: 100%; height: 100%; object-fit: cover; display: none;" onerror="handlePreviewError()" />
+                <div id="thumb-preview-empty" style="text-align: center; color: #888; font-size: 12.5px; padding: 12px;">
+                  <i data-lucide="image" style="width: 24px; height: 24px; margin-bottom: 4px; display: inline-block;"></i>
+                  <div>Paste a YouTube link above to see auto preview</div>
+                </div>
+                <div id="thumb-preview-badge" style="position: absolute; bottom: 8px; left: 8px; background: rgba(220,38,38,0.9); backdrop-filter: blur(4px); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; display: none;">
+                  YouTube Auto
+                </div>
+              </div>
             </div>
 
             <button type="submit" class="btn-black" id="submit-btn">
@@ -472,14 +505,14 @@
 
     let supabaseClient = null;
 
-    // Initial Sample Seed if storage empty
+    // Initial Sample Seed if storage empty (Uses real YouTube thumbnails, NO Unsplash)
     const defaultSampleVideos = [
       {
         id: "1",
         title: "Human Behavior",
         description: "A YC-backed AI platform that decodes user behavior from session replays.",
         category: "Product Release",
-        thumbnail_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -487,7 +520,7 @@
         title: "ClickUp 4.0",
         description: "The world's #1 work platform that replaces every productivity tool teams use.",
         category: "Product Release",
-        thumbnail_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -495,7 +528,7 @@
         title: "Lumana",
         description: "Enterprise AI video security platform powered by computer vision.",
         category: "Product Release",
-        thumbnail_url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -503,7 +536,7 @@
         title: "SaaS Launch Promo Reel",
         description: "High energy kinetic typography cut for modern fintech venture.",
         category: "Launch Video",
-        thumbnail_url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -511,7 +544,7 @@
         title: "Interactive Walkthrough Demo",
         description: "In-person live interactive software demonstration and keynote visual cut.",
         category: "In-Person Demo",
-        thumbnail_url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -519,7 +552,7 @@
         title: "Brand Identity Kinetic Visuals",
         description: "Artistic motion design loop and 3D visual language exploration.",
         category: "Others",
-        thumbnail_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       }
     ];
@@ -547,16 +580,35 @@
       loadAdminVideos();
     }
 
+    // Sanitize any existing videos so Unsplash images are purged and YouTube thumbnails are used
+    function sanitizeVideos(list) {
+      if (!Array.isArray(list)) return [];
+      return list.map(v => {
+        const ytId = getYouTubeId(v.video_url);
+        if (ytId && (!v.thumbnail_url || v.thumbnail_url.includes('unsplash.com'))) {
+          return {
+            ...v,
+            thumbnail_url: `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`
+          };
+        }
+        return v;
+      });
+    }
+
     // Load Videos
     async function loadAdminVideos() {
       // 1. Local fallback
       const stored = localStorage.getItem('ASIF_PORTFOLIO_VIDEOS');
       if (stored) {
-        try { currentVideos = JSON.parse(stored); } catch (e) {}
+        try {
+          currentVideos = sanitizeVideos(JSON.parse(stored));
+        } catch (e) {
+          currentVideos = [...defaultSampleVideos];
+        }
       } else {
         currentVideos = [...defaultSampleVideos];
-        localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
       }
+      localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
 
       // 2. Fetch Supabase if connected
       if (window.supabase) {
@@ -564,13 +616,98 @@
           supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           const { data, error } = await supabaseClient.from('videos').select('*').order('sort_order', { ascending: true });
           if (!error && data && data.length > 0) {
-            currentVideos = data;
+            currentVideos = sanitizeVideos(data);
             localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
           }
         } catch (err) {}
       }
 
       renderAdminList();
+    }
+
+    // Extract YouTube ID from any YouTube URL format (watch, youtu.be, embed, shorts)
+    function getYouTubeId(url) {
+      if (!url) return null;
+      const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/\s]{11})/;
+      const match = String(url).match(regExp);
+      return (match && match[1]) ? match[1] : null;
+    }
+
+    // Resolve effective thumbnail URL (custom image > YouTube thumbnail) - NO Unsplash
+    function resolveVideoThumbnail(video) {
+      if (!video) return '';
+      const custom = (video.thumbnail_url || '').trim();
+      const ytId = getYouTubeId(video.video_url);
+
+      if (ytId) {
+        // If empty or from unsplash, ALWAYS use YouTube!
+        if (!custom || custom.includes('unsplash.com')) {
+          return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+        }
+      }
+
+      if (custom && !custom.includes('unsplash.com')) {
+        return custom;
+      }
+
+      if (ytId) {
+        return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+      }
+
+      return custom;
+    }
+
+    // Toggle custom thumbnail input visibility
+    function toggleThumbOption() {
+      const isCustom = document.getElementById('thumb-mode-custom')?.checked;
+      const wrap = document.getElementById('custom-thumb-wrap');
+      if (wrap) wrap.style.display = isCustom ? 'block' : 'none';
+      if (!isCustom) {
+        const input = document.getElementById('video-thumb');
+        if (input) input.value = '';
+      }
+      updateThumbnailPreview();
+    }
+
+    // Live Thumbnail Preview update
+    function updateThumbnailPreview() {
+      const videoUrl = (document.getElementById('video-url')?.value || '').trim();
+      const isCustomMode = document.getElementById('thumb-mode-custom')?.checked;
+      const customThumb = (document.getElementById('video-thumb')?.value || '').trim();
+      const previewImg = document.getElementById('thumb-preview-img');
+      const previewEmpty = document.getElementById('thumb-preview-empty');
+      const previewBadge = document.getElementById('thumb-preview-badge');
+
+      if (!previewImg || !previewEmpty || !previewBadge) return;
+
+      const ytId = getYouTubeId(videoUrl);
+
+      if (isCustomMode && customThumb && !customThumb.includes('unsplash.com')) {
+        previewImg.src = customThumb;
+        previewImg.style.display = 'block';
+        previewEmpty.style.display = 'none';
+        previewBadge.style.display = 'block';
+        previewBadge.textContent = 'Custom Thumbnail';
+        previewBadge.style.background = 'rgba(17,17,17,0.85)';
+      } else if (ytId) {
+        previewImg.src = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+        previewImg.style.display = 'block';
+        previewEmpty.style.display = 'none';
+        previewBadge.style.display = 'block';
+        previewBadge.textContent = '✓ YouTube Auto Thumbnail';
+        previewBadge.style.background = 'rgba(220,38,38,0.9)';
+      } else {
+        previewImg.style.display = 'none';
+        previewEmpty.style.display = 'block';
+        previewBadge.style.display = 'none';
+      }
+    }
+
+    function handlePreviewError() {
+      const previewImg = document.getElementById('thumb-preview-img');
+      if (previewImg && previewImg.src.includes('maxresdefault.jpg')) {
+        previewImg.src = previewImg.src.replace('maxresdefault.jpg', 'hqdefault.jpg');
+      }
     }
 
     function renderAdminList() {
@@ -585,9 +722,14 @@
         return;
       }
 
-      listContainer.innerHTML = currentVideos.map(v => `
+      listContainer.innerHTML = currentVideos.map(v => {
+        const thumb = resolveVideoThumbnail(v);
+        return `
         <div class="video-item">
-          <img src="${escapeHtml(v.thumbnail_url || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&q=80')}" class="video-item-thumb" />
+          <img src="${escapeHtml(thumb)}" 
+               class="video-item-thumb" 
+               alt="${escapeHtml(v.title)}"
+               onerror="if(!this.dataset.fallback && this.src.includes('maxresdefault.jpg')){this.dataset.fallback='1';this.src=this.src.replace('maxresdefault.jpg','hqdefault.jpg');}" />
           <div class="video-item-info">
             <div class="video-item-title">${escapeHtml(v.title)}</div>
             <span class="video-item-badge">${escapeHtml(v.category)}</span>
@@ -601,7 +743,7 @@
             </button>
           </div>
         </div>
-      `).join('');
+      `}).join('');
 
       if (window.lucide) window.lucide.createIcons();
     }
@@ -614,7 +756,22 @@
       const category = document.getElementById('video-category').value;
       const description = document.getElementById('video-desc').value.trim();
       const video_url = document.getElementById('video-url').value.trim();
-      const thumbnail_url = document.getElementById('video-thumb').value.trim() || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80';
+      const isCustomMode = document.getElementById('thumb-mode-custom')?.checked;
+      let thumbnail_url = '';
+
+      if (isCustomMode) {
+        thumbnail_url = document.getElementById('video-thumb').value.trim();
+      }
+
+      const ytId = getYouTubeId(video_url);
+
+      // If no custom thumbnail was provided (or auto mode), or if it contains unsplash:
+      // ALWAYS use the YouTube thumbnail!
+      if (!thumbnail_url || thumbnail_url.includes('unsplash.com')) {
+        if (ytId) {
+          thumbnail_url = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+        }
+      }
 
       const videoData = {
         title,
@@ -672,19 +829,37 @@
       document.getElementById('video-category').value = v.category || 'Product Release';
       document.getElementById('video-desc').value = v.description || '';
       document.getElementById('video-url').value = v.video_url || '';
-      document.getElementById('video-thumb').value = v.thumbnail_url || '';
+      
+      const ytId = getYouTubeId(v.video_url);
+      const isCustom = v.thumbnail_url && !v.thumbnail_url.includes('img.youtube.com') && !v.thumbnail_url.includes('unsplash.com');
+
+      if (isCustom) {
+        document.getElementById('thumb-mode-custom').checked = true;
+        document.getElementById('custom-thumb-wrap').style.display = 'block';
+        document.getElementById('video-thumb').value = v.thumbnail_url;
+      } else {
+        document.getElementById('thumb-mode-auto').checked = true;
+        document.getElementById('custom-thumb-wrap').style.display = 'none';
+        document.getElementById('video-thumb').value = '';
+      }
 
       document.getElementById('form-title-text').textContent = 'Edit Video';
       document.getElementById('submit-btn-text').textContent = 'Save Changes';
       document.getElementById('cancel-edit-btn').style.display = 'inline';
+
+      updateThumbnailPreview();
     }
 
     function cancelEdit() {
       document.getElementById('video-form').reset();
       document.getElementById('edit-video-id').value = '';
+      document.getElementById('thumb-mode-auto').checked = true;
+      document.getElementById('custom-thumb-wrap').style.display = 'none';
       document.getElementById('form-title-text').textContent = 'Add New Video';
       document.getElementById('submit-btn-text').textContent = 'Publish Video';
       document.getElementById('cancel-edit-btn').style.display = 'none';
+
+      updateThumbnailPreview();
     }
 
     // Delete item

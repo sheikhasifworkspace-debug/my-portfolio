@@ -47,12 +47,101 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    /* Custom SaaS Cursor (Desktop Only) */
+    @media (pointer: fine) {
+      body {
+        cursor: none;
+      }
+
+      a, button, [role="button"], input, select, textarea, .video-card, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble {
+        cursor: none !important;
+      }
+
+      .custom-cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        background: #111111;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width 0.25s ease, height 0.25s ease, background 0.3s ease, transform 0.05s ease;
+      }
+
+      .custom-cursor-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 38px;
+        height: 38px;
+        border: 1.5px solid rgba(17, 17, 17, 0.45);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                    height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                    background-color 0.3s ease,
+                    border-color 0.3s ease,
+                    backdrop-filter 0.3s ease;
+      }
+
+      /* Hover States (Red & Dark Black SaaS Style) */
+      body.cursor-hover .custom-cursor-dot {
+        width: 7px;
+        height: 7px;
+        background: #dc2626;
+        box-shadow: 0 0 10px rgba(220, 38, 38, 0.6);
+      }
+
+      body.cursor-hover .custom-cursor-ring {
+        width: 64px;
+        height: 64px;
+        border-color: rgba(220, 38, 38, 0.65);
+        background: rgba(220, 38, 38, 0.08);
+        box-shadow: 0 0 20px rgba(220, 38, 38, 0.15);
+        backdrop-filter: blur(2px);
+      }
+
+      body.cursor-video .custom-cursor-dot {
+        opacity: 0;
+      }
+
+      body.cursor-video .custom-cursor-ring {
+        width: 80px;
+        height: 80px;
+        background: rgba(17, 17, 17, 0.9);
+        border-color: transparent;
+        color: #ffffff;
+      }
+
+      body.cursor-video .custom-cursor-ring::after {
+        content: 'PLAY';
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #ffffff;
+      }
+
+      body.cursor-active .custom-cursor-ring {
+        transform: translate(-50%, -50%) scale(0.85);
+      }
+    }
+
     /* ========================================= */
     /* MINIMAL HEADER / NAVBAR                   */
     /* ========================================= */
     .navbar {
       width: 100%;
-      padding: 24px 48px;
+      padding: 16px 40px;
       position: sticky;
       top: 0;
       z-index: 50;
@@ -64,8 +153,9 @@
     }
 
     .nav-inner {
-      max-width: 1240px;
+      max-width: 1540px;
       margin: 0 auto;
+      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -165,18 +255,18 @@
     /* HERO SECTION                              */
     /* ========================================= */
     .hero {
-      min-height: calc(100vh - 100px);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 24px 80px;
+      padding: 36px 4vw 50px;
     }
 
     .hero-inner {
-      max-width: 1200px;
+      max-width: 1540px;
       width: 100%;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.22fr 0.78fr;
       gap: 50px;
       align-items: center;
     }
@@ -216,40 +306,93 @@
     }
 
     .hero-heading {
-      font-size: clamp(44px, 6.2vw, 76px);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -2.5px;
+      font-size: clamp(38px, 4.8vw, 68px);
+      font-weight: 850;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
       color: #111111;
     }
 
     .hero-heading .line {
       display: block;
       overflow: hidden;
+      white-space: nowrap;
     }
 
     .hero-heading .line-inner {
-      display: block;
+      display: inline-block;
       opacity: 0;
-      transform: translateY(100%);
+      transform: translateY(110%);
     }
 
     .hero-heading .line:nth-child(1) .line-inner {
-      animation: textReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+      animation: saasTextReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
     }
 
     .hero-heading .line:nth-child(2) .line-inner {
-      animation: textReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+      animation: saasTextReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
     }
 
-    .hero-heading .line:nth-child(3) .line-inner {
-      animation: textReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.75s forwards;
-    }
-
-    .hero-heading .highlight-name {
-      color: #000000;
-      position: relative;
+    /* Continuous Black to Silver-Gray Metallic Shimmer for 'Hello,' and 'I am' */
+    .hero-heading .highlight-word {
       display: inline-block;
+      background: linear-gradient(135deg, #0a0a0a 0%, #52525b 25%, #18181b 50%, #71717a 75%, #09090b 100%);
+      background-size: 260% 260%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: darkGrayShimmer 5s ease-in-out infinite alternate;
+      position: relative;
+    }
+
+    /* Clean & Crisp Dark Black to Crimson Red Metallic Shimmer for 'Sheikh Asif.' */
+    .hero-heading .highlight-name {
+      display: inline-block;
+      background: linear-gradient(135deg, #111111 0%, #dc2626 30%, #991b1b 55%, #ef4444 75%, #0a0a0a 100%);
+      background-size: 260% 260%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: darkRedMetallicShimmer 6s ease-in-out infinite alternate;
+      position: relative;
+    }
+
+    .hero-heading .highlight-name:hover,
+    .hero-heading .highlight-word:hover {
+      filter: brightness(1.1);
+    }
+
+    @keyframes darkGrayShimmer {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes darkRedMetallicShimmer {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes saasTextReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(115%) rotate(2deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
     }
 
     .hero-sub {
@@ -260,7 +403,7 @@
       font-weight: 400;
       opacity: 0;
       transform: translateY(18px);
-      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+      animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
     }
 
     .hero-cta-group {
@@ -270,7 +413,7 @@
       flex-wrap: wrap;
       opacity: 0;
       transform: translateY(18px);
-      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards;
+      animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
     }
 
     .hero-cta {
@@ -324,12 +467,14 @@
       border-color: #d1d1d6;
     }
 
-    /* Right: Photo */
+    /* Right: Photo Card (Original Rounded Corner Card) */
     .hero-photo {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
+      width: fit-content;
+      margin: 0 auto;
     }
 
     .photo-wrapper {
@@ -339,9 +484,7 @@
       border-radius: 28px;
       overflow: hidden;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-      opacity: 0;
-      transform: translateY(35px) scale(0.96);
-      animation: photoReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+      animation: photoReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s backwards;
     }
 
     .photo-wrapper img {
@@ -350,6 +493,11 @@
       object-fit: cover;
       object-position: center top;
       display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .photo-wrapper:hover img {
+      transform: scale(1.03);
     }
 
     .float-card {
@@ -358,27 +506,25 @@
       border: 1px solid #f0f0f0;
       border-radius: 14px;
       padding: 12px 18px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
       font-size: 13px;
       font-weight: 600;
+      color: #111111;
+      white-space: nowrap;
       display: flex;
       align-items: center;
       gap: 9px;
-      z-index: 2;
-      opacity: 0;
-      animation: floatCardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      z-index: 5;
     }
 
     .float-card.card-1 {
       top: -12px;
       right: -24px;
-      animation-delay: 1.2s;
     }
 
     .float-card.card-2 {
       bottom: 35px;
       left: -35px;
-      animation-delay: 1.4s;
     }
 
     .float-card .card-icon {
@@ -398,7 +544,7 @@
     /* VIDEOS SHOWCASE SECTION (THE VIDEOS WE SHIP) */
     /* ========================================= */
     .video-showcase-section {
-      padding: 100px 24px 120px;
+      padding: 70px 24px 90px;
       background: #fafafc;
       border-top: 1px solid #eeeeee;
     }
@@ -674,21 +820,289 @@
       border: none;
     }
 
+    /* ========================================= */
+    /* MORE RECENT WORK (INFINITE HORIZONTAL MARQUEE) */
+    /* ========================================= */
+    .recent-work-section {
+      background: #000000;
+      color: #ffffff;
+      padding: 100px 0 115px;
+      overflow: hidden;
+      position: relative;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .recent-work-header {
+      max-width: 1400px;
+      margin: 0 auto 55px;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .recent-work-title {
+      font-size: clamp(38px, 5.2vw, 58px);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .recent-work-subtitle {
+      font-size: 16px;
+      color: #888888;
+      font-weight: 400;
+      margin-bottom: 22px;
+      letter-spacing: -0.2px;
+    }
+
+    /* Trust Pill Badge (Built for 50+ YC Companies) */
+    .recent-trust-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #111113;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #aaaaaa;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .trust-pill-avatars {
+      display: flex;
+      align-items: center;
+    }
+
+    .trust-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #111113;
+      margin-left: -6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .trust-avatar:first-child {
+      margin-left: 0;
+    }
+
+    /* Marquee Outer Wrapper with Gradient Fade Edges */
+    .recent-work-carousel-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding: 20px 0;
+    }
+
+    .marquee-fade-left,
+    .marquee-fade-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 140px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .marquee-fade-left {
+      left: 0;
+      background: linear-gradient(to right, #000000 0%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .marquee-fade-right {
+      right: 0;
+      background: linear-gradient(to left, #000000 0%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    /* Infinite Marquee Track */
+    .recent-work-track {
+      display: flex;
+      gap: 32px;
+      width: max-content;
+      animation: infiniteSlideLoop 38s linear infinite;
+      will-change: transform;
+    }
+
+    .recent-work-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes infiniteSlideLoop {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Card Item */
+    .recent-card-item {
+      display: flex;
+      flex-direction: column;
+      width: 420px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .recent-card-frame {
+      width: 100%;
+      height: 240px;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .recent-card-item:hover .recent-card-frame {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(220, 38, 38, 0.15);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Center Play Pill */
+    .recent-card-play {
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+      z-index: 3;
+    }
+
+    .recent-card-item:hover .recent-card-play {
+      transform: scale(1.15);
+      background: #dc2626;
+      border-color: #ef4444;
+    }
+
+    .recent-card-play svg {
+      width: 18px;
+      height: 18px;
+      margin-left: 2px;
+    }
+
+    /* Meta text under card (Made For Company) */
+    .recent-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 14px;
+      font-size: 13.5px;
+      color: #777777;
+      font-weight: 500;
+    }
+
+    .recent-card-meta .made-for-tag {
+      color: #888888;
+      font-size: 13px;
+    }
+
+    .recent-card-meta .company-brand {
+      color: #ffffff;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .recent-card-meta .company-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* Responsive Marquee */
+    @media (max-width: 900px) {
+      .recent-work-section {
+        padding: 70px 0 80px;
+      }
+      .recent-card-item {
+        width: 330px;
+      }
+      .recent-card-frame {
+        height: 195px;
+        border-radius: 16px;
+      }
+      .marquee-fade-left,
+      .marquee-fade-right {
+        width: 60px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .recent-work-section {
+        padding: 60px 0 70px;
+      }
+      .recent-work-header {
+        margin-bottom: 35px;
+      }
+      .recent-card-item {
+        width: 270px;
+      }
+      .recent-card-frame {
+        height: 160px;
+        border-radius: 14px;
+      }
+      .recent-card-play {
+        width: 44px;
+        height: 44px;
+      }
+      .recent-card-play svg {
+        width: 15px;
+        height: 15px;
+      }
+      .recent-work-track {
+        gap: 20px;
+        animation-duration: 28s;
+      }
+      .marquee-fade-left,
+      .marquee-fade-right {
+        width: 35px;
+      }
+    }
+
     /* Minimal SaaS Statement Footer */
     .saas-footer {
       background: #ffffff;
       border-top: 1px solid #eeeeee;
-      padding: 100px 32px 50px;
+      padding: 90px 4vw 45px;
       position: relative;
       overflow: hidden;
+      width: 100%;
     }
 
     .saas-footer-inner {
-      max-width: 1240px;
+      max-width: 100%;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 70px;
+      gap: 50px;
+      position: relative;
+      z-index: 2;
     }
 
     /* Top Row: Brand on left, Contact info on right */
@@ -697,39 +1111,68 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 32px;
+      width: 100%;
     }
 
     .footer-brand-lockup {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       text-decoration: none;
       color: #111111;
     }
 
-    .footer-symbol {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      background: #111111;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 19px;
-      letter-spacing: -1px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    /* Animated Round Picture Bubble in Top-Left Corner */
+    .footer-brand-bubble {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      position: relative;
+      padding: 2px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.04));
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.06);
+      animation: bubbleFloat 4.5s ease-in-out infinite;
+      cursor: pointer;
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      flex-shrink: 0;
     }
 
-    .footer-brand-lockup:hover .footer-symbol {
-      transform: scale(1.06) rotate(-3deg);
+    .footer-brand-lockup:hover .footer-brand-bubble {
+      transform: scale(1.1) rotate(4deg);
+    }
+
+    .footer-brand-bubble img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .bubble-pulse-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid rgba(16, 185, 129, 0.5);
+      animation: ringPulse 2.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+      pointer-events: none;
+    }
+
+    .bubble-online-badge {
+      position: absolute;
+      bottom: 1px;
+      right: 1px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #10b981;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
     .footer-brand-name {
       font-family: var(--font-serif);
-      font-size: 28px;
+      font-size: 30px;
       font-style: italic;
       color: #111111;
       line-height: 1;
@@ -740,7 +1183,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 12px;
+      gap: 10px;
     }
 
     .queries-label {
@@ -795,23 +1238,25 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    /* Giant Kinetic Statement Headline */
+    /* Giant Kinetic Statement Headline - Strictly Single Line */
     .footer-statement-wrap {
-      padding: 20px 0 10px;
+      padding: 15px 0;
+      width: 100%;
+      overflow: hidden;
     }
 
     .footer-statement {
-      font-size: clamp(48px, 10.5vw, 138px);
+      /* Scales fluidly across mobile and 4k screens strictly on 1 line */
+      font-size: clamp(34px, 7.8vw, 150px);
       font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.045em;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
       color: #111111;
       margin: 0;
       user-select: none;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      column-gap: 0.25em;
+      white-space: nowrap;
+      display: block;
+      width: 100%;
     }
 
     .footer-statement .reveal-word {
@@ -831,6 +1276,81 @@
       animation: pulse-dot 2.5s ease-in-out infinite;
     }
 
+    /* Corner Floating Picture Bubble Animation */
+    .footer-bubble-container {
+      position: absolute;
+      right: 4vw;
+      bottom: 120px;
+      z-index: 3;
+      pointer-events: auto;
+    }
+
+    .footer-bubble-avatar {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      position: relative;
+      padding: 3px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.03));
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0,0,0,0.06);
+      animation: bubbleFloat 4.5s ease-in-out infinite;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .footer-bubble-avatar:hover {
+      transform: scale(1.1) rotate(4deg);
+    }
+
+    .footer-bubble-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .bubble-pulse-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid rgba(16, 185, 129, 0.4);
+      animation: ringPulse 2.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+      pointer-events: none;
+    }
+
+    .bubble-online-badge {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #10b981;
+      border: 2.5px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    @keyframes bubbleFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-12px) rotate(-3deg);
+      }
+    }
+
+    @keyframes ringPulse {
+      0% {
+        transform: scale(0.9);
+        opacity: 0.9;
+      }
+      100% {
+        transform: scale(1.35);
+        opacity: 0;
+      }
+    }
+
     /* Bottom Row: Copyright & Location */
     .footer-bottom-row {
       display: flex;
@@ -842,6 +1362,7 @@
       color: #777777;
       flex-wrap: wrap;
       gap: 16px;
+      width: 100%;
     }
 
     .footer-bottom-left {
@@ -875,13 +1396,38 @@
     @keyframes navFade { to { opacity: 1; } }
     @keyframes fadeSlideUp { to { opacity: 1; transform: translateY(0); } }
     @keyframes textReveal { to { opacity: 1; transform: translateY(0); } }
-    @keyframes photoReveal { to { opacity: 1; transform: translateY(0) scale(1); } }
-    @keyframes floatCardIn { to { opacity: 1; } }
+    @keyframes photoReveal {
+      0% { opacity: 0; transform: translateY(28px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatCardIn {
+      0% { opacity: 0; transform: translateY(18px) scale(0.94); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
     @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 
-    .float-card.card-1 { animation: floatCardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards, float 4s ease-in-out 2s infinite; }
-    .float-card.card-2 { animation: floatCardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards, float 5s ease-in-out 2.2s infinite; }
+    .float-card.card-1 { animation: floatCardIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards, float 4.5s ease-in-out 1.2s infinite; }
+    .float-card.card-2 { animation: floatCardIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s backwards, float 5.5s ease-in-out 1.4s infinite; }
+
+    /* Large Desktop Screen Scaling */
+    @media (min-width: 1400px) {
+      .hero-heading {
+        font-size: clamp(48px, 4.2vw, 76px);
+      }
+      .photo-wrapper {
+        width: 410px;
+        height: 500px;
+      }
+      .float-card.card-1 {
+        top: -10px;
+        right: -25px;
+      }
+      .float-card.card-2 {
+        bottom: 35px;
+        left: -35px;
+      }
+    }
 
     /* Responsive */
     @media (max-width: 1024px) {
@@ -895,7 +1441,7 @@
       .nav-menu { display: none; }
       .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
       .hero-text { align-items: center; }
-      .photo-wrapper { width: 320px; height: 400px; }
+      .photo-wrapper { width: 330px; height: 410px; }
       .float-card.card-1 { right: 0; top: -10px; }
       .float-card.card-2 { left: 0; bottom: 20px; }
       .hero-photo { order: -1; }
@@ -905,13 +1451,20 @@
       .video-grid { grid-template-columns: 1fr; }
       .brand-logo { font-size: 26px; }
       .nav-contact-btn { padding: 8px 18px; font-size: 13px; }
-      .photo-wrapper { width: 270px; height: 340px; }
+      .hero-heading { font-size: clamp(32px, 8vw, 44px); }
+      .hero-heading .line { white-space: normal; }
+      .photo-wrapper { width: 280px; height: 350px; }
+      .float-card.card-1 { right: 0; top: -8px; padding: 9px 13px; font-size: 11.5px; }
+      .float-card.card-2 { left: 0; bottom: 15px; padding: 9px 13px; font-size: 11.5px; }
       .section-title { font-size: 32px; }
       .tab-btn { padding: 8px 14px; font-size: 12.5px; }
     }
   </style>
-</head>
 <body>
+
+  <!-- Custom Magnetic SaaS Cursor Elements -->
+  <div class="custom-cursor-dot" id="cursor-dot"></div>
+  <div class="custom-cursor-ring" id="cursor-ring"></div>
 
   <!-- ============================================= -->
   <!-- HEADER / NAVBAR                               -->
@@ -952,9 +1505,8 @@
         </div>
 
         <h1 class="hero-heading">
-          <span class="line"><span class="line-inner">Hello,</span></span>
-          <span class="line"><span class="line-inner">I am <span class="highlight-name">Sheikh</span></span></span>
-          <span class="line"><span class="line-inner"><span class="highlight-name">Asif.</span></span></span>
+          <span class="line"><span class="line-inner highlight-word">Hello,</span></span>
+          <span class="line"><span class="line-inner"><span class="highlight-word">I am</span> <span class="highlight-name">Sheikh Asif.</span></span></span>
         </h1>
 
         <p class="hero-sub">
@@ -1041,6 +1593,267 @@
   </section>
 
   <!-- ============================================= -->
+  <!-- MORE RECENT WORK (INFINITE HORIZONTAL MARQUEE)-->
+  <!-- ============================================= -->
+  <section class="recent-work-section" id="recent-work">
+    <div class="recent-work-header">
+      <h2 class="recent-work-title">More Recent Work.</h2>
+      <p class="recent-work-subtitle">Built for 50+ YC Companies. Most ship in under 2 weeks.</p>
+      <div class="recent-trust-pill">
+        <span class="trust-pill-label">Trusted by</span>
+        <div class="trust-pill-avatars">
+          <span class="trust-avatar" style="background:#7c3aed;">C</span>
+          <span class="trust-avatar" style="background:#059669;">S</span>
+          <span class="trust-avatar" style="background:#ec4899;">A</span>
+          <span class="trust-avatar" style="background:#4338ca;">B</span>
+          <span class="trust-avatar" style="background:#e11d48;">R</span>
+          <span class="trust-avatar" style="background:#10b981;">+</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Infinite Marquee Track Wrapper -->
+    <div class="recent-work-carousel-wrapper">
+      <div class="marquee-fade-left" aria-hidden="true"></div>
+      <div class="marquee-fade-right" aria-hidden="true"></div>
+
+      <div class="recent-work-track" id="recent-work-track">
+        
+        <!-- ITEM 1: ClickUp 4.0 -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #ffe4e6 0%, #ede9fe 48%, #e0f2fe 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
+                <span style="font-size: 28px;">⚡</span> ClickUp <span style="background: #111; color: #fff; font-size: 13px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">4.0</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Experience Convergence today</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#7c3aed;"></span> ClickUp</span>
+          </div>
+        </div>
+
+        <!-- ITEM 2: Salesgraph -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: #e6eae2;">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 25px; letter-spacing: -0.5px;">
+                <span style="font-size: 26px;">📐</span> Salesgraph
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">AI Revenue Intelligence Platform</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#059669;"></span> Salesgraph</span>
+          </div>
+        </div>
+
+        <!-- ITEM 3: Atria -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #fdf2f8 0%, #fae8ff 50%, #f5f3ff 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 28px; letter-spacing: -0.5px;">
+                Atria <span style="font-size: 26px; color: #ec4899;">🚀</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">SaaS Workspaces Reimagined</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#ec4899;"></span> Atria</span>
+          </div>
+        </div>
+
+        <!-- ITEM 4: Brain MAX -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 50%, #ede9fe 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 28px; letter-spacing: -0.5px;">
+                <span style="font-size: 26px;">🌸</span> Brain <span style="background: #4338ca; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">MAX</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Neural Creative Engine</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#4338ca;"></span> Brain MAX</span>
+          </div>
+        </div>
+
+        <!-- ITEM 5: Raycast Pro -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #fee2e2 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
+                <span style="font-size: 24px;">🔴</span> Raycast <span style="background: #e11d48; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">PRO</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Supercharged Developer Workflow</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#e11d48;"></span> Raycast</span>
+          </div>
+        </div>
+
+        <!-- ITEM 6: Supabase Studio -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #e0f2fe 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
+                <span style="font-size: 24px;">⚡</span> Supabase <span style="font-size: 13px; font-weight: 700; color: #059669;">STUDIO</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Build in a weekend, scale to millions</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#10b981;"></span> Supabase</span>
+          </div>
+        </div>
+
+        <!-- DUPLICATE SET FOR SEAMLESS 50% INFINITE LOOP -->
+        
+        <!-- ITEM 1 (DUP) -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #ffe4e6 0%, #ede9fe 48%, #e0f2fe 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
+                <span style="font-size: 28px;">⚡</span> ClickUp <span style="background: #111; color: #fff; font-size: 13px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">4.0</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Experience Convergence today</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#7c3aed;"></span> ClickUp</span>
+          </div>
+        </div>
+
+        <!-- ITEM 2 (DUP) -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: #e6eae2;">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 25px; letter-spacing: -0.5px;">
+                <span style="font-size: 26px;">📐</span> Salesgraph
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">AI Revenue Intelligence Platform</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#059669;"></span> Salesgraph</span>
+          </div>
+        </div>
+
+        <!-- ITEM 3 (DUP) -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #fdf2f8 0%, #fae8ff 50%, #f5f3ff 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 28px; letter-spacing: -0.5px;">
+                Atria <span style="font-size: 26px; color: #ec4899;">🚀</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">SaaS Workspaces Reimagined</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#ec4899;"></span> Atria</span>
+          </div>
+        </div>
+
+        <!-- ITEM 4 (DUP) -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 50%, #ede9fe 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 28px; letter-spacing: -0.5px;">
+                <span style="font-size: 26px;">🌸</span> Brain <span style="background: #4338ca; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">MAX</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Neural Creative Engine</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#4338ca;"></span> Brain MAX</span>
+          </div>
+        </div>
+
+        <!-- ITEM 5 (DUP) -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #fee2e2 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
+                <span style="font-size: 24px;">🔴</span> Raycast <span style="background: #e11d48; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">PRO</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Supercharged Developer Workflow</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#e11d48;"></span> Raycast</span>
+          </div>
+        </div>
+
+        <!-- ITEM 6 (DUP) -->
+        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
+          <div class="recent-card-frame" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #e0f2fe 100%);">
+            <div style="text-align: center; color: #111; padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
+                <span style="font-size: 24px;">⚡</span> Supabase <span style="font-size: 13px; font-weight: 700; color: #059669;">STUDIO</span>
+              </div>
+              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Build in a weekend, scale to millions</div>
+            </div>
+            <div class="recent-card-play" aria-label="Play Video">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <span class="made-for-tag">Made For</span>
+            <span class="company-brand"><span class="company-dot" style="background:#10b981;"></span> Supabase</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
   <!-- VIDEO MODAL LIGHTBOX                          -->
   <!-- ============================================= -->
   <div class="video-modal" id="video-modal">
@@ -1062,9 +1875,13 @@
 
       <!-- Top Row: Brand & Inquiries -->
       <div class="footer-top-row">
-        <!-- Brand Lockup -->
+        <!-- Brand Lockup with Animated Picture Bubble in Corner -->
         <a href="#home" class="footer-brand-lockup">
-          <div class="footer-symbol">A</div>
+          <div class="footer-brand-bubble" title="Sheikh Asif — Studio & Visuals">
+            <div class="bubble-pulse-ring"></div>
+            <img src="assets/sheikh-asif.jpg" alt="Sheikh Asif" />
+            <div class="bubble-online-badge"></div>
+          </div>
           <div>
             <div class="footer-brand-name">Sheikh Asif.</div>
             <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #888; margin-top: 2px;">Studio & Visuals</div>
@@ -1081,22 +1898,33 @@
             sheikhalasif.work@gmail.com
           </a>
 
-          <!-- Social Icons -->
+          <!-- Social & Contact Icons: LinkedIn, Behance, WhatsApp -->
           <div class="footer-socials">
-            <a href="https://www.linkedin.com/in/sheikhalasif" target="_blank" rel="noreferrer" class="social-pill-btn" title="LinkedIn">
-              <i data-lucide="linkedin" style="width: 16px; height: 16px;"></i>
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/sheikhalasif" target="_blank" rel="noreferrer" class="social-pill-btn" title="LinkedIn Profile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.69 1.69 0 0 0 1.69-1.69c0-.93-.76-1.69-1.69-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.69 1.69 1.69m1.4 9.74v-8.37H5.06v8.37h2.8z"/>
+              </svg>
             </a>
-            <a href="https://www.behance.net/sheikhalasif2023" target="_blank" rel="noreferrer" class="social-pill-btn" title="Behance">
-              <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+
+            <!-- Behance -->
+            <a href="https://www.behance.net/sheikhalasif2023" target="_blank" rel="noreferrer" class="social-pill-btn" title="Behance Portfolio">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-4.357 0-6.625-2.909-6.625-6.784 0-4.017 2.527-6.844 6.784-6.844 4.093 0 6.216 2.809 6.216 6.844 0 .373-.028.918-.047 1.139h-9.986c.162 2.213 1.83 3.42 3.869 3.42 1.865 0 2.922-.841 3.518-1.775h1.367zm-10.741-4.708c.046-1.854 1.218-3.324 3.324-3.324 2.138 0 3.23 1.47 3.277 3.324h-6.601zm-4.985-2.292h-4v3h4c.942 0 1.5-.529 1.5-1.5s-.558-1.5-1.5-1.5zm-5 6.5h-4v-11h5.5c2.485 0 4.5 1.258 4.5 3.375 0 1.229-.696 2.285-1.748 2.825 1.341.488 2.248 1.688 2.248 3.3 0 2.441-2.039 3.5-4.5 3.5h-2zm1-5.5h-4v3.5h4c1.104 0 2-.672 2-1.75s-.896-1.75-2-1.75z"/>
+              </svg>
             </a>
-            <a href="https://github.com/sheikhasifworkspace-debug" target="_blank" rel="noreferrer" class="social-pill-btn" title="GitHub">
-              <i data-lucide="github" style="width: 16px; height: 16px;"></i>
+
+            <!-- WhatsApp (Personal: 01400311106) -->
+            <a href="https://wa.me/8801400311106" target="_blank" rel="noreferrer" class="social-pill-btn" title="Chat on WhatsApp: 01400311106">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.53c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31"/>
+              </svg>
             </a>
           </div>
         </div>
       </div>
 
-      <!-- Giant Kinetic Statement Headline -->
+      <!-- Giant Kinetic Statement Headline (Single Line Across All Screens) -->
       <div class="footer-statement-wrap">
         <h2 class="footer-statement">
           <span class="reveal-word">Ready</span>
@@ -1136,14 +1964,14 @@
 
     let supabaseClient = null;
 
-    // Fallback Sample Videos (Identical to reference screenshot)
+    // Fallback Sample Videos (Uses real YouTube thumbnails, NO Unsplash)
     const fallbackVideos = [
       {
         id: "1",
         title: "Human Behavior",
         description: "A YC-backed AI platform that decodes user behavior from session replays.",
         category: "Product Release",
-        thumbnail_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -1151,7 +1979,7 @@
         title: "ClickUp 4.0",
         description: "The world's #1 work platform that replaces every productivity tool teams use.",
         category: "Product Release",
-        thumbnail_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -1159,7 +1987,7 @@
         title: "Lumana",
         description: "Enterprise AI video security platform powered by computer vision.",
         category: "Product Release",
-        thumbnail_url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -1167,7 +1995,7 @@
         title: "SaaS Launch Promo Reel",
         description: "High energy kinetic typography cut for modern fintech venture.",
         category: "Launch Video",
-        thumbnail_url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -1175,7 +2003,7 @@
         title: "Interactive Walkthrough Demo",
         description: "In-person live interactive software demonstration and keynote visual cut.",
         category: "In-Person Demo",
-        thumbnail_url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       },
       {
@@ -1183,7 +2011,7 @@
         title: "Brand Identity Kinetic Visuals",
         description: "Artistic motion design loop and 3D visual language exploration.",
         category: "Others",
-        thumbnail_url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
+        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
         video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
       }
     ];
@@ -1191,13 +2019,61 @@
     let allVideos = [...fallbackVideos];
     let currentCategory = "All";
 
+    // Extract YouTube ID from any YouTube URL format (watch, youtu.be, embed, shorts)
+    function getYouTubeId(url) {
+      if (!url) return null;
+      const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/\s]{11})/;
+      const match = String(url).match(regExp);
+      return (match && match[1]) ? match[1] : null;
+    }
+
+    // Sanitize any existing videos so Unsplash images are purged and YouTube thumbnails are used
+    function sanitizeVideos(list) {
+      if (!Array.isArray(list)) return [];
+      return list.map(v => {
+        const ytId = getYouTubeId(v.video_url);
+        if (ytId && (!v.thumbnail_url || v.thumbnail_url.includes('unsplash.com'))) {
+          return {
+            ...v,
+            thumbnail_url: `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`
+          };
+        }
+        return v;
+      });
+    }
+
+    // Resolve effective thumbnail URL (custom image > YouTube thumbnail) - NO Unsplash
+    function resolveVideoThumbnail(video) {
+      if (!video) return '';
+      const custom = (video.thumbnail_url || '').trim();
+      const ytId = getYouTubeId(video.video_url);
+
+      if (ytId) {
+        // If empty or from unsplash, ALWAYS use YouTube!
+        if (!custom || custom.includes('unsplash.com')) {
+          return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+        }
+      }
+
+      if (custom && !custom.includes('unsplash.com')) {
+        return custom;
+      }
+
+      if (ytId) {
+        return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+      }
+
+      return custom;
+    }
+
     // Initialize Supabase & load videos
     async function loadVideos() {
       // 1. Check localStorage first (from Admin Panel saves)
       const localData = localStorage.getItem('ASIF_PORTFOLIO_VIDEOS');
       if (localData) {
         try {
-          allVideos = JSON.parse(localData);
+          allVideos = sanitizeVideos(JSON.parse(localData));
+          localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(allVideos));
         } catch (e) {}
       }
 
@@ -1207,7 +2083,8 @@
           supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           const { data, error } = await supabaseClient.from('videos').select('*').order('sort_order', { ascending: true });
           if (!error && data && data.length > 0) {
-            allVideos = data;
+            allVideos = sanitizeVideos(data);
+            localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(allVideos));
           }
         } catch (err) {
           console.warn("Supabase fetch fallback:", err);
@@ -1234,10 +2111,15 @@
         return;
       }
 
-      container.innerHTML = filtered.map(v => `
+      container.innerHTML = filtered.map(v => {
+        const thumbUrl = resolveVideoThumbnail(v);
+        return `
         <div class="video-card" onclick="openVideoModal('${escapeHtml(v.video_url)}')">
           <div class="video-thumb-wrap">
-            <img src="${escapeHtml(v.thumbnail_url || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80')}" alt="${escapeHtml(v.title)}" loading="lazy" />
+            <img src="${escapeHtml(thumbUrl)}" 
+                 alt="${escapeHtml(v.title)}" 
+                 loading="lazy" 
+                 onerror="if(!this.dataset.fallback && this.src.includes('maxresdefault.jpg')){this.dataset.fallback='1';this.src=this.src.replace('maxresdefault.jpg','hqdefault.jpg');}" />
             <div class="video-category-tag">${escapeHtml(v.category)}</div>
             <div class="video-play-overlay">
               <div class="play-button-circle">
@@ -1250,7 +2132,7 @@
             <p class="video-desc">${escapeHtml(v.description || '')}</p>
           </div>
         </div>
-      `).join('');
+      `}).join('');
 
       if (window.lucide) window.lucide.createIcons();
     }
@@ -1261,12 +2143,15 @@
       const iframe = document.getElementById('video-modal-iframe');
       if (!modal || !iframe) return;
 
-      // Handle raw YouTube URLs to Embed format
+      // Handle raw YouTube URLs, shorts, youtu.be to embed format
       let embedUrl = url;
-      if (url.includes('youtube.com/watch?v=')) {
-        embedUrl = url.replace('watch?v=', 'embed/');
+      const ytId = getYouTubeId(url);
+      if (ytId) {
+        embedUrl = `https://www.youtube.com/embed/${ytId}?autoplay=1`;
+      } else if (url.includes('youtube.com/watch?v=')) {
+        embedUrl = url.replace('watch?v=', 'embed/') + '?autoplay=1';
       } else if (url.includes('youtu.be/')) {
-        embedUrl = url.replace('youtu.be/', 'www.youtube.com/embed/');
+        embedUrl = url.replace('youtu.be/', 'www.youtube.com/embed/') + '?autoplay=1';
       }
 
       iframe.src = embedUrl;
@@ -1292,10 +2177,81 @@
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
+    // Custom Magnetic SaaS Cursor Logic with Smooth Spring Physics
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorRing = document.getElementById('cursor-ring');
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
+    let isCursorVisible = false;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!isCursorVisible) {
+        isCursorVisible = true;
+        cursorDot.style.opacity = '1';
+        cursorRing.style.opacity = '1';
+        ringX = mouseX;
+        ringY = mouseY;
+      }
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+    });
+
+    window.addEventListener('mousedown', () => {
+      document.body.classList.add('cursor-active');
+    });
+
+    window.addEventListener('mouseup', () => {
+      document.body.classList.remove('cursor-active');
+    });
+
+    // Smooth lerp loop for the trailing ring
+    function renderCursor() {
+      // Lerp smoothing (0.16)
+      ringX += (mouseX - ringX) * 0.16;
+      ringY += (mouseY - ringY) * 0.16;
+
+      cursorRing.style.left = `${ringX}px`;
+      cursorRing.style.top = `${ringY}px`;
+
+      requestAnimationFrame(renderCursor);
+    }
+    requestAnimationFrame(renderCursor);
+
+    // Interactive Hover Listeners for all clickable elements
+    function attachCursorHoverEffects() {
+      const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, select, textarea, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          document.body.classList.add('cursor-hover');
+        });
+        el.addEventListener('mouseleave', () => {
+          document.body.classList.remove('cursor-hover');
+        });
+      });
+
+      // Special 'PLAY' cursor on video cards & recent work cards
+      const videoCards = document.querySelectorAll('.video-card, .recent-card-item');
+      videoCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          document.body.classList.add('cursor-video');
+        });
+        card.addEventListener('mouseleave', () => {
+          document.body.classList.remove('cursor-video');
+        });
+      });
+    }
+
     // Tab Filter Logic
     document.addEventListener('DOMContentLoaded', () => {
       if (window.lucide) window.lucide.createIcons();
-      loadVideos();
+      loadVideos().then(() => {
+        attachCursorHoverEffects();
+      });
 
       const tabs = document.querySelectorAll('.tab-btn');
       tabs.forEach(tab => {
@@ -1304,8 +2260,11 @@
           tab.classList.add('active');
           currentCategory = tab.dataset.category;
           renderVideos();
+          attachCursorHoverEffects();
         });
       });
+
+      attachCursorHoverEffects();
     });
   </script>
 
