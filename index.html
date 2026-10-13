@@ -1964,60 +1964,21 @@
 
     let supabaseClient = null;
 
-    // Fallback Sample Videos (Uses real YouTube thumbnails, NO Unsplash)
-    const fallbackVideos = [
-      {
-        id: "1",
-        title: "Human Behavior",
-        description: "A YC-backed AI platform that decodes user behavior from session replays.",
-        category: "Product Release",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "2",
-        title: "ClickUp 4.0",
-        description: "The world's #1 work platform that replaces every productivity tool teams use.",
-        category: "Product Release",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "3",
-        title: "Lumana",
-        description: "Enterprise AI video security platform powered by computer vision.",
-        category: "Product Release",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "4",
-        title: "SaaS Launch Promo Reel",
-        description: "High energy kinetic typography cut for modern fintech venture.",
-        category: "Launch Video",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "5",
-        title: "Interactive Walkthrough Demo",
-        description: "In-person live interactive software demonstration and keynote visual cut.",
-        category: "In-Person Demo",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "6",
-        title: "Brand Identity Kinetic Visuals",
-        description: "Artistic motion design loop and 3D visual language exploration.",
-        category: "Others",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      }
-    ];
+    // Fallback Videos (Empty - strictly user added videos only)
+    const fallbackVideos = [];
 
-    let allVideos = [...fallbackVideos];
+    let allVideos = [];
     let currentCategory = "All";
+
+    const demoTitles = [
+      'human behavior',
+      'clickup 4.0',
+      'lumana',
+      'saas launch promo reel',
+      'interactive walkthrough demo',
+      'brand identity kinetic visuals'
+    ];
+    const demoIds = ['1', '2', '3', '4', '5', '6'];
 
     // Extract YouTube ID from any YouTube URL format (watch, youtu.be, embed, shorts)
     function getYouTubeId(url) {
@@ -2027,19 +1988,27 @@
       return (match && match[1]) ? match[1] : null;
     }
 
-    // Sanitize any existing videos so Unsplash images are purged and YouTube thumbnails are used
+    // Sanitize videos: Purge all demo videos, remove Unsplash, keep ONLY user-added videos
     function sanitizeVideos(list) {
       if (!Array.isArray(list)) return [];
-      return list.map(v => {
-        const ytId = getYouTubeId(v.video_url);
-        if (ytId && (!v.thumbnail_url || v.thumbnail_url.includes('unsplash.com'))) {
-          return {
-            ...v,
-            thumbnail_url: `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`
-          };
-        }
-        return v;
-      });
+      return list
+        .filter(v => {
+          if (!v) return false;
+          if (demoIds.includes(String(v.id))) return false;
+          const title = (v.title || '').trim().toLowerCase();
+          if (demoTitles.includes(title)) return false;
+          return true;
+        })
+        .map(v => {
+          const ytId = getYouTubeId(v.video_url);
+          if (ytId && (!v.thumbnail_url || v.thumbnail_url.includes('unsplash.com'))) {
+            return {
+              ...v,
+              thumbnail_url: `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`
+            };
+          }
+          return v;
+        });
     }
 
     // Resolve effective thumbnail URL (custom image > YouTube thumbnail) - NO Unsplash
@@ -2074,7 +2043,11 @@
         try {
           allVideos = sanitizeVideos(JSON.parse(localData));
           localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(allVideos));
-        } catch (e) {}
+        } catch (e) {
+          allVideos = [];
+        }
+      } else {
+        allVideos = [];
       }
 
       // 2. Query Supabase
@@ -2098,6 +2071,23 @@
       const container = document.getElementById('video-grid-container');
       if (!container) return;
 
+      if (allVideos.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 70px 24px; color: #777; background: #ffffff; border-radius: 20px; border: 1px dashed #e5e5ea; max-width: 580px; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+            <div style="width: 54px; height: 54px; border-radius: 16px; background: #f4f4f6; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: #111;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2"/></svg>
+            </div>
+            <h3 style="font-size: 19px; font-weight: 700; color: #111; margin-bottom: 6px;">New Works Coming Soon</h3>
+            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Videos added via the admin dashboard will automatically appear here.</p>
+            <a href="admin.html" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: #ffffff; background: #111111; padding: 10px 22px; border-radius: 100px; text-decoration: none;">
+              <span>Add Videos in Admin</span>
+              <span>→</span>
+            </a>
+          </div>
+        `;
+        return;
+      }
+
       const filtered = currentCategory === 'All'
         ? allVideos
         : allVideos.filter(v => (v.category || '').toLowerCase() === currentCategory.toLowerCase());
@@ -2105,7 +2095,7 @@
       if (filtered.length === 0) {
         container.innerHTML = `
           <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #888;">
-            <p style="font-size: 16px;">No videos found under <strong>${currentCategory}</strong>.</p>
+            <p style="font-size: 15px;">No videos found under <strong>${escapeHtml(currentCategory)}</strong>.</p>
           </div>
         `;
         return;

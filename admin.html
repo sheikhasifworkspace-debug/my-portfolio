@@ -505,57 +505,8 @@
 
     let supabaseClient = null;
 
-    // Initial Sample Seed if storage empty (Uses real YouTube thumbnails, NO Unsplash)
-    const defaultSampleVideos = [
-      {
-        id: "1",
-        title: "Human Behavior",
-        description: "A YC-backed AI platform that decodes user behavior from session replays.",
-        category: "Product Release",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "2",
-        title: "ClickUp 4.0",
-        description: "The world's #1 work platform that replaces every productivity tool teams use.",
-        category: "Product Release",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "3",
-        title: "Lumana",
-        description: "Enterprise AI video security platform powered by computer vision.",
-        category: "Product Release",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "4",
-        title: "SaaS Launch Promo Reel",
-        description: "High energy kinetic typography cut for modern fintech venture.",
-        category: "Launch Video",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "5",
-        title: "Interactive Walkthrough Demo",
-        description: "In-person live interactive software demonstration and keynote visual cut.",
-        category: "In-Person Demo",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      },
-      {
-        id: "6",
-        title: "Brand Identity Kinetic Visuals",
-        description: "Artistic motion design loop and 3D visual language exploration.",
-        category: "Others",
-        thumbnail_url: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-        video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      }
-    ];
+    // Initial Sample Seed if storage empty (Empty - user manages their own videos)
+    const defaultSampleVideos = [];
 
     let currentVideos = [];
 
@@ -580,19 +531,37 @@
       loadAdminVideos();
     }
 
-    // Sanitize any existing videos so Unsplash images are purged and YouTube thumbnails are used
+    const demoTitles = [
+      'human behavior',
+      'clickup 4.0',
+      'lumana',
+      'saas launch promo reel',
+      'interactive walkthrough demo',
+      'brand identity kinetic visuals'
+    ];
+    const demoIds = ['1', '2', '3', '4', '5', '6'];
+
+    // Sanitize videos: Filter out any demo videos, remove Unsplash, keep ONLY user-added videos
     function sanitizeVideos(list) {
       if (!Array.isArray(list)) return [];
-      return list.map(v => {
-        const ytId = getYouTubeId(v.video_url);
-        if (ytId && (!v.thumbnail_url || v.thumbnail_url.includes('unsplash.com'))) {
-          return {
-            ...v,
-            thumbnail_url: `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`
-          };
-        }
-        return v;
-      });
+      return list
+        .filter(v => {
+          if (!v) return false;
+          if (demoIds.includes(String(v.id))) return false;
+          const title = (v.title || '').trim().toLowerCase();
+          if (demoTitles.includes(title)) return false;
+          return true;
+        })
+        .map(v => {
+          const ytId = getYouTubeId(v.video_url);
+          if (ytId && (!v.thumbnail_url || v.thumbnail_url.includes('unsplash.com'))) {
+            return {
+              ...v,
+              thumbnail_url: `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`
+            };
+          }
+          return v;
+        });
     }
 
     // Load Videos
@@ -603,10 +572,10 @@
         try {
           currentVideos = sanitizeVideos(JSON.parse(stored));
         } catch (e) {
-          currentVideos = [...defaultSampleVideos];
+          currentVideos = [];
         }
       } else {
-        currentVideos = [...defaultSampleVideos];
+        currentVideos = [];
       }
       localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
 
