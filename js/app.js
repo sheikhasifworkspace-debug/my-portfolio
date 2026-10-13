@@ -128,9 +128,12 @@ let activeSkillCategory = 'All';
 // ==============================================================================
 // SUPABASE CLIENT SETUP
 // ==============================================================================
+const DEFAULT_SUPABASE_URL = 'https://nhnutpvphmwkjlxzuljv.supabase.co';
+const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5obnV0cHZwaG13a2pseHp1bGp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NzkxNzIsImV4cCI6MjEwNzQ1NTE3Mn0.kiS84Vo2XJ4eV9BFQVjFH3N5e0PwY_kuHb89ieRpr9Q';
+
 function getSupabaseCredentials() {
-  const url = localStorage.getItem('PORTFOLIO_SUPABASE_URL') || '';
-  const key = localStorage.getItem('PORTFOLIO_SUPABASE_KEY') || '';
+  const url = localStorage.getItem('PORTFOLIO_SUPABASE_URL') || DEFAULT_SUPABASE_URL;
+  const key = localStorage.getItem('PORTFOLIO_SUPABASE_KEY') || DEFAULT_SUPABASE_KEY;
   return { url: url.trim(), key: key.trim() };
 }
 
