@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sheikh Asif — Video Admin Panel</title>
+  <title>Sheikh Asif — Creative Studio Admin Panel</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>" />
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Inter & Instrument Serif -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,6 +30,8 @@
       --text-main: #111111;
       --text-muted: #666666;
       --border: #e8e8ed;
+      --primary: #111111;
+      --behance: #0057ff;
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-serif: 'Instrument Serif', Georgia, serif;
     }
@@ -47,14 +49,14 @@
     .admin-header {
       background: #ffffff;
       border-bottom: 1px solid var(--border);
-      padding: 20px 36px;
+      padding: 18px 36px;
       position: sticky;
       top: 0;
       z-index: 40;
     }
 
     .admin-header-inner {
-      max-width: 1200px;
+      max-width: 1280px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -113,8 +115,8 @@
 
     /* Container */
     .admin-container {
-      max-width: 1200px;
-      margin: 40px auto 0;
+      max-width: 1280px;
+      margin: 36px auto 0;
       padding: 0 24px;
     }
 
@@ -155,6 +157,84 @@
       margin-bottom: 24px;
     }
 
+    /* Tabs Bar */
+    .admin-tabs-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      overflow-x: auto;
+    }
+
+    .admin-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 100px;
+      font-size: 13.5px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .admin-tab-btn:hover {
+      background: #f4f4f6;
+      color: var(--text-main);
+    }
+
+    .admin-tab-btn.active {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+
+    .admin-tab-btn .badge-count {
+      background: #f0f0f4;
+      color: #333333;
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    .admin-tab-btn.active .badge-count {
+      background: rgba(255,255,255,0.25);
+      color: #ffffff;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 28px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: -0.3px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     /* Form Styles */
     .form-group {
       margin-bottom: 18px;
@@ -162,11 +242,19 @@
     }
 
     .form-label {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       font-size: 13px;
       font-weight: 600;
       margin-bottom: 6px;
       color: #333333;
+    }
+
+    .form-label-hint {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #888888;
     }
 
     .form-input, .form-select, .form-textarea {
@@ -200,40 +288,139 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: background 0.2s ease;
+      transition: background 0.2s ease, transform 0.15s ease;
     }
 
     .btn-black:hover {
       background: #2b2b2b;
+      transform: translateY(-1px);
     }
 
-    /* Dashboard Layout */
-    .dashboard-layout {
-      display: grid;
-      grid-template-columns: 420px 1fr;
-      gap: 32px;
-    }
-
-    .card {
-      background: #ffffff;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      padding: 28px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      margin-bottom: 20px;
+    /* Behance Ratio Preview Box (4:3) */
+    .behance-preview-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0f0f12;
+      border: 1px dashed #d1d1d6;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
     }
 
-    /* Video List */
-    .video-item {
+    .behance-preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .behance-ratio-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 87, 255, 0.9);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 750;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.3px;
+      z-index: 2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    /* Image upload tabs inside form */
+    .img-source-selector {
+      display: flex;
+      gap: 8px;
+      background: #f2f3f5;
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    .img-source-tab {
+      flex: 1;
+      text-align: center;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #666;
+      border: none;
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+
+    .img-source-tab.active {
+      background: #ffffff;
+      color: #111111;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    /* Drag & Drop Upload Zone */
+    .file-drop-zone {
+      border: 2px dashed #d8d8de;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      background: #fafafa;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .file-drop-zone:hover {
+      border-color: #111111;
+      background: #f5f5f7;
+    }
+
+    .file-drop-icon {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 6px;
+      color: #888888;
+    }
+
+    /* Color picker bubbles */
+    .color-presets {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .color-bubble {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .color-bubble:hover {
+      transform: scale(1.15);
+    }
+
+    .color-bubble.active {
+      border-color: #111111;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.15);
+      transform: scale(1.1);
+    }
+
+    /* Work Items List (Right Column) */
+    .item-list-container {
+      max-height: 780px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .work-item-card {
       display: flex;
       align-items: center;
       gap: 16px;
@@ -242,56 +429,86 @@
       border: 1px solid #f0f0f2;
       background: #ffffff;
       margin-bottom: 12px;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s ease, transform 0.2s ease;
     }
 
-    .video-item:hover {
+    .work-item-card:hover {
       border-color: #d8d8de;
+      transform: translateY(-2px);
     }
 
-    .video-item-thumb {
-      width: 80px;
-      height: 54px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: #e5e5ea;
+    .work-thumb-wrap {
+      width: 90px;
+      aspect-ratio: 4 / 3; /* Behance 4:3 ratio */
+      border-radius: 10px;
+      overflow: hidden;
+      background: #111114;
       flex-shrink: 0;
+      border: 1px solid rgba(0,0,0,0.06);
     }
 
-    .video-item-info {
+    .work-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .work-info-wrap {
       flex-grow: 1;
       min-width: 0;
     }
 
-    .video-item-title {
+    .work-item-title {
       font-size: 15px;
       font-weight: 700;
       color: #111111;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .video-item-badge {
-      display: inline-block;
+    .work-item-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .work-item-badge {
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       padding: 2px 8px;
       border-radius: 6px;
       background: #f0f0f4;
       color: #555555;
     }
 
-    .video-item-actions {
+    .work-client-tag {
+      font-size: 12px;
+      color: #777777;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 5px;
+    }
+
+    .work-client-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .work-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .action-icon-btn {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 8px;
       border: 1px solid var(--border);
       background: #ffffff;
@@ -301,11 +518,13 @@
       justify-content: center;
       cursor: pointer;
       transition: all 0.2s ease;
+      text-decoration: none;
     }
 
     .action-icon-btn:hover {
       background: #f5f5f7;
       color: #111111;
+      border-color: #c8c8ce;
     }
 
     .action-icon-btn.delete:hover {
@@ -338,9 +557,12 @@
       display: block;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .dashboard-layout {
         grid-template-columns: 1fr;
+      }
+      .admin-header {
+        padding: 16px 20px;
       }
     }
   </style>
@@ -352,7 +574,7 @@
     <div class="admin-header-inner">
       <div class="admin-brand">
         <span class="brand-title">Sheikh Asif.</span>
-        <span class="badge-pill">Video Studio Admin</span>
+        <span class="badge-pill">Studio Admin</span>
       </div>
 
       <div class="admin-nav-actions">
@@ -372,7 +594,7 @@
         <i data-lucide="shield-check" style="width: 28px; height: 28px;"></i>
       </div>
       <h2 class="login-title">Admin Access</h2>
-      <p class="login-desc">Enter your passkey to manage portfolio videos.</p>
+      <p class="login-desc">Enter your passkey to manage your portfolio content.</p>
 
       <div class="form-group">
         <input type="password" id="admin-pass-input" class="form-input" placeholder="Enter PIN / Passcode" autofocus />
@@ -388,7 +610,7 @@
       </button>
 
       <p style="font-size: 12px; color: #888; margin-top: 16px;">
-        Default passcode: <strong>asif2026</strong> (you can change it anytime)
+        Default passcode: <strong>asif2026</strong>
       </p>
     </div>
 
@@ -396,9 +618,190 @@
     <div id="dashboard-box" style="display: none;">
       <div id="status-toast" class="toast"></div>
 
-      <div class="dashboard-layout">
+      <!-- Top Tab Switcher -->
+      <div class="admin-tabs-nav">
+        <button class="admin-tab-btn active" id="tab-btn-recent" onclick="switchAdminTab('recent')">
+          <i data-lucide="palette" style="width: 16px; height: 16px;"></i>
+          <span>More Recent Work (Behance 4:3 Ratio)</span>
+          <span class="badge-count" id="recent-count-badge">0</span>
+        </button>
 
-        <!-- Left: Add / Edit Form -->
+        <button class="admin-tab-btn" id="tab-btn-videos" onclick="switchAdminTab('videos')">
+          <i data-lucide="video" style="width: 16px; height: 16px;"></i>
+          <span>Videos We Ship</span>
+          <span class="badge-count" id="video-count-badge">0</span>
+        </button>
+
+        <button class="admin-tab-btn" id="tab-btn-settings" onclick="switchAdminTab('settings')">
+          <i data-lucide="sliders" style="width: 16px; height: 16px;"></i>
+          <span>Section Customizer</span>
+        </button>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- TAB 1: RECENT WORK (GRAPHIC DESIGN & BEHANCE)                       -->
+      <!-- =================================================================== -->
+      <div id="view-tab-recent" class="dashboard-layout">
+
+        <!-- Left: Add / Edit Graphic Design Form -->
+        <div class="card">
+          <h3 class="card-title">
+            <span id="recent-form-title-text">Add Graphic Design Project</span>
+            <button id="cancel-recent-edit-btn" onclick="cancelRecentEdit()" style="display: none; background: transparent; border: none; color: #666; font-size: 12px; cursor: pointer; text-decoration: underline;">
+              Cancel Edit
+            </button>
+          </h3>
+
+          <form id="recent-form" onsubmit="handleRecentSubmit(event)">
+            <input type="hidden" id="edit-recent-id" value="" />
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Project Title *</span>
+              </label>
+              <input type="text" id="recent-title" class="form-input" required placeholder="e.g. Minimalist Brand Identity & System" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Made For / Client Brand *</span>
+              </label>
+              <input type="text" id="recent-client" class="form-input" required placeholder="e.g. Aura Studio or Concept Work" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Category / Specialty *</span>
+              </label>
+              <select id="recent-category" class="form-select" required>
+                <option value="Brand Identity">Brand Identity</option>
+                <option value="Packaging Design">Packaging Design</option>
+                <option value="Poster & Print">Poster & Print</option>
+                <option value="Social Media">Social Media</option>
+                <option value="Visual Art">Visual Art & 3D</option>
+                <option value="Typography">Typography & Layout</option>
+                <option value="UI/UX Design">UI/UX Design</option>
+                <option value="Graphic Design">Graphic Design</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Behance / Project Link</span>
+                <span class="form-label-hint">Clicking card opens this</span>
+              </label>
+              <input type="url" id="recent-behance" class="form-input" placeholder="https://www.behance.net/gallery/..." />
+            </div>
+
+            <!-- Graphic Design Picture Upload / URL -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Graphic Design Artwork (Behance 4:3 Ratio) *</span>
+                <span class="form-label-hint">Standard Behance Cover Ratio</span>
+              </label>
+
+              <div class="img-source-selector">
+                <button type="button" class="img-source-tab active" id="tab-source-upload" onclick="setRecentImgMode('upload')">
+                  📁 Upload from Device
+                </button>
+                <button type="button" class="img-source-tab" id="tab-source-url" onclick="setRecentImgMode('url')">
+                  🔗 Image URL Link
+                </button>
+              </div>
+
+              <!-- Upload Mode -->
+              <div id="wrap-recent-upload">
+                <div class="file-drop-zone" onclick="document.getElementById('recent-file-input').click()">
+                  <i data-lucide="image-plus" class="file-drop-icon"></i>
+                  <div style="font-size: 13.5px; font-weight: 600; color: #111; margin-bottom: 2px;">
+                    Click to select Graphic Design image
+                  </div>
+                  <div style="font-size: 11.5px; color: #777;">
+                    Supports PNG, JPG, WebP • Auto-optimized for Behance 4:3
+                  </div>
+                  <input type="file" id="recent-file-input" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;" onchange="handleFileSelected(event)" />
+                </div>
+              </div>
+
+              <!-- URL Mode -->
+              <div id="wrap-recent-url" style="display: none;">
+                <input type="url" id="recent-img-url" class="form-input" placeholder="https://... (Direct image URL)" oninput="handleUrlInput(event)" />
+              </div>
+            </div>
+
+            <!-- Behance 4:3 Live Preview Box -->
+            <div class="form-group">
+              <div class="form-label">
+                <span>Behance 4:3 Live Ratio Preview</span>
+                <span class="form-label-hint" id="preview-dim-hint">Ratio: 4:3 (e.g. 1600x1200 or 808x632 px)</span>
+              </div>
+              <div class="behance-preview-wrap" id="recent-preview-container">
+                <div class="behance-ratio-badge">Behance 4:3</div>
+                <img id="recent-preview-img" src="" alt="Live Preview" style="display: none;" />
+                <div id="recent-preview-empty" style="text-align: center; color: #888; font-size: 12.5px; padding: 16px;">
+                  <i data-lucide="palette" style="width: 28px; height: 28px; margin: 0 auto 6px; display: block; color: #666;"></i>
+                  <span>Upload an image or paste URL to preview in Behance ratio</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Brand Accent Color -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Brand Accent Color</span>
+                <span class="form-label-hint">Used for brand dot and subtle glow</span>
+              </label>
+              <div class="color-presets">
+                <div class="color-bubble active" style="background: #7c3aed;" onclick="selectAccentColor('#7c3aed', this)"></div>
+                <div class="color-bubble" style="background: #e11d48;" onclick="selectAccentColor('#e11d48', this)"></div>
+                <div class="color-bubble" style="background: #059669;" onclick="selectAccentColor('#059669', this)"></div>
+                <div class="color-bubble" style="background: #ec4899;" onclick="selectAccentColor('#ec4899', this)"></div>
+                <div class="color-bubble" style="background: #4338ca;" onclick="selectAccentColor('#4338ca', this)"></div>
+                <div class="color-bubble" style="background: #f59e0b;" onclick="selectAccentColor('#f59e0b', this)"></div>
+                <div class="color-bubble" style="background: #06b6d4;" onclick="selectAccentColor('#06b6d4', this)"></div>
+                <input type="color" id="recent-custom-color" value="#7c3aed" style="width: 28px; height: 28px; border: none; border-radius: 50%; cursor: pointer; padding: 0;" onchange="selectAccentColor(this.value, null)" />
+              </div>
+              <input type="hidden" id="recent-accent-val" value="#7c3aed" />
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Short Summary / Notes</span>
+                <span class="form-label-hint">Optional</span>
+              </label>
+              <textarea id="recent-desc" rows="3" class="form-textarea" placeholder="Full visual identity guidelines, modern typography system and packaging mockups..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-black" id="recent-submit-btn">
+              <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+              <span id="recent-submit-text">Publish to Recent Work</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Published Recent Works List -->
+        <div class="card">
+          <h3 class="card-title">
+            <span>Published Graphic Design Works (<span id="recent-list-count">0</span>)</span>
+            <button onclick="loadAdminRecentWorks()" class="back-btn" style="padding: 4px 12px; font-size: 12px;">
+              <i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i> Refresh
+            </button>
+          </h3>
+
+          <div class="item-list-container" id="admin-recent-list">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- TAB 2: VIDEOS WE SHIP                                               -->
+      <!-- =================================================================== -->
+      <div id="view-tab-videos" class="dashboard-layout" style="display: none;">
+
+        <!-- Left: Add / Edit Video Form -->
         <div class="card">
           <h3 class="card-title" id="form-card-title">
             <span id="form-title-text">Add New Video</span>
@@ -489,12 +892,46 @@
             </button>
           </h3>
 
-          <div id="admin-video-list">
+          <div class="item-list-container" id="admin-video-list">
             <!-- Rendered by JS -->
           </div>
         </div>
 
       </div>
+
+      <!-- =================================================================== -->
+      <!-- TAB 3: SECTION CUSTOMIZER                                           -->
+      <!-- =================================================================== -->
+      <div id="view-tab-settings" class="dashboard-layout" style="display: none;">
+        <div class="card" style="grid-column: 1 / -1; max-width: 680px; margin: 0 auto; width: 100%;">
+          <h3 class="card-title">
+            <span>Customize "More Recent Work" Section</span>
+          </h3>
+
+          <form id="settings-form" onsubmit="handleSettingsSubmit(event)">
+            <div class="form-group">
+              <label class="form-label">Section Heading Title</label>
+              <input type="text" id="setting-title" class="form-input" placeholder="More Recent Work." value="More Recent Work." />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Section Subtitle</label>
+              <textarea id="setting-subtitle" rows="2" class="form-textarea" placeholder="Curated graphic design, branding & visual systems showcased on Behance.">Curated graphic design, branding & visual systems showcased on Behance.</textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Trust Badge Pill Text</label>
+              <input type="text" id="setting-trust-label" class="form-input" placeholder="Featured on Behance" value="Featured on Behance" />
+            </div>
+
+            <button type="submit" class="btn-black" style="margin-top: 10px;">
+              <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+              <span>Save Section Settings</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -505,10 +942,73 @@
 
     let supabaseClient = null;
 
-    // Initial Sample Seed if storage empty (Empty - user manages their own videos)
-    const defaultSampleVideos = [];
+    // Curated Default Graphic Design Works (Behance 4:3 Ratio)
+    const defaultSampleRecent = [
+      {
+        id: "rw-1",
+        title: "Aura Minimalist Brand Identity",
+        client_name: "Aura Studio",
+        category: "Brand Identity",
+        image_url: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Full visual identity guidelines, modern vector typography system and stationery mockups.",
+        accent_color: "#7c3aed"
+      },
+      {
+        id: "rw-2",
+        title: "Kinetic Typographic Exhibition Poster",
+        client_name: "Bauhaus Lab",
+        category: "Poster & Print",
+        image_url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "High-contrast experimental Swiss typography exploration for cultural arts showcase.",
+        accent_color: "#e11d48"
+      },
+      {
+        id: "rw-3",
+        title: "Flora Organic Botanical Packaging",
+        client_name: "Flora Co.",
+        category: "Packaging Design",
+        image_url: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Sustainable eco-friendly cosmetic packaging suite with bespoke foil stamp embellishments.",
+        accent_color: "#059669"
+      },
+      {
+        id: "rw-4",
+        title: "Veloce Streetwear Campaign & Social Art",
+        client_name: "Veloce Apparel",
+        category: "Social Media",
+        image_url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Editorial social media graphic campaign, lookbook layout, and high-impact digital banners.",
+        accent_color: "#ec4899"
+      },
+      {
+        id: "rw-5",
+        title: "Abstract 3D Spatial Geometry",
+        client_name: "Metropolis Digital",
+        category: "Visual Art",
+        image_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Curated chromatic 3D surface explorations and tactile lighting compositions.",
+        accent_color: "#4338ca"
+      },
+      {
+        id: "rw-6",
+        title: "Craft Coffee Bean Roast Packaging",
+        client_name: "Nordic Roasters",
+        category: "Packaging Design",
+        image_url: "https://images.unsplash.com/photo-1559525839-8f8303f568a0?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Minimalist matte black coffee packaging series with metallic bronze stamp details.",
+        accent_color: "#f59e0b"
+      }
+    ];
 
+    let currentRecentWorks = [];
     let currentVideos = [];
+    let activeRecentImgData = ""; // Base64 or URL
 
     // Passcode Login
     function attemptLogin() {
@@ -528,20 +1028,409 @@
     function showDashboard() {
       document.getElementById('login-box').style.display = 'none';
       document.getElementById('dashboard-box').style.display = 'block';
+      loadAdminRecentWorks();
       loadAdminVideos();
+      loadSectionSettings();
     }
 
-    const demoTitles = [
-      'human behavior',
-      'clickup 4.0',
-      'lumana',
-      'saas launch promo reel',
-      'interactive walkthrough demo',
-      'brand identity kinetic visuals'
-    ];
+    // Tab Switching
+    function switchAdminTab(tabName) {
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`view-tab-recent`).style.display = 'none';
+      document.getElementById(`view-tab-videos`).style.display = 'none';
+      document.getElementById(`view-tab-settings`).style.display = 'none';
+
+      if (tabName === 'recent') {
+        document.getElementById('tab-btn-recent').classList.add('active');
+        document.getElementById('view-tab-recent').style.display = 'grid';
+      } else if (tabName === 'videos') {
+        document.getElementById('tab-btn-videos').classList.add('active');
+        document.getElementById('view-tab-videos').style.display = 'grid';
+      } else if (tabName === 'settings') {
+        document.getElementById('tab-btn-settings').classList.add('active');
+        document.getElementById('view-tab-settings').style.display = 'block';
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    // =========================================================================
+    // RECENT WORK (GRAPHIC DESIGN) MANAGEMENT
+    // =========================================================================
+
+    // Switch image source mode: Upload or URL
+    function setRecentImgMode(mode) {
+      const tabUpload = document.getElementById('tab-source-upload');
+      const tabUrl = document.getElementById('tab-source-url');
+      const wrapUpload = document.getElementById('wrap-recent-upload');
+      const wrapUrl = document.getElementById('wrap-recent-url');
+
+      if (mode === 'upload') {
+        tabUpload.classList.add('active');
+        tabUrl.classList.remove('active');
+        wrapUpload.style.display = 'block';
+        wrapUrl.style.display = 'none';
+      } else {
+        tabUrl.classList.add('active');
+        tabUpload.classList.remove('active');
+        wrapUrl.style.display = 'block';
+        wrapUpload.style.display = 'none';
+      }
+    }
+
+    // Handle Local File Upload with Auto-Optimization to Behance Ratio
+    function handleFileSelected(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const img = new Image();
+        img.onload = function() {
+          // Downscale to max 1600px width keeping aspect ratio for fast storage
+          const maxW = 1600;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxW) {
+            h = Math.round((h * maxW) / w);
+            w = maxW;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+
+          activeRecentImgData = dataUrl;
+          showRecentPreview(dataUrl, `${img.width}×${img.height}px (Behance 4:3 fit)`);
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleUrlInput(e) {
+      const url = e.target.value.trim();
+      if (url) {
+        activeRecentImgData = url;
+        showRecentPreview(url, 'External URL');
+      } else {
+        activeRecentImgData = '';
+        clearRecentPreview();
+      }
+    }
+
+    function showRecentPreview(src, label) {
+      const img = document.getElementById('recent-preview-img');
+      const empty = document.getElementById('recent-preview-empty');
+      const hint = document.getElementById('preview-dim-hint');
+
+      img.src = src;
+      img.style.display = 'block';
+      empty.style.display = 'none';
+      if (label) hint.textContent = label;
+    }
+
+    function clearRecentPreview() {
+      const img = document.getElementById('recent-preview-img');
+      const empty = document.getElementById('recent-preview-empty');
+      const hint = document.getElementById('preview-dim-hint');
+
+      img.src = '';
+      img.style.display = 'none';
+      empty.style.display = 'block';
+      hint.textContent = 'Ratio: 4:3 (e.g. 1600x1200 or 808x632 px)';
+    }
+
+    // Color Bubble Selection
+    function selectAccentColor(color, el) {
+      document.getElementById('recent-accent-val').value = color;
+      document.querySelectorAll('.color-bubble').forEach(b => b.classList.remove('active'));
+      if (el) el.classList.add('active');
+    }
+
+    // Load Recent Works
+    async function loadAdminRecentWorks() {
+      // 1. LocalStorage
+      const stored = localStorage.getItem('ASIF_PORTFOLIO_RECENT_WORKS');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          currentRecentWorks = Array.isArray(parsed) && parsed.length > 0 ? parsed : [...defaultSampleRecent];
+        } catch (e) {
+          currentRecentWorks = [...defaultSampleRecent];
+        }
+      } else {
+        currentRecentWorks = [...defaultSampleRecent];
+        localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(currentRecentWorks));
+      }
+
+      // 2. Supabase recent_works
+      if (window.supabase) {
+        try {
+          if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+          const { data, error } = await supabaseClient.from('recent_works').select('*').order('sort_order', { ascending: true });
+          if (!error && data && data.length > 0) {
+            currentRecentWorks = data;
+            localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(currentRecentWorks));
+          }
+        } catch (err) {}
+      }
+
+      renderAdminRecentList();
+    }
+
+    // Render Admin List
+    function renderAdminRecentList() {
+      const container = document.getElementById('admin-recent-list');
+      const countEl = document.getElementById('recent-list-count');
+      const badgeEl = document.getElementById('recent-count-badge');
+
+      if (!container) return;
+      countEl.textContent = currentRecentWorks.length;
+      badgeEl.textContent = currentRecentWorks.length;
+
+      if (currentRecentWorks.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 48px 16px; color: #888;">
+            <i data-lucide="palette" style="width: 32px; height: 32px; margin: 0 auto 8px; display: block;"></i>
+            <p style="font-size: 14px;">No graphic design projects yet.</p>
+          </div>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = currentRecentWorks.map((item, idx) => `
+        <div class="work-item-card">
+          <div class="work-thumb-wrap">
+            <img src="${escapeHtml(item.image_url)}" alt="${escapeHtml(item.title)}" onerror="this.src='https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&h=450&q=80';" />
+          </div>
+
+          <div class="work-info-wrap">
+            <h4 class="work-item-title" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</h4>
+            <div class="work-item-meta">
+              <span class="work-item-badge">${escapeHtml(item.category || 'Graphic Design')}</span>
+              <span class="work-client-tag">
+                <span class="work-client-dot" style="background:${escapeHtml(item.accent_color || '#7c3aed')};"></span>
+                ${escapeHtml(item.client_name || 'Self')}
+              </span>
+            </div>
+          </div>
+
+          <div class="work-actions">
+            ${item.behance_url ? `
+              <a href="${escapeHtml(item.behance_url)}" target="_blank" rel="noopener noreferrer" class="action-icon-btn" title="Open in Behance">
+                <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+              </a>
+            ` : ''}
+            
+            <button class="action-icon-btn" onclick="moveRecentItem(${idx}, -1)" title="Move Up" ${idx === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''}>
+              <i data-lucide="chevron-up" style="width: 14px; height: 14px;"></i>
+            </button>
+
+            <button class="action-icon-btn" onclick="moveRecentItem(${idx}, 1)" title="Move Down" ${idx === currentRecentWorks.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''}>
+              <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>
+            </button>
+
+            <button class="action-icon-btn" onclick="startRecentEdit('${escapeHtml(String(item.id))}')" title="Edit Project">
+              <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+            </button>
+
+            <button class="action-icon-btn delete" onclick="deleteRecentItem('${escapeHtml(String(item.id))}')" title="Delete Project">
+              <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    // Reorder items
+    function moveRecentItem(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= currentRecentWorks.length) return;
+
+      const temp = currentRecentWorks[index];
+      currentRecentWorks[index] = currentRecentWorks[targetIndex];
+      currentRecentWorks[targetIndex] = temp;
+
+      localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(currentRecentWorks));
+      renderAdminRecentList();
+      showToast('Project order updated!');
+    }
+
+    // Add / Edit Form Submit
+    async function handleRecentSubmit(e) {
+      e.preventDefault();
+
+      const editId = document.getElementById('edit-recent-id').value;
+      const title = document.getElementById('recent-title').value.trim();
+      const client_name = document.getElementById('recent-client').value.trim();
+      const category = document.getElementById('recent-category').value;
+      const behance_url = document.getElementById('recent-behance').value.trim();
+      const accent_color = document.getElementById('recent-accent-val').value;
+      const description = document.getElementById('recent-desc').value.trim();
+
+      const imageUrl = activeRecentImgData || document.getElementById('recent-img-url').value.trim();
+
+      if (!imageUrl) {
+        alert('Please provide a graphic design image (either upload a file or paste an image URL).');
+        return;
+      }
+
+      const itemData = {
+        title,
+        client_name,
+        category,
+        image_url: imageUrl,
+        behance_url,
+        accent_color,
+        description
+      };
+
+      if (editId) {
+        // Edit Mode
+        const idx = currentRecentWorks.findIndex(w => String(w.id) === String(editId));
+        if (idx !== -1) {
+          currentRecentWorks[idx] = { ...currentRecentWorks[idx], ...itemData };
+        }
+
+        if (supabaseClient) {
+          try {
+            await supabaseClient.from('recent_works').update(itemData).eq('id', editId);
+          } catch (err) {}
+        }
+
+        showToast('Graphic design project updated!');
+      } else {
+        // Add Mode
+        const newItem = {
+          id: 'rw-' + Date.now().toString(),
+          ...itemData,
+          sort_order: currentRecentWorks.length + 1
+        };
+        currentRecentWorks.unshift(newItem);
+
+        if (supabaseClient) {
+          try {
+            await supabaseClient.from('recent_works').insert([itemData]);
+          } catch (err) {}
+        }
+
+        showToast('New graphic design project published!');
+      }
+
+      localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(currentRecentWorks));
+      cancelRecentEdit();
+      renderAdminRecentList();
+    }
+
+    function startRecentEdit(id) {
+      const item = currentRecentWorks.find(w => String(w.id) === String(id));
+      if (!item) return;
+
+      document.getElementById('edit-recent-id').value = item.id;
+      document.getElementById('recent-title').value = item.title || '';
+      document.getElementById('recent-client').value = item.client_name || '';
+      document.getElementById('recent-category').value = item.category || 'Brand Identity';
+      document.getElementById('recent-behance').value = item.behance_url || '';
+      document.getElementById('recent-desc').value = item.description || '';
+
+      activeRecentImgData = item.image_url || '';
+      if (item.image_url && item.image_url.startsWith('data:')) {
+        setRecentImgMode('upload');
+      } else {
+        setRecentImgMode('url');
+        document.getElementById('recent-img-url').value = item.image_url || '';
+      }
+
+      if (item.image_url) {
+        showRecentPreview(item.image_url, 'Current Project Artwork');
+      }
+
+      if (item.accent_color) {
+        selectAccentColor(item.accent_color, null);
+      }
+
+      document.getElementById('recent-form-title-text').textContent = 'Edit Graphic Design Project';
+      document.getElementById('recent-submit-text').textContent = 'Save Changes';
+      document.getElementById('cancel-recent-edit-btn').style.display = 'inline';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cancelRecentEdit() {
+      document.getElementById('recent-form').reset();
+      document.getElementById('edit-recent-id').value = '';
+      activeRecentImgData = '';
+      clearRecentPreview();
+      setRecentImgMode('upload');
+      selectAccentColor('#7c3aed', null);
+
+      document.getElementById('recent-form-title-text').textContent = 'Add Graphic Design Project';
+      document.getElementById('recent-submit-text').textContent = 'Publish to Recent Work';
+      document.getElementById('cancel-recent-edit-btn').style.display = 'none';
+    }
+
+    async function deleteRecentItem(id) {
+      if (!confirm('Are you sure you want to remove this project from your Recent Work showcase?')) return;
+
+      currentRecentWorks = currentRecentWorks.filter(w => String(w.id) !== String(id));
+      localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(currentRecentWorks));
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('recent_works').delete().eq('id', id);
+        } catch (err) {}
+      }
+
+      showToast('Project removed.');
+      renderAdminRecentList();
+    }
+
+    // =========================================================================
+    // SECTION SETTINGS TAB
+    // =========================================================================
+    function loadSectionSettings() {
+      const stored = localStorage.getItem('ASIF_RECENT_SECTION_CONFIG');
+      if (stored) {
+        try {
+          const cfg = JSON.parse(stored);
+          if (cfg.title) document.getElementById('setting-title').value = cfg.title;
+          if (cfg.subtitle) document.getElementById('setting-subtitle').value = cfg.subtitle;
+          if (cfg.trust_label) document.getElementById('setting-trust-label').value = cfg.trust_label;
+        } catch (e) {}
+      }
+    }
+
+    function handleSettingsSubmit(e) {
+      e.preventDefault();
+      const cfg = {
+        title: document.getElementById('setting-title').value.trim() || 'More Recent Work.',
+        subtitle: document.getElementById('setting-subtitle').value.trim() || 'Curated graphic design, branding & visual systems showcased on Behance.',
+        trust_label: document.getElementById('setting-trust-label').value.trim() || 'Featured on Behance'
+      };
+
+      localStorage.setItem('ASIF_RECENT_SECTION_CONFIG', JSON.stringify(cfg));
+      showToast('Section settings updated successfully!');
+    }
+
+    // =========================================================================
+    // VIDEOS WE SHIP MANAGEMENT (PRESERVED)
+    // =========================================================================
+    function getYouTubeId(url) {
+      if (!url) return null;
+      const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/\s]{11})/;
+      const match = String(url).match(regExp);
+      return (match && match[1]) ? match[1] : null;
+    }
+
+    const demoTitles = ['human behavior', 'clickup 4.0', 'lumana', 'saas launch promo reel', 'interactive walkthrough demo', 'brand identity kinetic visuals'];
     const demoIds = ['1', '2', '3', '4', '5', '6'];
 
-    // Sanitize videos: Filter out any demo videos, remove Unsplash, keep ONLY user-added videos
     function sanitizeVideos(list) {
       if (!Array.isArray(list)) return [];
       return list
@@ -564,9 +1453,7 @@
         });
     }
 
-    // Load Videos
     async function loadAdminVideos() {
-      // 1. Local fallback
       const stored = localStorage.getItem('ASIF_PORTFOLIO_VIDEOS');
       if (stored) {
         try {
@@ -579,10 +1466,9 @@
       }
       localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
 
-      // 2. Fetch Supabase if connected
       if (window.supabase) {
         try {
-          supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+          if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           const { data, error } = await supabaseClient.from('videos').select('*').order('sort_order', { ascending: true });
           if (!error && data && data.length > 0) {
             currentVideos = sanitizeVideos(data);
@@ -594,149 +1480,116 @@
       renderAdminList();
     }
 
-    // Extract YouTube ID from any YouTube URL format (watch, youtu.be, embed, shorts)
-    function getYouTubeId(url) {
-      if (!url) return null;
-      const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/\s]{11})/;
-      const match = String(url).match(regExp);
-      return (match && match[1]) ? match[1] : null;
-    }
-
-    // Resolve effective thumbnail URL (custom image > YouTube thumbnail) - NO Unsplash
-    function resolveVideoThumbnail(video) {
-      if (!video) return '';
-      const custom = (video.thumbnail_url || '').trim();
-      const ytId = getYouTubeId(video.video_url);
-
-      if (ytId) {
-        // If empty or from unsplash, ALWAYS use YouTube!
-        if (!custom || custom.includes('unsplash.com')) {
-          return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
-        }
-      }
-
-      if (custom && !custom.includes('unsplash.com')) {
-        return custom;
-      }
-
-      if (ytId) {
-        return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
-      }
-
-      return custom;
-    }
-
-    // Toggle custom thumbnail input visibility
     function toggleThumbOption() {
-      const isCustom = document.getElementById('thumb-mode-custom')?.checked;
-      const wrap = document.getElementById('custom-thumb-wrap');
-      if (wrap) wrap.style.display = isCustom ? 'block' : 'none';
-      if (!isCustom) {
-        const input = document.getElementById('video-thumb');
-        if (input) input.value = '';
-      }
+      const isCustom = document.getElementById('thumb-mode-custom').checked;
+      document.getElementById('custom-thumb-wrap').style.display = isCustom ? 'block' : 'none';
       updateThumbnailPreview();
     }
 
-    // Live Thumbnail Preview update
     function updateThumbnailPreview() {
-      const videoUrl = (document.getElementById('video-url')?.value || '').trim();
-      const isCustomMode = document.getElementById('thumb-mode-custom')?.checked;
-      const customThumb = (document.getElementById('video-thumb')?.value || '').trim();
-      const previewImg = document.getElementById('thumb-preview-img');
-      const previewEmpty = document.getElementById('thumb-preview-empty');
-      const previewBadge = document.getElementById('thumb-preview-badge');
+      const isCustom = document.getElementById('thumb-mode-custom').checked;
+      const videoUrl = document.getElementById('video-url').value.trim();
+      const customUrl = document.getElementById('video-thumb').value.trim();
 
-      if (!previewImg || !previewEmpty || !previewBadge) return;
+      const img = document.getElementById('thumb-preview-img');
+      const empty = document.getElementById('thumb-preview-empty');
+      const badge = document.getElementById('thumb-preview-badge');
+
+      if (isCustom && customUrl) {
+        img.src = customUrl;
+        img.style.display = 'block';
+        empty.style.display = 'none';
+        badge.style.display = 'block';
+        badge.textContent = 'Custom Link';
+        badge.style.background = '#111';
+        return;
+      }
 
       const ytId = getYouTubeId(videoUrl);
-
-      if (isCustomMode && customThumb && !customThumb.includes('unsplash.com')) {
-        previewImg.src = customThumb;
-        previewImg.style.display = 'block';
-        previewEmpty.style.display = 'none';
-        previewBadge.style.display = 'block';
-        previewBadge.textContent = 'Custom Thumbnail';
-        previewBadge.style.background = 'rgba(17,17,17,0.85)';
-      } else if (ytId) {
-        previewImg.src = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
-        previewImg.style.display = 'block';
-        previewEmpty.style.display = 'none';
-        previewBadge.style.display = 'block';
-        previewBadge.textContent = '✓ YouTube Auto Thumbnail';
-        previewBadge.style.background = 'rgba(220,38,38,0.9)';
-      } else {
-        previewImg.style.display = 'none';
-        previewEmpty.style.display = 'block';
-        previewBadge.style.display = 'none';
+      if (ytId) {
+        img.src = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+        img.style.display = 'block';
+        empty.style.display = 'none';
+        badge.style.display = 'block';
+        badge.textContent = 'YouTube Auto';
+        badge.style.background = 'rgba(220,38,38,0.9)';
+        return;
       }
+
+      img.src = '';
+      img.style.display = 'none';
+      empty.style.display = 'block';
+      badge.style.display = 'none';
     }
 
     function handlePreviewError() {
-      const previewImg = document.getElementById('thumb-preview-img');
-      if (previewImg && previewImg.src.includes('maxresdefault.jpg')) {
-        previewImg.src = previewImg.src.replace('maxresdefault.jpg', 'hqdefault.jpg');
+      const img = document.getElementById('thumb-preview-img');
+      if (img.src.includes('maxresdefault.jpg')) {
+        img.src = img.src.replace('maxresdefault.jpg', 'hqdefault.jpg');
       }
     }
 
     function renderAdminList() {
-      const listContainer = document.getElementById('admin-video-list');
+      const container = document.getElementById('admin-video-list');
       const countEl = document.getElementById('video-count');
-      if (!listContainer) return;
+      const badgeEl = document.getElementById('video-count-badge');
+      if (!container) return;
 
       countEl.textContent = currentVideos.length;
+      badgeEl.textContent = currentVideos.length;
 
       if (currentVideos.length === 0) {
-        listContainer.innerHTML = `<div style="text-align: center; padding: 40px; color: #888;">No videos published yet. Use the form on the left to add one!</div>`;
+        container.innerHTML = `
+          <div style="text-align: center; padding: 48px 16px; color: #888;">
+            <i data-lucide="film" style="width: 32px; height: 32px; margin: 0 auto 8px; display: block;"></i>
+            <p style="font-size: 14px;">No videos published yet.</p>
+          </div>
+        `;
+        if (window.lucide) window.lucide.createIcons();
         return;
       }
 
-      listContainer.innerHTML = currentVideos.map(v => {
-        const thumb = resolveVideoThumbnail(v);
+      container.innerHTML = currentVideos.map(v => {
+        const ytId = getYouTubeId(v.video_url);
+        const thumb = v.thumbnail_url || (ytId ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg` : '');
         return `
-        <div class="video-item">
-          <img src="${escapeHtml(thumb)}" 
-               class="video-item-thumb" 
-               alt="${escapeHtml(v.title)}"
-               onerror="if(!this.dataset.fallback && this.src.includes('maxresdefault.jpg')){this.dataset.fallback='1';this.src=this.src.replace('maxresdefault.jpg','hqdefault.jpg');}" />
-          <div class="video-item-info">
-            <div class="video-item-title">${escapeHtml(v.title)}</div>
-            <span class="video-item-badge">${escapeHtml(v.category)}</span>
+          <div class="video-item">
+            <img src="${escapeHtml(thumb)}" alt="${escapeHtml(v.title)}" class="video-item-thumb" onerror="if(this.src.includes('maxresdefault.jpg')) this.src=this.src.replace('maxresdefault.jpg','hqdefault.jpg');" />
+            <div class="video-item-info">
+              <h4 class="video-item-title">${escapeHtml(v.title)}</h4>
+              <span class="video-item-badge">${escapeHtml(v.category)}</span>
+            </div>
+            <div class="video-item-actions">
+              <button class="action-icon-btn" onclick="startEdit('${escapeHtml(String(v.id))}')" title="Edit Video">
+                <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+              </button>
+              <button class="action-icon-btn delete" onclick="deleteVideo('${escapeHtml(String(v.id))}')" title="Delete Video">
+                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+              </button>
+            </div>
           </div>
-          <div class="video-item-actions">
-            <button class="action-icon-btn" onclick="startEdit('${v.id}')" title="Edit Video">
-              <i data-lucide="edit-3" style="width: 15px; height: 15px;"></i>
-            </button>
-            <button class="action-icon-btn delete" onclick="deleteVideo('${v.id}')" title="Delete Video">
-              <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
-            </button>
-          </div>
-        </div>
-      `}).join('');
+        `;
+      }).join('');
 
       if (window.lucide) window.lucide.createIcons();
     }
 
-    // Submit (Add / Edit)
     async function handleFormSubmit(e) {
       e.preventDefault();
+
       const editId = document.getElementById('edit-video-id').value;
       const title = document.getElementById('video-title').value.trim();
       const category = document.getElementById('video-category').value;
       const description = document.getElementById('video-desc').value.trim();
       const video_url = document.getElementById('video-url').value.trim();
-      const isCustomMode = document.getElementById('thumb-mode-custom')?.checked;
+
+      const isCustom = document.getElementById('thumb-mode-custom').checked;
       let thumbnail_url = '';
 
-      if (isCustomMode) {
+      if (isCustom) {
         thumbnail_url = document.getElementById('video-thumb').value.trim();
-      }
-
-      const ytId = getYouTubeId(video_url);
-
-      // If no custom thumbnail was provided (or auto mode), or if it contains unsplash:
-      // ALWAYS use the YouTube thumbnail!
-      if (!thumbnail_url || thumbnail_url.includes('unsplash.com')) {
+      } else {
+        const ytId = getYouTubeId(video_url);
         if (ytId) {
           thumbnail_url = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
         }
@@ -751,13 +1604,11 @@
       };
 
       if (editId) {
-        // Edit Mode
         const idx = currentVideos.findIndex(v => String(v.id) === String(editId));
         if (idx !== -1) {
           currentVideos[idx] = { ...currentVideos[idx], ...videoData };
         }
 
-        // Supabase update
         if (supabaseClient) {
           try {
             await supabaseClient.from('videos').update(videoData).eq('id', editId);
@@ -765,7 +1616,6 @@
         }
         showToast('Video updated successfully!');
       } else {
-        // Add Mode
         const newVideo = {
           id: Date.now().toString(),
           ...videoData,
@@ -773,7 +1623,6 @@
         };
         currentVideos.unshift(newVideo);
 
-        // Supabase insert
         if (supabaseClient) {
           try {
             await supabaseClient.from('videos').insert([videoData]);
@@ -782,13 +1631,11 @@
         showToast('New video added to portfolio!');
       }
 
-      // Save local
       localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
       cancelEdit();
       renderAdminList();
     }
 
-    // Edit item
     function startEdit(id) {
       const v = currentVideos.find(x => String(x.id) === String(id));
       if (!v) return;
@@ -799,7 +1646,6 @@
       document.getElementById('video-desc').value = v.description || '';
       document.getElementById('video-url').value = v.video_url || '';
       
-      const ytId = getYouTubeId(v.video_url);
       const isCustom = v.thumbnail_url && !v.thumbnail_url.includes('img.youtube.com') && !v.thumbnail_url.includes('unsplash.com');
 
       if (isCustom) {
@@ -831,7 +1677,6 @@
       updateThumbnailPreview();
     }
 
-    // Delete item
     async function deleteVideo(id) {
       if (!confirm('Are you sure you want to remove this video from your portfolio?')) return;
 
@@ -860,7 +1705,6 @@
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
-    // Check existing auth session
     document.addEventListener('DOMContentLoaded', () => {
       if (window.lucide) window.lucide.createIcons();
       if (sessionStorage.getItem('ASIF_ADMIN_AUTH') === 'true') {

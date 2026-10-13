@@ -944,112 +944,375 @@
       }
     }
 
-    /* Card Item */
+    /* Card Item (Behance 4:3 Ratio for Graphic Design Showcase) */
     .recent-card-item {
       display: flex;
       flex-direction: column;
-      width: 420px;
+      width: 380px;
       flex-shrink: 0;
       cursor: pointer;
+      position: relative;
     }
 
     .recent-card-frame {
       width: 100%;
-      height: 240px;
+      aspect-ratio: 4 / 3; /* Standard Behance Project Presentation & Cover Ratio */
+      height: auto;
       border-radius: 20px;
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: #111114;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
     }
 
     .recent-card-item:hover .recent-card-frame {
       transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(220, 38, 38, 0.15);
-      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.75), 0 0 28px rgba(0, 87, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.28);
     }
 
-    /* Center Play Pill */
-    .recent-card-play {
+    .recent-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .recent-card-item:hover .recent-card-img {
+      transform: scale(1.06);
+    }
+
+    /* Category Tag Badge */
+    .recent-card-badge {
       position: absolute;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.65);
+      top: 14px;
+      left: 14px;
+      background: rgba(12, 12, 15, 0.8);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.2px;
+      z-index: 3;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* Behance Brand Icon Pill */
+    .recent-card-behance-pill {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: rgba(0, 87, 255, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 11.5px;
+      z-index: 3;
+      box-shadow: 0 4px 14px rgba(0, 87, 255, 0.4);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .recent-card-item:hover .recent-card-behance-pill {
+      transform: scale(1.08);
+      background: #0057ff;
+    }
+
+    /* Card Hover Overlay (View Project button) */
+    .recent-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
-      z-index: 3;
+      z-index: 2;
     }
 
-    .recent-card-item:hover .recent-card-play {
-      transform: scale(1.15);
-      background: #dc2626;
-      border-color: #ef4444;
+    .recent-card-item:hover .recent-card-overlay {
+      opacity: 1;
     }
 
-    .recent-card-play svg {
-      width: 18px;
-      height: 18px;
-      margin-left: 2px;
+    .recent-card-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #ffffff;
+      color: #111111;
+      padding: 10px 18px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      transform: translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease;
     }
 
-    /* Meta text under card (Made For Company) */
+    .recent-card-item:hover .recent-card-cta-btn {
+      transform: translateY(0);
+    }
+
+    /* Card Meta */
     .recent-card-meta {
       display: flex;
-      align-items: center;
-      gap: 9px;
+      flex-direction: column;
+      gap: 4px;
       margin-top: 14px;
-      font-size: 13.5px;
-      color: #777777;
+    }
+
+    .recent-card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .recent-card-project-title {
+      font-size: 16px;
+      font-weight: 750;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .recent-card-sub-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #888888;
       font-weight: 500;
     }
 
-    .recent-card-meta .made-for-tag {
-      color: #888888;
-      font-size: 13px;
+    .recent-card-sub-row .made-for-tag {
+      color: #777777;
+      font-size: 12.5px;
     }
 
-    .recent-card-meta .company-brand {
-      color: #ffffff;
-      font-weight: 700;
+    .recent-card-sub-row .company-brand {
+      color: #dddddd;
+      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .recent-card-meta .company-dot {
+    .recent-card-sub-row .company-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
       display: inline-block;
     }
 
-    /* Responsive Marquee */
+    /* Graphic Design Lightbox Modal */
+    .graphic-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .graphic-modal.active {
+      display: flex;
+    }
+
+    .graphic-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .graphic-modal-container {
+      position: relative;
+      z-index: 10;
+      max-width: 960px;
+      width: 100%;
+      background: #0f0f12;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .graphic-modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.2s ease;
+    }
+
+    .graphic-modal-close:hover {
+      background: #ffffff;
+      color: #111111;
+      transform: scale(1.08);
+    }
+
+    .graphic-modal-content {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      max-height: 85vh;
+    }
+
+    .graphic-modal-image-wrap {
+      background: #09090b;
+      aspect-ratio: 4 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .graphic-modal-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .graphic-modal-details {
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: auto;
+    }
+
+    .graphic-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .graphic-modal-category {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      color: #aaaaaa;
+    }
+
+    .graphic-modal-client {
+      font-size: 13px;
+      color: #888888;
+      font-weight: 600;
+    }
+
+    .graphic-modal-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .graphic-modal-desc {
+      font-size: 14.5px;
+      color: #999999;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .graphic-modal-footer {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .graphic-modal-behance-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 13px 20px;
+      background: #0057ff;
+      color: #ffffff;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 8px 20px rgba(0, 87, 255, 0.35);
+    }
+
+    .graphic-modal-behance-btn:hover {
+      background: #0047d4;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive Marquee & Modal */
     @media (max-width: 900px) {
       .recent-work-section {
         padding: 70px 0 80px;
       }
       .recent-card-item {
-        width: 330px;
-      }
-      .recent-card-frame {
-        height: 195px;
-        border-radius: 16px;
+        width: 320px;
       }
       .marquee-fade-left,
       .marquee-fade-right {
         width: 60px;
+      }
+      .graphic-modal-content {
+        grid-template-columns: 1fr;
+        max-height: 90vh;
+      }
+      .graphic-modal-image-wrap {
+        aspect-ratio: 16 / 10;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .graphic-modal-details {
+        padding: 24px;
+      }
+      .graphic-modal-title {
+        font-size: 22px;
       }
     }
 
@@ -1062,18 +1325,6 @@
       }
       .recent-card-item {
         width: 270px;
-      }
-      .recent-card-frame {
-        height: 160px;
-        border-radius: 14px;
-      }
-      .recent-card-play {
-        width: 44px;
-        height: 44px;
-      }
-      .recent-card-play svg {
-        width: 15px;
-        height: 15px;
       }
       .recent-work-track {
         gap: 20px;
@@ -1595,18 +1846,21 @@
   <!-- ============================================= -->
   <!-- MORE RECENT WORK (INFINITE HORIZONTAL MARQUEE)-->
   <!-- ============================================= -->
+  <!-- ============================================= -->
+  <!-- MORE RECENT WORK (GRAPHIC DESIGN & BEHANCE)   -->
+  <!-- ============================================= -->
   <section class="recent-work-section" id="recent-work">
     <div class="recent-work-header">
-      <h2 class="recent-work-title">More Recent Work.</h2>
-      <p class="recent-work-subtitle">Built for 50+ YC Companies. Most ship in under 2 weeks.</p>
-      <div class="recent-trust-pill">
-        <span class="trust-pill-label">Trusted by</span>
+      <h2 class="recent-work-title" id="recent-work-title">More Recent Work.</h2>
+      <p class="recent-work-subtitle" id="recent-work-subtitle">Curated graphic design, branding & visual systems showcased on Behance.</p>
+      <div class="recent-trust-pill" id="recent-trust-pill">
+        <span class="trust-pill-label" id="recent-trust-pill-label">Featured on Behance</span>
         <div class="trust-pill-avatars">
-          <span class="trust-avatar" style="background:#7c3aed;">C</span>
-          <span class="trust-avatar" style="background:#059669;">S</span>
-          <span class="trust-avatar" style="background:#ec4899;">A</span>
-          <span class="trust-avatar" style="background:#4338ca;">B</span>
-          <span class="trust-avatar" style="background:#e11d48;">R</span>
+          <span class="trust-avatar" style="background:#0057ff; font-weight: 900; font-size: 11px;">Bē</span>
+          <span class="trust-avatar" style="background:#7c3aed;">A</span>
+          <span class="trust-avatar" style="background:#e11d48;">P</span>
+          <span class="trust-avatar" style="background:#059669;">F</span>
+          <span class="trust-avatar" style="background:#ec4899;">V</span>
           <span class="trust-avatar" style="background:#10b981;">+</span>
         </div>
       </div>
@@ -1618,237 +1872,7 @@
       <div class="marquee-fade-right" aria-hidden="true"></div>
 
       <div class="recent-work-track" id="recent-work-track">
-        
-        <!-- ITEM 1: ClickUp 4.0 -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #ffe4e6 0%, #ede9fe 48%, #e0f2fe 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
-                <span style="font-size: 28px;">⚡</span> ClickUp <span style="background: #111; color: #fff; font-size: 13px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">4.0</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Experience Convergence today</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#7c3aed;"></span> ClickUp</span>
-          </div>
-        </div>
-
-        <!-- ITEM 2: Salesgraph -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: #e6eae2;">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 25px; letter-spacing: -0.5px;">
-                <span style="font-size: 26px;">📐</span> Salesgraph
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">AI Revenue Intelligence Platform</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#059669;"></span> Salesgraph</span>
-          </div>
-        </div>
-
-        <!-- ITEM 3: Atria -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #fdf2f8 0%, #fae8ff 50%, #f5f3ff 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 28px; letter-spacing: -0.5px;">
-                Atria <span style="font-size: 26px; color: #ec4899;">🚀</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">SaaS Workspaces Reimagined</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#ec4899;"></span> Atria</span>
-          </div>
-        </div>
-
-        <!-- ITEM 4: Brain MAX -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 50%, #ede9fe 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 28px; letter-spacing: -0.5px;">
-                <span style="font-size: 26px;">🌸</span> Brain <span style="background: #4338ca; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">MAX</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Neural Creative Engine</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#4338ca;"></span> Brain MAX</span>
-          </div>
-        </div>
-
-        <!-- ITEM 5: Raycast Pro -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #fee2e2 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
-                <span style="font-size: 24px;">🔴</span> Raycast <span style="background: #e11d48; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">PRO</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Supercharged Developer Workflow</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#e11d48;"></span> Raycast</span>
-          </div>
-        </div>
-
-        <!-- ITEM 6: Supabase Studio -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #e0f2fe 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
-                <span style="font-size: 24px;">⚡</span> Supabase <span style="font-size: 13px; font-weight: 700; color: #059669;">STUDIO</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Build in a weekend, scale to millions</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#10b981;"></span> Supabase</span>
-          </div>
-        </div>
-
-        <!-- DUPLICATE SET FOR SEAMLESS 50% INFINITE LOOP -->
-        
-        <!-- ITEM 1 (DUP) -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #ffe4e6 0%, #ede9fe 48%, #e0f2fe 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
-                <span style="font-size: 28px;">⚡</span> ClickUp <span style="background: #111; color: #fff; font-size: 13px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">4.0</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Experience Convergence today</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#7c3aed;"></span> ClickUp</span>
-          </div>
-        </div>
-
-        <!-- ITEM 2 (DUP) -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: #e6eae2;">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 25px; letter-spacing: -0.5px;">
-                <span style="font-size: 26px;">📐</span> Salesgraph
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">AI Revenue Intelligence Platform</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#059669;"></span> Salesgraph</span>
-          </div>
-        </div>
-
-        <!-- ITEM 3 (DUP) -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #fdf2f8 0%, #fae8ff 50%, #f5f3ff 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 28px; letter-spacing: -0.5px;">
-                Atria <span style="font-size: 26px; color: #ec4899;">🚀</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">SaaS Workspaces Reimagined</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#ec4899;"></span> Atria</span>
-          </div>
-        </div>
-
-        <!-- ITEM 4 (DUP) -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 50%, #ede9fe 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 28px; letter-spacing: -0.5px;">
-                <span style="font-size: 26px;">🌸</span> Brain <span style="background: #4338ca; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">MAX</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Neural Creative Engine</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#4338ca;"></span> Brain MAX</span>
-          </div>
-        </div>
-
-        <!-- ITEM 5 (DUP) -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #fee2e2 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
-                <span style="font-size: 24px;">🔴</span> Raycast <span style="background: #e11d48; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">PRO</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Supercharged Developer Workflow</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#e11d48;"></span> Raycast</span>
-          </div>
-        </div>
-
-        <!-- ITEM 6 (DUP) -->
-        <div class="recent-card-item" onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
-          <div class="recent-card-frame" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #e0f2fe 100%);">
-            <div style="text-align: center; color: #111; padding: 20px;">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 850; font-size: 26px; letter-spacing: -0.5px;">
-                <span style="font-size: 24px;">⚡</span> Supabase <span style="font-size: 13px; font-weight: 700; color: #059669;">STUDIO</span>
-              </div>
-              <div style="font-size: 12.5px; color: #444; margin-top: 8px; font-weight: 500;">Build in a weekend, scale to millions</div>
-            </div>
-            <div class="recent-card-play" aria-label="Play Video">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-          </div>
-          <div class="recent-card-meta">
-            <span class="made-for-tag">Made For</span>
-            <span class="company-brand"><span class="company-dot" style="background:#10b981;"></span> Supabase</span>
-          </div>
-        </div>
-
+        <!-- Dynamically rendered by JavaScript with Behance 4:3 Ratio Graphic Design cards -->
       </div>
     </div>
   </section>
@@ -1863,6 +1887,40 @@
       </button>
       <div class="video-frame-container">
         <iframe id="video-modal-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- GRAPHIC DESIGN LIGHTBOX PREVIEW MODAL         -->
+  <!-- ============================================= -->
+  <div class="graphic-modal" id="graphic-modal" aria-hidden="true">
+    <div class="graphic-modal-backdrop" onclick="closeGraphicModal()"></div>
+    <div class="graphic-modal-container">
+      <button class="graphic-modal-close" onclick="closeGraphicModal()" aria-label="Close modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="graphic-modal-content">
+        <div class="graphic-modal-image-wrap">
+          <img id="graphic-modal-img" src="" alt="Graphic Design Project" />
+        </div>
+        <div class="graphic-modal-details">
+          <div>
+            <div class="graphic-modal-header">
+              <span class="graphic-modal-category" id="graphic-modal-category">Brand Identity</span>
+              <span class="graphic-modal-client" id="graphic-modal-client">Made for Client</span>
+            </div>
+            <h2 class="graphic-modal-title" id="graphic-modal-title">Project Title</h2>
+            <p class="graphic-modal-desc" id="graphic-modal-desc">Project details and presentation overview.</p>
+          </div>
+          <div class="graphic-modal-footer">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="graphic-modal-behance-btn" id="graphic-modal-behance-link">
+              <span style="font-weight: 900; font-size: 15px; letter-spacing: -0.5px;">Bē</span>
+              <span>View Full Project on Behance</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 15px; height: 15px;"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2167,6 +2225,219 @@
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
+    // Curated Default Graphic Design Works (Behance 4:3 Ratio)
+    const defaultRecentWorks = [
+      {
+        id: "rw-1",
+        title: "Aura Minimalist Brand Identity",
+        client_name: "Aura Studio",
+        category: "Brand Identity",
+        image_url: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Full visual identity guidelines, modern vector typography system and stationery mockups.",
+        accent_color: "#7c3aed"
+      },
+      {
+        id: "rw-2",
+        title: "Kinetic Typographic Exhibition Poster",
+        client_name: "Bauhaus Lab",
+        category: "Poster & Print",
+        image_url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "High-contrast experimental Swiss typography exploration for cultural arts showcase.",
+        accent_color: "#e11d48"
+      },
+      {
+        id: "rw-3",
+        title: "Flora Organic Botanical Packaging",
+        client_name: "Flora Co.",
+        category: "Packaging Design",
+        image_url: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Sustainable eco-friendly cosmetic packaging suite with bespoke foil stamp embellishments.",
+        accent_color: "#059669"
+      },
+      {
+        id: "rw-4",
+        title: "Veloce Streetwear Campaign & Social Art",
+        client_name: "Veloce Apparel",
+        category: "Social Media",
+        image_url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Editorial social media graphic campaign, lookbook layout, and high-impact digital banners.",
+        accent_color: "#ec4899"
+      },
+      {
+        id: "rw-5",
+        title: "Abstract 3D Spatial Geometry",
+        client_name: "Metropolis Digital",
+        category: "Visual Art",
+        image_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Curated chromatic 3D surface explorations and tactile lighting compositions.",
+        accent_color: "#4338ca"
+      },
+      {
+        id: "rw-6",
+        title: "Craft Coffee Bean Roast Packaging",
+        client_name: "Nordic Roasters",
+        category: "Packaging Design",
+        image_url: "https://images.unsplash.com/photo-1559525839-8f8303f568a0?auto=format&fit=crop&w=1200&h=900&q=80",
+        behance_url: "https://www.behance.net/sheikhalasif2023",
+        description: "Minimalist matte black coffee packaging series with metallic bronze stamp details.",
+        accent_color: "#f59e0b"
+      }
+    ];
+
+    let allRecentWorks = [];
+
+    // Load Recent Graphic Design Works & Section Configuration
+    async function loadRecentWorks() {
+      // 1. Load Section Config
+      const sectionConfigStr = localStorage.getItem('ASIF_RECENT_SECTION_CONFIG');
+      if (sectionConfigStr) {
+        try {
+          const cfg = JSON.parse(sectionConfigStr);
+          if (cfg.title) {
+            const titleEl = document.getElementById('recent-work-title');
+            if (titleEl) titleEl.textContent = cfg.title;
+          }
+          if (cfg.subtitle) {
+            const subEl = document.getElementById('recent-work-subtitle');
+            if (subEl) subEl.textContent = cfg.subtitle;
+          }
+          if (cfg.trust_label) {
+            const trustEl = document.getElementById('recent-trust-pill-label');
+            if (trustEl) trustEl.textContent = cfg.trust_label;
+          }
+        } catch (e) {}
+      }
+
+      // 2. Load Recent Works from localStorage
+      const localRecent = localStorage.getItem('ASIF_PORTFOLIO_RECENT_WORKS');
+      if (localRecent) {
+        try {
+          const parsed = JSON.parse(localRecent);
+          allRecentWorks = Array.isArray(parsed) && parsed.length > 0 ? parsed : [...defaultRecentWorks];
+        } catch (e) {
+          allRecentWorks = [...defaultRecentWorks];
+        }
+      } else {
+        allRecentWorks = [...defaultRecentWorks];
+        localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(allRecentWorks));
+      }
+
+      // 3. Query Supabase recent_works table if available
+      if (window.supabase) {
+        try {
+          if (!supabaseClient) {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+          }
+          const { data, error } = await supabaseClient.from('recent_works').select('*').order('sort_order', { ascending: true });
+          if (!error && data && data.length > 0) {
+            allRecentWorks = data;
+            localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(allRecentWorks));
+          }
+        } catch (err) {
+          console.warn("Supabase recent_works query fallback:", err);
+        }
+      }
+
+      renderRecentWorks();
+    }
+
+    // Render Recent Graphic Design Works with Behance 4:3 Ratio
+    function renderRecentWorks() {
+      const track = document.getElementById('recent-work-track');
+      if (!track) return;
+
+      if (!allRecentWorks || allRecentWorks.length === 0) {
+        allRecentWorks = [...defaultRecentWorks];
+      }
+
+      const generateCardHtml = (item) => `
+        <div class="recent-card-item" onclick="openGraphicModal('${escapeHtml(String(item.id))}')" title="View ${escapeHtml(item.title)}">
+          <div class="recent-card-frame">
+            <img src="${escapeHtml(item.image_url)}" 
+                 alt="${escapeHtml(item.title)}" 
+                 class="recent-card-img" 
+                 loading="lazy"
+                 onerror="this.src='https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1200&h=900&q=80';" />
+            <span class="recent-card-badge">${escapeHtml(item.category || 'Graphic Design')}</span>
+            <span class="recent-card-behance-pill" title="Showcased on Behance">Bē</span>
+            <div class="recent-card-overlay">
+              <span class="recent-card-cta-btn">
+                <span>Explore Design</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+              </span>
+            </div>
+          </div>
+          <div class="recent-card-meta">
+            <div class="recent-card-top-row">
+              <h3 class="recent-card-project-title">${escapeHtml(item.title)}</h3>
+            </div>
+            <div class="recent-card-sub-row">
+              <span class="made-for-tag">Made For</span>
+              <span class="company-brand">
+                <span class="company-dot" style="background:${escapeHtml(item.accent_color || '#7c3aed')};"></span>
+                ${escapeHtml(item.client_name || 'Self / Concept')}
+              </span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Build track items (original + duplicates for seamless 50% infinite marquee loop)
+      let cardsHtml = allRecentWorks.map(generateCardHtml).join('');
+      
+      // If fewer than 4 items, duplicate twice so track spans wide enough
+      let repeatCount = allRecentWorks.length < 4 ? 3 : 2;
+      let finalTrackHtml = '';
+      for (let i = 0; i < repeatCount; i++) {
+        finalTrackHtml += cardsHtml;
+      }
+
+      track.innerHTML = finalTrackHtml;
+    }
+
+    // Graphic Design Modal Control
+    function openGraphicModal(id) {
+      const item = allRecentWorks.find(w => String(w.id) === String(id));
+      if (!item) return;
+
+      const modal = document.getElementById('graphic-modal');
+      const img = document.getElementById('graphic-modal-img');
+      const cat = document.getElementById('graphic-modal-category');
+      const client = document.getElementById('graphic-modal-client');
+      const title = document.getElementById('graphic-modal-title');
+      const desc = document.getElementById('graphic-modal-desc');
+      const behanceBtn = document.getElementById('graphic-modal-behance-link');
+
+      if (!modal || !img) return;
+
+      img.src = item.image_url;
+      cat.textContent = item.category || 'Graphic Design';
+      client.textContent = `Made For: ${item.client_name || 'Concept / Self'}`;
+      title.textContent = item.title;
+      desc.textContent = item.description || 'Full project presentation, brand guidelines, and high-resolution assets published on Behance.';
+      behanceBtn.href = item.behance_url || 'https://www.behance.net/sheikhalasif2023';
+
+      modal.classList.add('active');
+    }
+
+    function closeGraphicModal() {
+      const modal = document.getElementById('graphic-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    // Modal Keyboard and Click Handlers
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeVideoModal();
+        closeGraphicModal();
+      }
+    });
+
     // Custom Magnetic SaaS Cursor Logic with Smooth Spring Physics
     const cursorDot = document.getElementById('cursor-dot');
     const cursorRing = document.getElementById('cursor-ring');
@@ -2201,7 +2472,6 @@
 
     // Smooth lerp loop for the trailing ring
     function renderCursor() {
-      // Lerp smoothing (0.16)
       ringX += (mouseX - ringX) * 0.16;
       ringY += (mouseY - ringY) * 0.16;
 
@@ -2236,10 +2506,12 @@
       });
     }
 
-    // Tab Filter Logic
+    // Tab Filter Logic & Initialization
     document.addEventListener('DOMContentLoaded', () => {
       if (window.lucide) window.lucide.createIcons();
-      loadVideos().then(() => {
+      
+      // Load both Video Works and Recent Graphic Design Works
+      Promise.all([loadVideos(), loadRecentWorks()]).then(() => {
         attachCursorHoverEffects();
       });
 
