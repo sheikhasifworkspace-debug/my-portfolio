@@ -332,6 +332,58 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
 
+    /* Behance Auto-Fetch Button & Spinner */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .btn-fetch-cover {
+      background: #0057ff;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 0 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .btn-fetch-cover:hover {
+      background: #0046d1;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 87, 255, 0.25);
+    }
+
+    .btn-fetch-cover:active {
+      transform: translateY(0);
+    }
+
+    .btn-fetch-cover:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .fetch-status-box {
+      font-size: 12px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      line-height: 1.5;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* Image upload tabs inside form */
     .img-source-selector {
       display: flex;
@@ -747,9 +799,16 @@
             <div class="form-group">
               <label class="form-label">
                 <span>Behance / Project Link</span>
-                <span class="form-label-hint">Clicking card opens this</span>
+                <span class="form-label-hint">Paste link to auto-fetch cover</span>
               </label>
-              <input type="url" id="recent-behance" class="form-input" placeholder="https://www.behance.net/gallery/..." />
+              <div style="display: flex; gap: 8px;">
+                <input type="url" id="recent-behance" class="form-input" placeholder="https://www.behance.net/gallery/..." onpaste="handleBehancePaste(event)" oninput="handleBehanceInput(event)" style="flex: 1;" />
+                <button type="button" id="btn-fetch-behance" class="btn-fetch-cover" onclick="fetchBehanceCover()" title="Auto-fetch cover image from this Behance link">
+                  <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+                  <span>Auto-Fetch Cover</span>
+                </button>
+              </div>
+              <div id="behance-fetch-status" class="fetch-status-box" style="display: none;"></div>
             </div>
 
             <!-- Graphic Design Picture Upload / URL -->
@@ -1176,11 +1235,189 @@
       reader.readAsDataURL(file);
     }
 
+    function handleBehancePaste(e) {
+      setTimeout(() => {
+        const url = (document.getElementById('recent-behance').value || '').trim();
+        if (url && (url.includes('behance.net/gallery/') || url.includes('behance.net/'))) {
+          fetchBehanceCover(url);
+        }
+      }, 50);
+    }
+
+    let behanceDebounce = null;
+    function handleBehanceInput(e) {
+      clearTimeout(behanceDebounce);
+      const url = (e.target.value || '').trim();
+      if (url && url.includes('behance.net/gallery/')) {
+        behanceDebounce = setTimeout(() => {
+          fetchBehanceCover(url);
+        }, 700);
+      }
+    }
+
+    async function fetchBehanceCover(overrideUrl) {
+      const behanceInput = document.getElementById('recent-behance');
+      const url = (overrideUrl || (behanceInput ? behanceInput.value : '') || '').trim();
+      const statusBox = document.getElementById('behance-fetch-status');
+      const fetchBtn = document.getElementById('btn-fetch-behance');
+
+      if (!url) {
+        showToast('Please enter a Behance link first.', 'error');
+        return;
+      }
+
+      // If user pasted a direct Behance CDN image URL into the field
+      if (url.match(/https:\/\/(?:mir-s3-cdn-cf|mir-cdn)\.behance\.net\//i)) {
+        setRecentImgMode('url');
+        const imgUrlInput = document.getElementById('recent-img-url');
+        if (imgUrlInput) imgUrlInput.value = url;
+        activeRecentImgData = url;
+        showRecentPreview(url, 'Behance CDN Artwork (4:3)');
+        if (statusBox) {
+          statusBox.style.display = 'block';
+          statusBox.style.background = '#ecfdf5';
+          statusBox.style.color = '#065f46';
+          statusBox.innerHTML = '✅ <strong>Direct Behance image recognized!</strong> Live 4:3 preview updated.';
+        }
+        showToast('Behance artwork loaded!');
+        return;
+      }
+
+      if (!url.includes('behance.net/')) {
+        showToast('Please enter a valid Behance link (e.g. behance.net/gallery/...)', 'error');
+        return;
+      }
+
+      // Sync into recent-behance input if it was called from elsewhere
+      if (behanceInput && behanceInput.value !== url) {
+        behanceInput.value = url;
+      }
+
+      // Loading UI State
+      if (fetchBtn) {
+        fetchBtn.disabled = true;
+        fetchBtn.innerHTML = '<span style="width:13px;height:13px;border:2px solid #fff;border-right-color:transparent;border-radius:50%;display:inline-block;animation:spin 0.7s linear infinite;"></span> <span>Fetching...</span>';
+      }
+      if (statusBox) {
+        statusBox.style.display = 'block';
+        statusBox.style.background = '#eef2ff';
+        statusBox.style.color = '#3730a3';
+        statusBox.innerHTML = '🔍 <strong>Connecting to Behance...</strong> Extracting cover image & project details.';
+      }
+
+      let coverUrl = null;
+      let projectTitle = null;
+      let projectDesc = null;
+
+      try {
+        // Strategy 1: AI structured reader / og:image extractor
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+        try {
+          const res = await fetch(`https://r.jina.ai/${encodeURIComponent(url)}`, {
+            headers: { 'Accept': 'application/json' },
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+
+          if (res.ok) {
+            const data = await res.json();
+            const meta = data.data?.metadata || {};
+            coverUrl = meta['og:image'] || meta['twitter:image'] || (data.data?.external?.image_src ? Object.keys(data.data.external.image_src)[0] : null);
+            projectTitle = data.data?.title || meta['og:title'];
+            projectDesc = data.data?.description || meta['og:description'];
+          }
+        } catch (jinaErr) {
+          console.warn('JSON meta extraction error, falling back to pattern match:', jinaErr);
+        }
+
+        // Strategy 2: Raw markdown pattern match for Behance project image
+        if (!coverUrl) {
+          try {
+            const rawRes = await fetch(`https://r.jina.ai/${encodeURIComponent(url)}`);
+            if (rawRes.ok) {
+              const text = await rawRes.text();
+              const matches = text.match(/https:\/\/(?:mir-s3-cdn-cf|mir-cdn)\.behance\.net\/(?:project_modules|projects)\/[^\s\)\"\']+/gi);
+              if (matches && matches.length > 0) {
+                coverUrl = matches[0];
+              }
+            }
+          } catch (rawErr) {
+            console.warn('Raw pattern extraction error:', rawErr);
+          }
+        }
+
+        if (coverUrl) {
+          // Switch to URL mode and set the value
+          setRecentImgMode('url');
+          const imgInput = document.getElementById('recent-img-url');
+          if (imgInput) imgInput.value = coverUrl;
+          activeRecentImgData = coverUrl;
+          showRecentPreview(coverUrl, 'Auto-Fetched Behance Cover');
+
+          // Autofill Project Title if empty
+          const titleInput = document.getElementById('recent-title');
+          if (titleInput && !titleInput.value.trim() && projectTitle) {
+            const cleanTitle = projectTitle.split(' - ')[0].replace(/::\s*Behance/i, '').replace(/on Behance/i, '').trim();
+            if (cleanTitle && cleanTitle.toLowerCase() !== 'www.behance.net') {
+              titleInput.value = cleanTitle;
+            }
+          }
+
+          // Autofill Description if empty
+          const descInput = document.getElementById('recent-desc');
+          if (descInput && !descInput.value.trim() && projectDesc) {
+            descInput.value = projectDesc.trim();
+          }
+
+          if (statusBox) {
+            statusBox.style.background = '#ecfdf5';
+            statusBox.style.color = '#065f46';
+            statusBox.innerHTML = '✨ <strong>Behance Cover Auto-Fetched!</strong> Cover image, title & 4:3 preview updated automatically.';
+            setTimeout(() => {
+              if (statusBox) statusBox.style.display = 'none';
+            }, 6000);
+          }
+          showToast('Behance cover & details loaded!');
+        } else {
+          throw new Error('No cover image returned');
+        }
+      } catch (err) {
+        console.error('Behance fetch issue:', err);
+        if (statusBox) {
+          statusBox.style.background = '#fffbeb';
+          statusBox.style.color = '#92400e';
+          statusBox.innerHTML = `
+            ⚡ <strong>Behance Firewall Notice:</strong> Direct project meta couldn't be auto-read.
+            <div style="margin-top: 4px; font-size: 11.5px;">
+              <strong>Super Fast Fix:</strong> Open project on Behance &rarr; Right click cover image &rarr; Click <strong>"Copy image address"</strong> &rarr; Paste into the <strong>Image URL Link</strong> box below!
+            </div>
+          `;
+        }
+        showToast('Auto-fetch could not bypass Behance. Use Copy Image Address below.', 'warning');
+      } finally {
+        if (fetchBtn) {
+          fetchBtn.disabled = false;
+          fetchBtn.innerHTML = '<i data-lucide="sparkles" style="width: 14px; height: 14px;"></i><span>Auto-Fetch Cover</span>';
+          if (window.lucide) window.lucide.createIcons();
+        }
+      }
+    }
+
     function handleUrlInput(e) {
       const url = e.target.value.trim();
       if (url) {
+        // If user accidentally pastes a Behance project URL into the Image URL field
+        if (url.includes('behance.net/gallery/') && !url.match(/\.(jpg|jpeg|png|webp|gif)/i)) {
+          const behanceInput = document.getElementById('recent-behance');
+          if (behanceInput) behanceInput.value = url;
+          fetchBehanceCover(url);
+          return;
+        }
+
         activeRecentImgData = url;
-        showRecentPreview(url, 'External URL');
+        showRecentPreview(url, 'External Image URL');
       } else {
         activeRecentImgData = '';
         clearRecentPreview();
@@ -1439,6 +1676,8 @@
       document.getElementById('recent-form-title-text').textContent = 'Add Graphic Design Project';
       document.getElementById('recent-submit-text').textContent = 'Publish to Recent Work';
       document.getElementById('cancel-recent-edit-btn').style.display = 'none';
+      const statusBox = document.getElementById('behance-fetch-status');
+      if (statusBox) statusBox.style.display = 'none';
     }
 
     async function deleteRecentItem(id) {
