@@ -931,6 +931,22 @@
           <form id="video-form" onsubmit="handleFormSubmit(event)">
             <input type="hidden" id="edit-video-id" value="" />
 
+            <!-- Video URL with Auto-Fetch -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Video URL (YouTube / Vimeo / MP4) *</span>
+                <span class="form-label-hint">Paste YouTube link to auto-fetch</span>
+              </label>
+              <div style="display: flex; gap: 8px;">
+                <input type="url" id="video-url" class="form-input" required placeholder="https://www.youtube.com/watch?v=..." onpaste="handleVideoPaste(event)" oninput="handleVideoInput(event)" style="flex: 1;" />
+                <button type="button" id="btn-fetch-video" class="btn-fetch-cover" style="background: #e50914;" onclick="fetchVideoDetails()" title="Auto-fetch video title, cover thumbnail and details">
+                  <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+                  <span>Auto-Fetch</span>
+                </button>
+              </div>
+              <div id="video-fetch-status" class="fetch-status-box" style="display: none;"></div>
+            </div>
+
             <div class="form-group">
               <label class="form-label">Project / Video Title *</label>
               <input type="text" id="video-title" class="form-input" required placeholder="e.g. ClickUp 4.0 or Brand Reel" />
@@ -949,11 +965,6 @@
             <div class="form-group">
               <label class="form-label">Short Description</label>
               <textarea id="video-desc" rows="3" class="form-textarea" placeholder="Brief 1-2 sentence overview..."></textarea>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Video URL (YouTube / Vimeo / MP4) *</label>
-              <input type="url" id="video-url" class="form-input" required placeholder="https://www.youtube.com/watch?v=..." oninput="updateThumbnailPreview()" />
             </div>
 
             <!-- Thumbnail Selection Option -->
@@ -1861,6 +1872,129 @@
       renderAdminList();
     }
 
+    function handleVideoPaste(e) {
+      setTimeout(() => {
+        const url = (document.getElementById('video-url').value || '').trim();
+        if (url) {
+          fetchVideoDetails(url);
+        }
+      }, 50);
+    }
+
+    let videoDebounceTimer = null;
+    function handleVideoInput(e) {
+      updateThumbnailPreview();
+      clearTimeout(videoDebounceTimer);
+      const url = (e.target.value || '').trim();
+      const ytId = getYouTubeId(url);
+      if (ytId || url.includes('vimeo.com')) {
+        videoDebounceTimer = setTimeout(() => {
+          fetchVideoDetails(url);
+        }, 700);
+      }
+    }
+
+    async function fetchVideoDetails(overrideUrl) {
+      const videoInput = document.getElementById('video-url');
+      const url = (overrideUrl || (videoInput ? videoInput.value : '') || '').trim();
+      const statusBox = document.getElementById('video-fetch-status');
+      const fetchBtn = document.getElementById('btn-fetch-video');
+      const titleInput = document.getElementById('video-title');
+      const descInput = document.getElementById('video-desc');
+
+      if (!url) {
+        showToast('Please enter a video URL first.', 'error');
+        return;
+      }
+
+      const ytId = getYouTubeId(url);
+      const isVimeo = url.includes('vimeo.com');
+
+      if (!ytId && !isVimeo) {
+        updateThumbnailPreview();
+        return;
+      }
+
+      // UI Loading state
+      if (fetchBtn) {
+        fetchBtn.disabled = true;
+        fetchBtn.innerHTML = '<span style="width:13px;height:13px;border:2px solid #fff;border-right-color:transparent;border-radius:50%;display:inline-block;animation:spin 0.7s linear infinite;"></span> <span>Fetching...</span>';
+      }
+      if (statusBox) {
+        statusBox.style.display = 'block';
+        statusBox.style.background = '#fef2f2';
+        statusBox.style.color = '#991b1b';
+        statusBox.innerHTML = '🔍 <strong>Connecting to video...</strong> Fetching title & HD cover.';
+      }
+
+      try {
+        let fetchedTitle = '';
+        let fetchedAuthor = '';
+
+        if (ytId) {
+          // YouTube oEmbed (Free, No Auth, Official CORS Enabled)
+          const oembedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
+          const res = await fetch(oembedUrl);
+          if (res.ok) {
+            const data = await res.json();
+            fetchedTitle = data.title || '';
+            fetchedAuthor = data.author_name || '';
+          }
+        } else if (isVimeo) {
+          try {
+            const vimeoRes = await fetch(`https://vimeo.com/api/oembed.json?url=${encodeURIComponent(url)}`);
+            if (vimeoRes.ok) {
+              const data = await vimeoRes.json();
+              fetchedTitle = data.title || '';
+              fetchedAuthor = data.author_name || '';
+            }
+          } catch (e) {}
+        }
+
+        // Apply title if empty or current is generic
+        if (fetchedTitle && titleInput) {
+          if (!titleInput.value.trim() || titleInput.value.toLowerCase().includes('clickup') || titleInput.value.toLowerCase().includes('untitled')) {
+            titleInput.value = fetchedTitle;
+          }
+        }
+
+        // Apply author or info if description is empty
+        if (fetchedAuthor && descInput && !descInput.value.trim()) {
+          descInput.value = `Video by ${fetchedAuthor}`;
+        }
+
+        updateThumbnailPreview();
+
+        if (statusBox) {
+          statusBox.style.background = '#ecfdf5';
+          statusBox.style.color = '#065f46';
+          statusBox.innerHTML = '✨ <strong>Video Details Auto-Fetched!</strong> Title and high-resolution cover preview loaded.';
+          setTimeout(() => {
+            if (statusBox) statusBox.style.display = 'none';
+          }, 5000);
+        }
+
+        showToast('Video title & cover auto-fetched!');
+      } catch (err) {
+        console.warn('Video oEmbed fetch fallback:', err);
+        updateThumbnailPreview();
+        if (statusBox) {
+          statusBox.style.background = '#fffbeb';
+          statusBox.style.color = '#92400e';
+          statusBox.innerHTML = '⚡ Cover thumbnail loaded. You can enter or edit the title above.';
+          setTimeout(() => {
+            if (statusBox) statusBox.style.display = 'none';
+          }, 4000);
+        }
+      } finally {
+        if (fetchBtn) {
+          fetchBtn.disabled = false;
+          fetchBtn.innerHTML = '<i data-lucide="sparkles" style="width: 14px; height: 14px;"></i><span>Auto-Fetch</span>';
+          if (window.lucide) window.lucide.createIcons();
+        }
+      }
+    }
+
     function toggleThumbOption() {
       const isCustom = document.getElementById('thumb-mode-custom').checked;
       document.getElementById('custom-thumb-wrap').style.display = isCustom ? 'block' : 'none';
@@ -2079,6 +2213,8 @@
       document.getElementById('form-title-text').textContent = 'Add New Video';
       document.getElementById('submit-btn-text').textContent = 'Publish Video';
       document.getElementById('cancel-edit-btn').style.display = 'none';
+      const statusBox = document.getElementById('video-fetch-status');
+      if (statusBox) statusBox.style.display = 'none';
 
       updateThumbnailPreview();
     }
