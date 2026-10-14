@@ -53,7 +53,7 @@
         cursor: none;
       }
 
-      a, button, [role="button"], input, select, textarea, .video-card, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble {
+      a, button, [role="button"], input, select, textarea, .video-card, .recent-card-item, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble, .graphic-modal-close, .graphic-modal-behance-btn, .modal-close-btn {
         cursor: none !important;
       }
 
@@ -63,12 +63,14 @@
         left: 0;
         width: 8px;
         height: 8px;
-        background: #111111;
+        background: #dc2626;
+        border: 1.5px solid #ffffff;
+        box-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
         border-radius: 50%;
         pointer-events: none;
-        z-index: 9999;
+        z-index: 2147483647;
         transform: translate(-50%, -50%);
-        transition: width 0.25s ease, height 0.25s ease, background 0.3s ease, transform 0.05s ease;
+        transition: width 0.25s ease, height 0.25s ease, background 0.3s ease, border-color 0.3s ease, transform 0.05s ease, opacity 0.2s ease;
       }
 
       .custom-cursor-ring {
@@ -77,10 +79,11 @@
         left: 0;
         width: 38px;
         height: 38px;
-        border: 1.5px solid rgba(17, 17, 17, 0.45);
+        border: 1.5px solid rgba(220, 38, 38, 0.55);
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
         border-radius: 50%;
         pointer-events: none;
-        z-index: 9998;
+        z-index: 2147483646;
         transform: translate(-50%, -50%);
         transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                     height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -91,18 +94,19 @@
 
       /* Hover States (Red & Dark Black SaaS Style) */
       body.cursor-hover .custom-cursor-dot {
-        width: 7px;
-        height: 7px;
-        background: #dc2626;
-        box-shadow: 0 0 10px rgba(220, 38, 38, 0.6);
+        width: 8px;
+        height: 8px;
+        background: #ffffff;
+        border-color: #dc2626;
+        box-shadow: 0 0 10px rgba(220, 38, 38, 0.8);
       }
 
       body.cursor-hover .custom-cursor-ring {
-        width: 64px;
-        height: 64px;
-        border-color: rgba(220, 38, 38, 0.65);
-        background: rgba(220, 38, 38, 0.08);
-        box-shadow: 0 0 20px rgba(220, 38, 38, 0.15);
+        width: 60px;
+        height: 60px;
+        border-color: rgba(220, 38, 38, 0.8);
+        background: rgba(220, 38, 38, 0.12);
+        box-shadow: 0 0 20px rgba(220, 38, 38, 0.25);
         backdrop-filter: blur(2px);
       }
 
@@ -133,6 +137,36 @@
 
       body.cursor-active .custom-cursor-ring {
         transform: translate(-50%, -50%) scale(0.85);
+      }
+
+      /* Active Modal Cursor State (Ensures 100% Visibility over dark popups) */
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      body.modal-open .custom-cursor-dot {
+        opacity: 1 !important;
+        background: #ffffff !important;
+        border: 1.5px solid #0057ff !important;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(0, 87, 255, 0.5) !important;
+      }
+
+      body.modal-open .custom-cursor-ring {
+        border-color: rgba(255, 255, 255, 0.8) !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+      }
+
+      body.modal-open .custom-cursor-ring::after {
+        display: none !important;
+        content: '' !important;
+      }
+
+      body.modal-open.cursor-hover .custom-cursor-ring {
+        width: 58px !important;
+        height: 58px !important;
+        border-color: #0057ff !important;
+        background: rgba(0, 87, 255, 0.2) !important;
+        box-shadow: 0 0 20px rgba(0, 87, 255, 0.4) !important;
       }
     }
 
@@ -749,7 +783,7 @@
     .video-modal {
       position: fixed;
       inset: 0;
-      z-index: 100;
+      z-index: 99999;
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(16px);
       display: flex;
@@ -2191,6 +2225,9 @@
       const iframe = document.getElementById('video-modal-iframe');
       if (!modal || !iframe) return;
 
+      document.body.classList.remove('cursor-video', 'cursor-hover', 'cursor-active');
+      document.body.classList.add('modal-open');
+
       // Handle raw YouTube URLs, shorts, youtu.be to embed format
       let embedUrl = url;
       const ytId = getYouTubeId(url);
@@ -2211,6 +2248,7 @@
       const iframe = document.getElementById('video-modal-iframe');
       if (modal) modal.classList.remove('active');
       if (iframe) iframe.src = '';
+      document.body.classList.remove('modal-open', 'cursor-video', 'cursor-hover', 'cursor-active');
     }
 
     // Close on outside click
@@ -2398,6 +2436,7 @@
       }
 
       track.innerHTML = finalTrackHtml;
+      attachCursorHoverEffects();
     }
 
     // Graphic Design Modal Control
@@ -2415,6 +2454,9 @@
 
       if (!modal || !img) return;
 
+      document.body.classList.remove('cursor-video', 'cursor-hover', 'cursor-active');
+      document.body.classList.add('modal-open');
+
       img.src = item.image_url;
       cat.textContent = item.category || 'Graphic Design';
       client.textContent = `Made For: ${item.client_name || 'Concept / Self'}`;
@@ -2428,6 +2470,7 @@
     function closeGraphicModal() {
       const modal = document.getElementById('graphic-modal');
       if (modal) modal.classList.remove('active');
+      document.body.classList.remove('modal-open', 'cursor-video', 'cursor-hover', 'cursor-active');
     }
 
     // Modal Keyboard and Click Handlers
@@ -2484,7 +2527,7 @@
 
     // Interactive Hover Listeners for all clickable elements
     function attachCursorHoverEffects() {
-      const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, select, textarea, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble');
+      const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, select, textarea, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble, .recent-card-item, .graphic-modal-close, .graphic-modal-behance-btn, .modal-close-btn');
       interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
           document.body.classList.add('cursor-hover');
@@ -2494,8 +2537,8 @@
         });
       });
 
-      // Special 'PLAY' cursor on video cards & recent work cards
-      const videoCards = document.querySelectorAll('.video-card, .recent-card-item');
+      // Special 'PLAY' cursor strictly on video cards only
+      const videoCards = document.querySelectorAll('.video-card');
       videoCards.forEach(card => {
         card.addEventListener('mouseenter', () => {
           document.body.classList.add('cursor-video');
