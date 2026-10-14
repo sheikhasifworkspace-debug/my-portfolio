@@ -164,8 +164,8 @@
       gap: 10px;
       margin-bottom: 24px;
       border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
-      overflow-x: auto;
+      padding-bottom: 14px;
+      flex-wrap: wrap;
     }
 
     .admin-tab-btn {
@@ -533,6 +533,65 @@
       border-color: #fecaca;
     }
 
+    /* Video List Items (Restored to exact clean previous layout) */
+    .video-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid #f0f0f2;
+      background: #ffffff;
+      margin-bottom: 12px;
+      transition: border-color 0.2s ease;
+    }
+
+    .video-item:hover {
+      border-color: #d8d8de;
+    }
+
+    .video-item-thumb {
+      width: 80px;
+      height: 54px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #e5e5ea;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .video-item-info {
+      flex-grow: 1;
+      min-width: 0;
+    }
+
+    .video-item-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .video-item-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: #f0f0f4;
+      color: #555555;
+    }
+
+    .video-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
     /* Notification banner */
     .toast {
       padding: 12px 20px;
@@ -620,16 +679,16 @@
 
       <!-- Top Tab Switcher -->
       <div class="admin-tabs-nav">
-        <button class="admin-tab-btn active" id="tab-btn-recent" onclick="switchAdminTab('recent')">
-          <i data-lucide="palette" style="width: 16px; height: 16px;"></i>
-          <span>More Recent Work (Behance 4:3 Ratio)</span>
-          <span class="badge-count" id="recent-count-badge">0</span>
-        </button>
-
-        <button class="admin-tab-btn" id="tab-btn-videos" onclick="switchAdminTab('videos')">
+        <button class="admin-tab-btn active" id="tab-btn-videos" onclick="switchAdminTab('videos')">
           <i data-lucide="video" style="width: 16px; height: 16px;"></i>
           <span>Videos We Ship</span>
           <span class="badge-count" id="video-count-badge">0</span>
+        </button>
+
+        <button class="admin-tab-btn" id="tab-btn-recent" onclick="switchAdminTab('recent')">
+          <i data-lucide="palette" style="width: 16px; height: 16px;"></i>
+          <span>More Recent Work (Behance 4:3)</span>
+          <span class="badge-count" id="recent-count-badge">0</span>
         </button>
 
         <button class="admin-tab-btn" id="tab-btn-settings" onclick="switchAdminTab('settings')">
@@ -641,7 +700,7 @@
       <!-- =================================================================== -->
       <!-- TAB 1: RECENT WORK (GRAPHIC DESIGN & BEHANCE)                       -->
       <!-- =================================================================== -->
-      <div id="view-tab-recent" class="dashboard-layout">
+      <div id="view-tab-recent" class="dashboard-layout" style="display: none;">
 
         <!-- Left: Add / Edit Graphic Design Form -->
         <div class="card">
@@ -799,7 +858,7 @@
       <!-- =================================================================== -->
       <!-- TAB 2: VIDEOS WE SHIP                                               -->
       <!-- =================================================================== -->
-      <div id="view-tab-videos" class="dashboard-layout" style="display: none;">
+      <div id="view-tab-videos" class="dashboard-layout" style="display: grid;">
 
         <!-- Left: Add / Edit Video Form -->
         <div class="card">
@@ -1028,9 +1087,10 @@
     function showDashboard() {
       document.getElementById('login-box').style.display = 'none';
       document.getElementById('dashboard-box').style.display = 'block';
-      loadAdminRecentWorks();
       loadAdminVideos();
+      loadAdminRecentWorks();
       loadSectionSettings();
+      switchAdminTab('videos');
     }
 
     // Tab Switching
@@ -1529,6 +1589,29 @@
       }
     }
 
+    // Resolve effective thumbnail URL (custom image > YouTube thumbnail) - NO Unsplash
+    function resolveVideoThumbnail(video) {
+      if (!video) return '';
+      const custom = (video.thumbnail_url || '').trim();
+      const ytId = getYouTubeId(video.video_url);
+
+      if (ytId) {
+        if (!custom || custom.includes('unsplash.com')) {
+          return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+        }
+      }
+
+      if (custom && !custom.includes('unsplash.com')) {
+        return custom;
+      }
+
+      if (ytId) {
+        return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+      }
+
+      return custom;
+    }
+
     function renderAdminList() {
       const container = document.getElementById('admin-video-list');
       const countEl = document.getElementById('video-count');
@@ -1550,21 +1633,23 @@
       }
 
       container.innerHTML = currentVideos.map(v => {
-        const ytId = getYouTubeId(v.video_url);
-        const thumb = v.thumbnail_url || (ytId ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg` : '');
+        const thumb = resolveVideoThumbnail(v);
         return `
           <div class="video-item">
-            <img src="${escapeHtml(thumb)}" alt="${escapeHtml(v.title)}" class="video-item-thumb" onerror="if(this.src.includes('maxresdefault.jpg')) this.src=this.src.replace('maxresdefault.jpg','hqdefault.jpg');" />
+            <img src="${escapeHtml(thumb)}" 
+                 alt="${escapeHtml(v.title)}" 
+                 class="video-item-thumb" 
+                 onerror="if(!this.dataset.fallback && this.src.includes('maxresdefault.jpg')){this.dataset.fallback='1';this.src=this.src.replace('maxresdefault.jpg','hqdefault.jpg');}else{this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2254%22 viewBox=%220 0 80 54%22 fill=%22%23f0f0f4%22><rect width=%2280%22 height=%2254%22 rx=%228%22 fill=%22%23f0f0f4%22/><path d=%22M34 20v14l12-7z%22 fill=%22%23999%22/></svg>';}" />
             <div class="video-item-info">
-              <h4 class="video-item-title">${escapeHtml(v.title)}</h4>
+              <div class="video-item-title">${escapeHtml(v.title)}</div>
               <span class="video-item-badge">${escapeHtml(v.category)}</span>
             </div>
             <div class="video-item-actions">
               <button class="action-icon-btn" onclick="startEdit('${escapeHtml(String(v.id))}')" title="Edit Video">
-                <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+                <i data-lucide="edit-3" style="width: 15px; height: 15px;"></i>
               </button>
               <button class="action-icon-btn delete" onclick="deleteVideo('${escapeHtml(String(v.id))}')" title="Delete Video">
-                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
               </button>
             </div>
           </div>
