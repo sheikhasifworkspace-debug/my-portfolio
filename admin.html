@@ -1054,6 +1054,42 @@
             </button>
           </form>
         </div>
+
+        <div class="card" style="grid-column: 1 / -1; max-width: 680px; margin: 24px auto 0; width: 100%;">
+          <h3 class="card-title">
+            <span>Data Backup & Cloud Persistence</span>
+          </h3>
+          <p style="font-size: 13px; color: #666; margin-bottom: 16px;">
+            Your projects are saved in your browser's persistent storage. You can also export a complete JSON backup or connect Supabase for global cloud sync.
+          </p>
+          
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+            <button type="button" class="back-btn" onclick="exportPortfolioData()" style="padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="download" style="width: 15px; height: 15px;"></i>
+              <span>Export Backup (JSON)</span>
+            </button>
+
+            <button type="button" class="back-btn" onclick="document.getElementById('import-file-input').click()" style="padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="upload" style="width: 15px; height: 15px;"></i>
+              <span>Restore / Import (JSON)</span>
+            </button>
+            <input type="file" id="import-file-input" accept=".json,application/json" style="display: none;" onchange="importPortfolioData(event)" />
+          </div>
+
+          <div style="background: #f8f9fa; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 13px; font-weight: 700; color: #111;">☁️ Supabase Cloud Database</span>
+              <span id="supabase-status-pill" style="font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px; background: #fee2e2; color: #991b1b;">Checking...</span>
+            </div>
+            <p style="font-size: 12px; color: #666; margin-bottom: 10px;">
+              To make your published projects live for all internet visitors globally, run the table scripts in your Supabase SQL editor:
+            </p>
+            <a href="https://supabase.com/dashboard/project/nhnutpvphmwkjlxzuljv/sql/new" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: #0057ff; text-decoration: none;">
+              <span>Open Supabase SQL Editor</span>
+              <i data-lucide="external-link" style="width: 13px; height: 13px;"></i>
+            </a>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -1066,69 +1102,8 @@
 
     let supabaseClient = null;
 
-    // Curated Default Graphic Design Works (Behance 4:3 Ratio)
-    const defaultSampleRecent = [
-      {
-        id: "rw-1",
-        title: "Aura Minimalist Brand Identity",
-        client_name: "Aura Studio",
-        category: "Brand Identity",
-        image_url: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Full visual identity guidelines, modern vector typography system and stationery mockups.",
-        accent_color: "#7c3aed"
-      },
-      {
-        id: "rw-2",
-        title: "Kinetic Typographic Exhibition Poster",
-        client_name: "Bauhaus Lab",
-        category: "Poster & Print",
-        image_url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "High-contrast experimental Swiss typography exploration for cultural arts showcase.",
-        accent_color: "#e11d48"
-      },
-      {
-        id: "rw-3",
-        title: "Flora Organic Botanical Packaging",
-        client_name: "Flora Co.",
-        category: "Packaging Design",
-        image_url: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Sustainable eco-friendly cosmetic packaging suite with bespoke foil stamp embellishments.",
-        accent_color: "#059669"
-      },
-      {
-        id: "rw-4",
-        title: "Veloce Streetwear Campaign & Social Art",
-        client_name: "Veloce Apparel",
-        category: "Social Media",
-        image_url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Editorial social media graphic campaign, lookbook layout, and high-impact digital banners.",
-        accent_color: "#ec4899"
-      },
-      {
-        id: "rw-5",
-        title: "Abstract 3D Spatial Geometry",
-        client_name: "Metropolis Digital",
-        category: "Visual Art",
-        image_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Curated chromatic 3D surface explorations and tactile lighting compositions.",
-        accent_color: "#4338ca"
-      },
-      {
-        id: "rw-6",
-        title: "Craft Coffee Bean Roast Packaging",
-        client_name: "Nordic Roasters",
-        category: "Packaging Design",
-        image_url: "https://images.unsplash.com/photo-1559525839-8f8303f568a0?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Minimalist matte black coffee packaging series with metallic bronze stamp details.",
-        accent_color: "#f59e0b"
-      }
-    ];
+    // Curated Default Graphic Design Works (Behance 4:3 Ratio) - Clean state
+    const defaultSampleRecent = [];
 
     let currentRecentWorks = [];
     let currentVideos = [];
@@ -1155,6 +1130,7 @@
       loadAdminVideos();
       loadAdminRecentWorks();
       loadSectionSettings();
+      checkSupabaseStatus();
       switchAdminTab('videos');
     }
 
@@ -1174,6 +1150,7 @@
       } else if (tabName === 'settings') {
         document.getElementById('tab-btn-settings').classList.add('active');
         document.getElementById('view-tab-settings').style.display = 'block';
+        checkSupabaseStatus();
       }
 
       if (window.lucide) window.lucide.createIcons();
@@ -1453,21 +1430,22 @@
       if (el) el.classList.add('active');
     }
 
-    // Load Recent Works
+    // Load Recent Works (Clean, No Demo, Persistent)
     async function loadAdminRecentWorks() {
+      const demoRwIds = ['rw-1', 'rw-2', 'rw-3', 'rw-4', 'rw-5', 'rw-6'];
       // 1. LocalStorage
       const stored = localStorage.getItem('ASIF_PORTFOLIO_RECENT_WORKS');
-      if (stored) {
+      if (stored !== null) {
         try {
           const parsed = JSON.parse(stored);
-          currentRecentWorks = Array.isArray(parsed) && parsed.length > 0 ? parsed : [...defaultSampleRecent];
+          currentRecentWorks = (Array.isArray(parsed) ? parsed : []).filter(item => !demoRwIds.includes(String(item.id)) && item.title !== 'Aura Minimalist Brand Identity');
         } catch (e) {
-          currentRecentWorks = [...defaultSampleRecent];
+          currentRecentWorks = [];
         }
       } else {
-        currentRecentWorks = [...defaultSampleRecent];
-        localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(currentRecentWorks));
+        currentRecentWorks = [];
       }
+      localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(currentRecentWorks));
 
       // 2. Supabase recent_works
       if (window.supabase) {
@@ -1475,7 +1453,7 @@
           if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           const { data, error } = await supabaseClient.from('recent_works').select('*').order('sort_order', { ascending: true });
           if (!error && data && data.length > 0) {
-            currentRecentWorks = data;
+            currentRecentWorks = data.filter(item => !demoRwIds.includes(String(item.id)) && item.title !== 'Aura Minimalist Brand Identity');
             localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(currentRecentWorks));
           }
         } catch (err) {}
@@ -1733,6 +1711,95 @@
     }
 
     // =========================================================================
+    // DATA BACKUP & PORTABILITY
+    // =========================================================================
+    function exportPortfolioData() {
+      const data = {
+        exported_at: new Date().toISOString(),
+        videos: currentVideos,
+        recent_works: currentRecentWorks,
+        section_config: localStorage.getItem('ASIF_RECENT_SECTION_CONFIG') ? JSON.parse(localStorage.getItem('ASIF_RECENT_SECTION_CONFIG')) : null,
+        resume_url: localStorage.getItem('ASIF_RESUME_URL') || ''
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `sheikh_asif_portfolio_backup_${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Complete backup JSON downloaded!');
+    }
+
+    function importPortfolioData(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          const demoRwIds = ['rw-1', 'rw-2', 'rw-3', 'rw-4', 'rw-5', 'rw-6'];
+
+          if (Array.isArray(parsed.videos)) {
+            currentVideos = sanitizeVideos(parsed.videos);
+            localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(currentVideos));
+          }
+          if (Array.isArray(parsed.recent_works)) {
+            currentRecentWorks = parsed.recent_works.filter(w => !demoRwIds.includes(String(w.id)) && w.title !== 'Aura Minimalist Brand Identity');
+            localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(currentRecentWorks));
+          }
+          if (parsed.section_config) {
+            localStorage.setItem('ASIF_RECENT_SECTION_CONFIG', JSON.stringify(parsed.section_config));
+          }
+          if (parsed.resume_url) {
+            localStorage.setItem('ASIF_RESUME_URL', parsed.resume_url);
+          }
+
+          renderAdminList();
+          renderAdminRecentList();
+          loadSectionSettings();
+          showToast('Data imported and restored successfully!');
+        } catch (err) {
+          alert('Invalid JSON file format. Please upload a valid portfolio backup file.');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    async function checkSupabaseStatus() {
+      const pill = document.getElementById('supabase-status-pill');
+      if (!pill) return;
+
+      if (!window.supabase) {
+        pill.textContent = 'Supabase JS Not Loaded';
+        return;
+      }
+
+      try {
+        if (!supabaseClient) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const { error: err1 } = await supabaseClient.from('recent_works').select('id').limit(1);
+        const { error: err2 } = await supabaseClient.from('videos').select('id').limit(1);
+
+        if (!err1 && !err2) {
+          pill.style.background = '#d1fae5';
+          pill.style.color = '#065f46';
+          pill.textContent = '✅ Connected & Active';
+        } else {
+          pill.style.background = '#fee2e2';
+          pill.style.color = '#991b1b';
+          pill.textContent = '⚠️ Tables Not Created in SQL';
+        }
+      } catch (e) {
+        pill.style.background = '#fee2e2';
+        pill.style.color = '#991b1b';
+        pill.textContent = 'Offline';
+      }
+    }
+
+    // =========================================================================
     // VIDEOS WE SHIP MANAGEMENT (PRESERVED)
     // =========================================================================
     function getYouTubeId(url) {
@@ -1769,9 +1836,9 @@
 
     async function loadAdminVideos() {
       const stored = localStorage.getItem('ASIF_PORTFOLIO_VIDEOS');
-      if (stored) {
+      if (stored !== null) {
         try {
-          currentVideos = sanitizeVideos(JSON.parse(stored));
+          currentVideos = sanitizeVideos(JSON.parse(stored) || []);
         } catch (e) {
           currentVideos = [];
         }

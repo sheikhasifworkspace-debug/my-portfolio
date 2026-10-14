@@ -3052,9 +3052,9 @@
     async function loadVideos() {
       // 1. Check localStorage first (from Admin Panel saves)
       const localData = localStorage.getItem('ASIF_PORTFOLIO_VIDEOS');
-      if (localData) {
+      if (localData !== null) {
         try {
-          allVideos = sanitizeVideos(JSON.parse(localData));
+          allVideos = sanitizeVideos(JSON.parse(localData) || []);
           localStorage.setItem('ASIF_PORTFOLIO_VIDEOS', JSON.stringify(allVideos));
         } catch (e) {
           allVideos = [];
@@ -3184,69 +3184,8 @@
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
-    // Curated Default Graphic Design Works (Behance 4:3 Ratio)
-    const defaultRecentWorks = [
-      {
-        id: "rw-1",
-        title: "Aura Minimalist Brand Identity",
-        client_name: "Aura Studio",
-        category: "Brand Identity",
-        image_url: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Full visual identity guidelines, modern vector typography system and stationery mockups.",
-        accent_color: "#7c3aed"
-      },
-      {
-        id: "rw-2",
-        title: "Kinetic Typographic Exhibition Poster",
-        client_name: "Bauhaus Lab",
-        category: "Poster & Print",
-        image_url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "High-contrast experimental Swiss typography exploration for cultural arts showcase.",
-        accent_color: "#e11d48"
-      },
-      {
-        id: "rw-3",
-        title: "Flora Organic Botanical Packaging",
-        client_name: "Flora Co.",
-        category: "Packaging Design",
-        image_url: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Sustainable eco-friendly cosmetic packaging suite with bespoke foil stamp embellishments.",
-        accent_color: "#059669"
-      },
-      {
-        id: "rw-4",
-        title: "Veloce Streetwear Campaign & Social Art",
-        client_name: "Veloce Apparel",
-        category: "Social Media",
-        image_url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Editorial social media graphic campaign, lookbook layout, and high-impact digital banners.",
-        accent_color: "#ec4899"
-      },
-      {
-        id: "rw-5",
-        title: "Abstract 3D Spatial Geometry",
-        client_name: "Metropolis Digital",
-        category: "Visual Art",
-        image_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Curated chromatic 3D surface explorations and tactile lighting compositions.",
-        accent_color: "#4338ca"
-      },
-      {
-        id: "rw-6",
-        title: "Craft Coffee Bean Roast Packaging",
-        client_name: "Nordic Roasters",
-        category: "Packaging Design",
-        image_url: "https://images.unsplash.com/photo-1559525839-8f8303f568a0?auto=format&fit=crop&w=1200&h=900&q=80",
-        behance_url: "https://www.behance.net/sheikhalasif2023",
-        description: "Minimalist matte black coffee packaging series with metallic bronze stamp details.",
-        accent_color: "#f59e0b"
-      }
-    ];
+    // Curated Default Graphic Design Works (Behance 4:3 Ratio) - Clean, No Demo
+    const defaultRecentWorks = [];
 
     let allRecentWorks = [];
 
@@ -3273,17 +3212,18 @@
       }
 
       // 2. Load Recent Works from localStorage
+      const demoRwIds = ['rw-1', 'rw-2', 'rw-3', 'rw-4', 'rw-5', 'rw-6'];
       const localRecent = localStorage.getItem('ASIF_PORTFOLIO_RECENT_WORKS');
-      if (localRecent) {
+      if (localRecent !== null) {
         try {
           const parsed = JSON.parse(localRecent);
-          allRecentWorks = Array.isArray(parsed) && parsed.length > 0 ? parsed : [...defaultRecentWorks];
+          allRecentWorks = (Array.isArray(parsed) ? parsed : []).filter(item => !demoRwIds.includes(String(item.id)) && item.title !== 'Aura Minimalist Brand Identity');
+          localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(allRecentWorks));
         } catch (e) {
-          allRecentWorks = [...defaultRecentWorks];
+          allRecentWorks = [];
         }
       } else {
-        allRecentWorks = [...defaultRecentWorks];
-        localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(allRecentWorks));
+        allRecentWorks = [];
       }
 
       // 3. Query Supabase recent_works table if available
@@ -3294,7 +3234,7 @@
           }
           const { data, error } = await supabaseClient.from('recent_works').select('*').order('sort_order', { ascending: true });
           if (!error && data && data.length > 0) {
-            allRecentWorks = data;
+            allRecentWorks = data.filter(item => !demoRwIds.includes(String(item.id)) && item.title !== 'Aura Minimalist Brand Identity');
             localStorage.setItem('ASIF_PORTFOLIO_RECENT_WORKS', JSON.stringify(allRecentWorks));
           }
         } catch (err) {
@@ -3311,7 +3251,14 @@
       if (!track) return;
 
       if (!allRecentWorks || allRecentWorks.length === 0) {
-        allRecentWorks = [...defaultRecentWorks];
+        track.innerHTML = `
+          <div style="width: 100%; text-align: center; padding: 48px 24px; color: #777;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(0, 87, 255, 0.08); color: #0057ff; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; font-weight: 800; font-size: 17px;">Bē</div>
+            <h4 style="font-size: 16px; font-weight: 700; color: #111; margin-bottom: 4px;">New Works Coming Soon</h4>
+            <p style="font-size: 13.5px; color: #666;">Projects published from Behance via admin will automatically appear here.</p>
+          </div>
+        `;
+        return;
       }
 
       const generateCardHtml = (item) => `
@@ -3349,8 +3296,12 @@
       // Build track items (original + duplicates for seamless 50% infinite marquee loop)
       let cardsHtml = allRecentWorks.map(generateCardHtml).join('');
       
-      // If fewer than 4 items, duplicate twice so track spans wide enough
-      let repeatCount = allRecentWorks.length < 4 ? 3 : 2;
+      // If 1 item, repeat 6 times; if 2 items, repeat 4 times; if 3 items, repeat 3 times; else 2 times
+      let repeatCount = 2;
+      if (allRecentWorks.length === 1) repeatCount = 6;
+      else if (allRecentWorks.length === 2) repeatCount = 4;
+      else if (allRecentWorks.length === 3) repeatCount = 3;
+
       let finalTrackHtml = '';
       for (let i = 0; i < repeatCount; i++) {
         finalTrackHtml += cardsHtml;
