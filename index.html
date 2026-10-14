@@ -53,7 +53,7 @@
         cursor: none;
       }
 
-      a, button, [role="button"], input, select, textarea, .video-card, .recent-card-item, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble, .graphic-modal-close, .graphic-modal-behance-btn, .modal-close-btn {
+      a, button, [role="button"], input, select, textarea, .video-card, .recent-card-item, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble, .graphic-modal-close, .graphic-modal-behance-btn, .modal-close-btn, .about-btn-primary, .about-btn-secondary, .about-card, .about-side-card {
         cursor: none !important;
       }
 
@@ -1370,6 +1370,742 @@
       }
     }
 
+    /* ========================================= */
+    /* ABOUT ME SECTION (MINIMALIST SAAS BENTO)  */
+    /* ========================================= */
+    .about-section {
+      background: #fafbfc;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 120px 4vw;
+      position: relative;
+      overflow: hidden;
+      scroll-margin-top: 80px;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .about-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Section Header */
+    .about-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .about-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 7px 18px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #111111;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+      margin-bottom: 20px;
+    }
+
+    .about-pill-radar {
+      position: relative;
+      width: 8px;
+      height: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-radar-core {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #dc2626;
+    }
+
+    .about-radar-wave {
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1.5px solid #dc2626;
+      animation: radarPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes radarPing {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.9;
+      }
+      80%, 100% {
+        transform: scale(2.4);
+        opacity: 0;
+      }
+    }
+
+    .about-title {
+      font-size: clamp(34px, 4.5vw, 50px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      color: #111111;
+      margin-bottom: 16px;
+    }
+
+    .about-title-serif {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #111111 20%, #4338ca 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .about-subtitle {
+      font-size: 16px;
+      color: #666666;
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Bento Grid */
+    .about-bento-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    /* Left Narrative Column */
+    .about-narrative-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Common Card Styles */
+    .about-card {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 24px;
+      padding: 34px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+      position: relative;
+    }
+
+    .about-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.05);
+      border-color: rgba(0, 0, 0, 0.12);
+    }
+
+    /* Intro Card */
+    .about-intro-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .about-avatar-frame {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+
+    .about-avatar-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f4f4f5;
+      color: #18181b;
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .about-lead-text {
+      font-size: 17.5px;
+      line-height: 1.7;
+      color: #111111;
+      font-weight: 500;
+      margin-bottom: 16px;
+      letter-spacing: -0.2px;
+    }
+
+    .about-lead-text strong,
+    .about-body-text strong {
+      color: #000000;
+      font-weight: 700;
+    }
+
+    .about-body-text {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #4b5563;
+    }
+
+    /* Guiding Question / Philosophy Dark Card */
+    .about-philosophy-card {
+      background: linear-gradient(145deg, #0f1117, #181c27);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 34px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-philosophy-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    }
+
+    .philosophy-ambient-glow {
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .philosophy-label-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .philosophy-icon-wrap {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #a5b4fc;
+      animation: iconFloat 4s ease-in-out infinite;
+    }
+
+    .philosophy-label {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+
+    .philosophy-quote {
+      font-size: 18px;
+      line-height: 1.55;
+      color: #f8fafc;
+      font-weight: 500;
+      margin: 0 0 16px 0;
+      letter-spacing: -0.3px;
+    }
+
+    .philosophy-quote em {
+      font-style: italic;
+      color: #ffffff;
+      font-weight: 600;
+      background: linear-gradient(120deg, #ffffff, #c7d2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .philosophy-answer {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    /* Focus & Belief Box */
+    .about-focus-card {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .about-focus-bar {
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .about-focus-bar:hover {
+      border-color: #cbd5e1;
+      background: #ffffff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .focus-pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #111111;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .focus-icon-pulse {
+      width: 14px;
+      height: 14px;
+      color: #38bdf8;
+      animation: iconSpinSlow 12s linear infinite;
+    }
+
+    @keyframes iconSpinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .focus-text {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    /* Action Buttons Row */
+    .about-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .about-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #09090b;
+      color: #ffffff;
+      padding: 14px 26px;
+      border-radius: 100px;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-btn-primary:hover {
+      background: #18181b;
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+      color: #ffffff;
+    }
+
+    .btn-icon-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .download-icon-anim {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .about-btn-primary:hover .download-icon-anim {
+      transform: translateY(2px);
+      animation: downloadBounce 0.8s ease infinite;
+    }
+
+    @keyframes downloadBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+
+    .btn-pill-meta {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 3px 9px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+    }
+
+    .about-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      color: #111111;
+      border: 1px solid #e2e8f0;
+      padding: 14px 24px;
+      border-radius: 100px;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .about-btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+      color: #000000;
+    }
+
+    .arrow-icon-anim {
+      width: 15px;
+      height: 15px;
+      transition: transform 0.25s ease;
+    }
+
+    .about-btn-secondary:hover .arrow-icon-anim {
+      transform: translate(2px, -2px);
+    }
+
+    /* Right Bento Column */
+    .about-side-col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .about-side-card {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 22px;
+      padding: 26px 28px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.02);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .about-side-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.05);
+      border-color: rgba(0, 0, 0, 0.12);
+    }
+
+    .side-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .side-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+    }
+
+    .about-side-card:hover .side-icon-box {
+      transform: scale(1.08) rotate(-3deg);
+    }
+
+    .side-icon-box.icon-purple {
+      background: #f5f3ff;
+      color: #7c3aed;
+      border: 1px solid #ede9fe;
+    }
+
+    .side-icon-box.icon-blue {
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #dbeafe;
+    }
+
+    .side-pill {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #64748b;
+      background: #f8fafc;
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid #f1f5f9;
+    }
+
+    .side-card-title {
+      font-size: 18.5px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    .side-card-inst {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .side-card-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #475569;
+      margin-bottom: 16px;
+    }
+
+    .side-tags-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .micro-tag {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #334155;
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .about-side-card:hover .micro-tag {
+      background: #e2e8f0;
+    }
+
+    /* Metrics Grid */
+    .about-metrics-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .metric-card {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+      transition: all 0.3s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04);
+      border-color: rgba(0, 0, 0, 0.12);
+    }
+
+    .metric-number-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .metric-val {
+      font-size: 32px;
+      font-weight: 800;
+      color: #111111;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .metric-plus {
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .metric-lbl {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .metric-indicator-bar {
+      width: 100%;
+      height: 4px;
+      border-radius: 100px;
+      background: #f1f5f9;
+      overflow: hidden;
+    }
+
+    .metric-indicator-bar span {
+      display: block;
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, #111111, #4f46e5);
+      animation: growBar 1.2s ease-out forwards;
+    }
+
+    @keyframes growBar {
+      from { width: 0%; }
+    }
+
+    /* Live Availability Card */
+    .card-availability {
+      background: linear-gradient(135deg, #ffffff, #fcfdfe);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .card-availability:hover {
+      border-color: rgba(16, 185, 129, 0.45);
+      box-shadow: 0 14px 30px rgba(16, 185, 129, 0.08);
+    }
+
+    .avail-radar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .radar-ping-wrap {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radar-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    .radar-circle {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1.5px solid #10b981;
+      animation: radarPing 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    .avail-badge {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #059669;
+    }
+
+    .avail-title {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 6px;
+    }
+
+    .avail-desc {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .avail-location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    @keyframes iconFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .about-bento-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .about-section {
+        padding: 90px 4vw;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .about-section {
+        padding: 70px 4vw;
+      }
+      .about-header {
+        margin-bottom: 40px;
+      }
+      .about-card {
+        padding: 24px 20px;
+      }
+      .about-philosophy-card {
+        padding: 24px 20px;
+      }
+      .about-focus-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .about-metrics-duo {
+        grid-template-columns: 1fr;
+      }
+      .about-actions-group {
+        flex-direction: column;
+        width: 100%;
+      }
+      .about-btn-primary,
+      .about-btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
     /* Minimal SaaS Statement Footer */
     .saas-footer {
       background: #ffffff;
@@ -1908,6 +2644,191 @@
       <div class="recent-work-track" id="recent-work-track">
         <!-- Dynamically rendered by JavaScript with Behance 4:3 Ratio Graphic Design cards -->
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- ABOUT ME SECTION (SAAS ANIMATED BENTO)       -->
+  <!-- ============================================= -->
+  <section class="about-section" id="about">
+    <div class="about-container">
+
+      <!-- Section Header -->
+      <div class="about-header">
+        <div class="about-pill">
+          <span class="about-pill-radar">
+            <span class="about-radar-core"></span>
+            <span class="about-radar-wave"></span>
+          </span>
+          <span class="about-pill-text">ABOUT THE CREATIVE</span>
+        </div>
+        <h2 class="about-title">Turning Ideas into <span class="about-title-serif">Visual Experiences.</span></h2>
+        <p class="about-subtitle">Where classical Fine Arts fundamentals meet high-octane digital motion, video & brand storytelling.</p>
+      </div>
+
+      <!-- Main Layout: Bento Grid -->
+      <div class="about-bento-grid">
+
+        <!-- Left Column: Editorial Narrative & Focus -->
+        <div class="about-narrative-col">
+
+          <!-- Card 1: The Personal Story -->
+          <div class="about-card about-intro-card">
+            <div class="about-intro-header">
+              <div class="about-avatar-frame">
+                <img src="assets/sheikh-asif.jpg" alt="Sheikh Asif" />
+              </div>
+              <div>
+                <span class="about-badge-tag">
+                  <i data-lucide="sparkles" style="width: 13px; height: 13px; color: #dc2626;"></i>
+                  <span>Visual Creative & Motion Designer</span>
+                </span>
+              </div>
+            </div>
+
+            <p class="about-lead-text">
+              Hi, I’m <strong>Asif</strong>, a visual creative and Fine Arts undergraduate at the <strong>University of Rajshahi, Bangladesh</strong>. For over four years, I’ve been designing graphics, editing videos, and building motion graphics that help ideas land.
+            </p>
+
+            <p class="about-body-text">
+              My fine arts training taught me <strong>composition, color, and visual storytelling</strong>. Digital tools let me turn those fundamentals into work people actually see and remember. That includes media work with <strong>The Daily iObserver</strong>, where I learned how strong visuals can make an idea clear at a glance.
+            </p>
+          </div>
+
+          <!-- Card 2: The Core Guiding Question (SaaS Statement Callout) -->
+          <div class="about-card about-philosophy-card">
+            <div class="philosophy-ambient-glow"></div>
+            <div class="philosophy-label-row">
+              <div class="philosophy-icon-wrap">
+                <i data-lucide="compass" style="width: 14px; height: 14px;"></i>
+              </div>
+              <span class="philosophy-label">THE GUIDING QUESTION</span>
+            </div>
+            <blockquote class="philosophy-quote">
+              “Whether it’s a bold graphic, a tightly cut video, or an animated sequence, I start with one question: <em>what does this need to say, and who needs to hear it?</em>”
+            </blockquote>
+            <p class="philosophy-answer">
+              The answer shapes every decision, from layout and pacing to motion and mood.
+            </p>
+          </div>
+
+          <!-- Card 3: Belief & Focus + Action CTAs -->
+          <div class="about-card about-focus-card">
+            <p class="about-body-text">
+              I believe great design is more than good looks. It communicates, connects, and sticks with people. I keep exploring new ideas, sharpening my craft, and taking on challenges that push me further.
+            </p>
+
+            <!-- Focus Bar -->
+            <div class="about-focus-bar">
+              <div class="focus-pill-tag">
+                <i data-lucide="target" class="focus-icon-pulse"></i>
+                <span>My Focus</span>
+              </div>
+              <div class="focus-text">
+                Creating meaningful visual experiences through design, motion, and storytelling.
+              </div>
+            </div>
+
+            <!-- Action Buttons Group -->
+            <div class="about-actions-group">
+              <a href="assets/Sheikh_Asif_Resume.pdf" id="about-resume-download-btn" class="about-btn-primary" download="Sheikh_Asif_Resume.pdf" onclick="handleResumeDownload(event)" title="Download Official CV / Resume">
+                <span class="btn-icon-wrapper">
+                  <i data-lucide="file-down" class="download-icon-anim"></i>
+                </span>
+                <span class="btn-label-text">Download Resume</span>
+                <span class="btn-pill-meta">PDF • CV</span>
+              </a>
+
+              <a href="#contact" class="about-btn-secondary">
+                <span>Let’s Collaborate</span>
+                <i data-lucide="arrow-up-right" class="arrow-icon-anim"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Interactive Micro-Feature Bento Stack -->
+        <div class="about-side-col">
+
+          <!-- Feature 1: Classical Pedigree Card -->
+          <div class="about-side-card card-fine-arts">
+            <div class="side-card-top">
+              <div class="side-icon-box icon-purple">
+                <i data-lucide="palette" style="width: 20px; height: 20px;"></i>
+              </div>
+              <span class="side-pill">Classical Grounding</span>
+            </div>
+            <h3 class="side-card-title">Fine Arts Undergraduate</h3>
+            <p class="side-card-inst">University of Rajshahi, Bangladesh</p>
+            <p class="side-card-desc">Trained in academic fine arts composition, color theory, proportions, and visual storytelling — bridging classical discipline with modern digital workflows.</p>
+            <div class="side-tags-row">
+              <span class="micro-tag">Color Harmony</span>
+              <span class="micro-tag">Composition</span>
+              <span class="micro-tag">Visual Pacing</span>
+            </div>
+          </div>
+
+          <!-- Feature 2: Media & Press Track Record -->
+          <div class="about-side-card card-media">
+            <div class="side-card-top">
+              <div class="side-icon-box icon-blue">
+                <i data-lucide="newspaper" style="width: 20px; height: 20px;"></i>
+              </div>
+              <span class="side-pill">Media Experience</span>
+            </div>
+            <h3 class="side-card-title">The Daily iObserver</h3>
+            <p class="side-card-inst">Digital Media & Visual Content</p>
+            <p class="side-card-desc">Created visual journalism graphics, editorial layouts, and high-retention motion assets designed to make core messages clear at a glance.</p>
+            <div class="side-tags-row">
+              <span class="micro-tag">Editorial Graphics</span>
+              <span class="micro-tag">Clear Communication</span>
+              <span class="micro-tag">Motion Pieces</span>
+            </div>
+          </div>
+
+          <!-- Feature 3: Metric Numbers Duo -->
+          <div class="about-metrics-duo">
+            <div class="metric-card">
+              <div class="metric-number-row">
+                <span class="metric-val">4+</span>
+                <span class="metric-plus">Years</span>
+              </div>
+              <div class="metric-lbl">Designing & Editing</div>
+              <div class="metric-indicator-bar"><span style="width: 90%;"></span></div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-number-row">
+                <span class="metric-val">360°</span>
+                <span class="metric-plus">Craft</span>
+              </div>
+              <div class="metric-lbl">Graphics, Video & Motion</div>
+              <div class="metric-indicator-bar"><span style="width: 100%;"></span></div>
+            </div>
+          </div>
+
+          <!-- Feature 4: Live Status / Collaboration Beacon -->
+          <div class="about-side-card card-availability">
+            <div class="avail-radar-row">
+              <div class="radar-ping-wrap">
+                <span class="radar-dot"></span>
+                <span class="radar-circle"></span>
+              </div>
+              <span class="avail-badge">OPEN FOR PROJECTS</span>
+            </div>
+            <h4 class="avail-title">Available for Selected Roles & Freelance</h4>
+            <p class="avail-desc">Looking for graphic design systems, video editing, or motion graphics? Let's turn your next idea into a memorable visual experience.</p>
+            <div class="avail-location">
+              <i data-lucide="map-pin" style="width: 14px; height: 14px; color: #10b981;"></i>
+              <span>Rajshahi, Bangladesh &bull; Worldwide (Remote)</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   </section>
 
@@ -2525,9 +3446,28 @@
     }
     requestAnimationFrame(renderCursor);
 
+    // Resume Download Handler
+    function handleResumeDownload(e) {
+      const customUrl = localStorage.getItem('ASIF_RESUME_URL');
+      if (customUrl && customUrl.trim()) {
+        e.preventDefault();
+        window.open(customUrl.trim(), '_blank');
+      }
+    }
+
+    function initResumeLink() {
+      const customUrl = localStorage.getItem('ASIF_RESUME_URL');
+      const resumeBtn = document.getElementById('about-resume-download-btn');
+      if (resumeBtn && customUrl && customUrl.trim()) {
+        resumeBtn.href = customUrl.trim();
+        resumeBtn.removeAttribute('download');
+        resumeBtn.target = '_blank';
+      }
+    }
+
     // Interactive Hover Listeners for all clickable elements
     function attachCursorHoverEffects() {
-      const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, select, textarea, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble, .recent-card-item, .graphic-modal-close, .graphic-modal-behance-btn, .modal-close-btn');
+      const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, select, textarea, .tab-btn, .footer-bubble-avatar, .footer-brand-bubble, .recent-card-item, .graphic-modal-close, .graphic-modal-behance-btn, .modal-close-btn, .about-btn-primary, .about-btn-secondary, .about-card, .about-side-card, .metric-card');
       interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
           document.body.classList.add('cursor-hover');
@@ -2552,6 +3492,7 @@
     // Tab Filter Logic & Initialization
     document.addEventListener('DOMContentLoaded', () => {
       if (window.lucide) window.lucide.createIcons();
+      initResumeLink();
       
       // Load both Video Works and Recent Graphic Design Works
       Promise.all([loadVideos(), loadRecentWorks()]).then(() => {

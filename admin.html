@@ -983,6 +983,12 @@
               <input type="text" id="setting-trust-label" class="form-input" placeholder="Featured on Behance" value="Featured on Behance" />
             </div>
 
+            <div class="form-group">
+              <label class="form-label">About Me — Resume / CV Download URL (Optional)</label>
+              <input type="url" id="setting-resume-url" class="form-input" placeholder="https://drive.google.com/... or direct PDF link (Leave blank for default PDF)" />
+              <span style="font-size: 11.5px; color: #888; margin-top: 4px; display: block;">If left empty, your portfolio uses the built-in downloaded PDF in assets/Sheikh_Asif_Resume.pdf.</span>
+            </div>
+
             <button type="submit" class="btn-black" style="margin-top: 10px;">
               <i data-lucide="save" style="width: 16px; height: 16px;"></i>
               <span>Save Section Settings</span>
@@ -1464,6 +1470,12 @@
           if (cfg.trust_label) document.getElementById('setting-trust-label').value = cfg.trust_label;
         } catch (e) {}
       }
+
+      const storedResume = localStorage.getItem('ASIF_RESUME_URL');
+      if (storedResume) {
+        const el = document.getElementById('setting-resume-url');
+        if (el) el.value = storedResume;
+      }
     }
 
     function handleSettingsSubmit(e) {
@@ -1473,6 +1485,9 @@
         subtitle: document.getElementById('setting-subtitle').value.trim() || 'Curated graphic design, branding & visual systems showcased on Behance.',
         trust_label: document.getElementById('setting-trust-label').value.trim() || 'Featured on Behance'
       };
+
+      const resumeUrl = document.getElementById('setting-resume-url') ? document.getElementById('setting-resume-url').value.trim() : '';
+      localStorage.setItem('ASIF_RESUME_URL', resumeUrl);
 
       localStorage.setItem('ASIF_RECENT_SECTION_CONFIG', JSON.stringify(cfg));
       showToast('Section settings updated successfully!');
